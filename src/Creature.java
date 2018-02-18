@@ -1,4 +1,4 @@
-/* TODO: Implement mana system
+/* 
  *  TODO: Implement list of known attacks and spells
  * 
  */
@@ -87,6 +87,7 @@ public class Creature {
 						break;
 		case MAGICAL:   int MD = attacker.getMagic()/this.magic;
 						int mpwr = a.getPwr();
+						attacker.setMana(attacker.getMana() - a.getMana());
 						int mdmg = (MD*mpwr)/50;
 						mdmg+=2;
 						this.hp-=mdmg;
