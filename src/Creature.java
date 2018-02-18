@@ -10,6 +10,8 @@ public class Creature {
 	protected int strength;
 	protected int magic;
 	protected int defense;
+	protected int mana;
+	protected int maxMana;
 	
 	public Creature(int hp, String name, int strength, int defense, int magic) {
 		this.hp = hp;
@@ -17,6 +19,8 @@ public class Creature {
 		this.name = name;
 		this.strength = strength;
 		this.magic = magic;
+		this.mana = magic*2;
+		this.maxMana = mana;
 		this.defense=defense;
 	}
 	public void incrementMaxHP(int hp) {
@@ -45,6 +49,22 @@ public class Creature {
 	
 	public int getMagic() {
 		return this.magic;
+	}
+	
+	public int getMana() {
+		return this.mana;
+	}
+	
+	public void setMana(int mana) {
+		this.mana = mana;
+	}
+	
+	public int getMaxMana() {
+		return this.maxMana;
+	}
+	
+	public void incrementMaxMana(int mana) {
+		this.maxMana+=mana;
 	}
 	
 	public int getDf() {

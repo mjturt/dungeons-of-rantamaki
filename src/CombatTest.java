@@ -1,18 +1,28 @@
 package dungeons_of_rantamaki;
 public class CombatTest {
 	public static void main(String[] args) {
-		Player p = new Player(25, "Kaitsu", 10, 10, 10);
-		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 5);
+		Player p = new Player(25, "Kaitsu", 10, 10, 0);
+		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 2);
 		Attack a = new Attack(AttackType.PHYSICAL, 50, "Bash");
-		Attack b = new Attack(AttackType.MAGICAL, 100, "Fireball");
+		Attack b = new Attack(AttackType.MAGICAL, 100, 5, "Fireball");
 		int i=1;
 		while(p.getHP() > 0 && m.getHP() > 0) {
 			System.out.println("Turn: " + i);
 			System.out.println(p.getName() +" HP: " + p.getHP() + "/" + p.getMaxHP());
 			System.out.println(m.getName() +" HP: " + m.getHP() + "/" + m.getMaxHP());
 			System.out.println("==============================================");
-			m.DealDamage(p, b);
-			System.out.println(p.getName() + " used " + b.getName() + "!");
+			try{
+				if(b.getMana() > p.getMana()) {
+					throw new NotEnoughMana();
+				}
+				else {
+					m.DealDamage(p, b);
+					System.out.println(p.getName() + " used " + b.getName() + "!");
+				}
+			}
+				catch(NotEnoughMana manaError) {
+				System.out.println("not enough mana, fool");
+			}
 			p.DealDamage(m, a);
 			System.out.println(m.getName() + " used " + a.getName() + "!");
 			i++;
