@@ -1,5 +1,5 @@
 /**
- * TODO: Implement magical attacks
+ * TODO: Implement mana system
  * TODO: Impelement accuracy
  *
  */

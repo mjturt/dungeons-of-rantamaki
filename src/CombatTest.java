@@ -3,15 +3,16 @@ public class CombatTest {
 	public static void main(String[] args) {
 		Player p = new Player(25, "Kaitsu", 10, 10, 10);
 		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 5);
-		Attack a = new Attack(AttackType.PHYSICAL, 100, "Bash");
+		Attack a = new Attack(AttackType.PHYSICAL, 50, "Bash");
+		Attack b = new Attack(AttackType.MAGICAL, 100, "Fireball");
 		int i=1;
 		while(p.getHP() > 0 && m.getHP() > 0) {
 			System.out.println("Turn: " + i);
 			System.out.println(p.getName() +" HP: " + p.getHP() + "/" + p.getMaxHP());
 			System.out.println(m.getName() +" HP: " + m.getHP() + "/" + m.getMaxHP());
 			System.out.println("==============================================");
-			m.DealDamage(p, a);
-			System.out.println(p.getName() + " used " + a.getName() + "!");
+			m.DealDamage(p, b);
+			System.out.println(p.getName() + " used " + b.getName() + "!");
 			p.DealDamage(m, a);
 			System.out.println(m.getName() + " used " + a.getName() + "!");
 			i++;

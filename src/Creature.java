@@ -1,4 +1,4 @@
-/* TODO: Implement magical attacks
+/* TODO: Implement mana system
  *  TODO: Implement list of known attacks and spells
  * 
  */
@@ -57,11 +57,20 @@ public class Creature {
 	 * @return: nothing
 	 */
 	public void DealDamage(Creature attacker, Attack a) {
-		int AD =  attacker.getStr()/this.defense;
-		int pwr = a.getPwr();
-		int dmg = (AD*pwr)/50;
-		dmg+=2;
-		this.hp-=dmg;
-		
+		AttackType type = a.getType();
+		switch(type) {
+		case PHYSICAL:	int AD =  attacker.getStr()/this.defense;
+						int pwr = a.getPwr();
+						int dmg = (AD*pwr)/50;
+						dmg+=2;
+						this.hp-=dmg;
+						break;
+		case MAGICAL:   int MD = attacker.getMagic()/this.magic;
+						int mpwr = a.getPwr();
+						int mdmg = (MD*mpwr)/50;
+						mdmg+=2;
+						this.hp-=mdmg;
+						break;
+		}
 	}
 }
