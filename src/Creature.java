@@ -75,23 +75,22 @@ public class Creature {
 	 * @param attacker - Creature that attacks
 	 * @param a - attack that hits
 	 * @return: nothing
+	 * TODO: implement level modifier to damage, for example ((2*Level)/2)+2 
 	 */
 	public void DealDamage(Creature attacker, Attack a) {
 		AttackType type = a.getType();
+		int pwr;
+		double AD, dmg;
 		switch(type) {
-		case PHYSICAL:	int AD =  attacker.getStr()/this.defense;
-						int pwr = a.getPwr();
-						int dmg = (AD*pwr)/50;
-						dmg+=2;
-						this.hp-=dmg;
+		case PHYSICAL:	AD =  attacker.getStr()/this.defense; 
 						break;
-		case MAGICAL:   int MD = attacker.getMagic()/this.magic;
-						int mpwr = a.getPwr();
-						attacker.setMana(attacker.getMana() - a.getMana());
-						int mdmg = (MD*mpwr)/50;
-						mdmg+=2;
-						this.hp-=mdmg;
+		case MAGICAL:   AD = attacker.getMagic()/this.magic;
 						break;
+		default: 		AD = 0.5; //should never come to this
 		}
+		pwr = a.getPwr();
+		dmg = (pwr*AD)/50;
+		dmg += 2;
+		this.hp -= Math.round(dmg);
 	}
 }
