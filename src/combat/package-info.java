@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author vpeex
- *
- */
-package combat;

@@ -7,6 +7,7 @@ public class CombatTest {
 		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 5);
 		Attack a = new Attack(AttackType.PHYSICAL, 50, "Bash");
 		Attack b = new Attack(AttackType.MAGICAL, 100, 5, "Fireball");
+		Consumable jallu = new Consumable("Jallu", 10, 10);
 		int i = 1;
 		System.out.println(p.getName() +"'s Level: " + p.getLevel());
 		System.out.println("max HP: " +p.getMaxHP());
@@ -35,6 +36,10 @@ public class CombatTest {
 			System.out.println(m.getName() + " used " + a.getName() + "!");
 			i++;
 			System.out.println("==============================================");
+			System.out.println(p.getName() + " HP: " + p.getHP() + ", Mana: " + p.getMana());
+			jallu.useConsumable(p);
+			System.out.println(p.getName() + " used " + jallu.getConsumableName() + ", it restores " + jallu.getRestoreHp() + " hp and " + jallu.getRestoreMana() + " mana.");
+			System.out.println(p.getName() + " HP: " + p.getHP() + ", Mana: " + p.getMana());
 		}
 		if (p.getHP() < 0) {
 			System.out.println("You're dead, kiddo");

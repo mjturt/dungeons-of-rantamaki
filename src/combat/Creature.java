@@ -42,7 +42,11 @@ public class Creature {
 	}
 
 	public void setHP(int hp) {
-		this.hp = hp;
+		if (hp >= this.maxHP) {
+			this.hp = this.maxHP;
+		} else {
+			this.hp = hp;
+		}
 	}
 
 	public String getName() {
@@ -62,7 +66,11 @@ public class Creature {
 	}
 
 	public void setMana(int mana) {
-		this.mana = mana;
+		if (mana >= this.maxMana) {
+			this.mana = this.maxMana;
+		} else {
+			this.mana = mana;
+		}
 	}
 
 	public int getMaxMana() {
