@@ -4,13 +4,19 @@ package combat;
 public class CombatTest {
 	public static void main(String[] args) {
 		Player p = new Player(25, "Kaitsu", 10, 10, 20);
-		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 2);
+		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 5);
 		Attack a = new Attack(AttackType.PHYSICAL, 50, "Bash");
 		Attack b = new Attack(AttackType.MAGICAL, 100, 5, "Fireball");
 		int i = 1;
+		System.out.println(p.getName() +"'s Level: " + p.getLevel());
+		System.out.println("max HP: " +p.getMaxHP());
+		System.out.println("Str: " +p.getStr());
+		System.out.println("magic: " +p.getMagic());
+		System.out.println("max Mana: " +p.getMaxMana());
+		System.out.println("defense: "+p.getDf());
 		while (p.getHP() > 0 && m.getHP() > 0) {
 			System.out.println("Turn: " + i);
-			System.out.println(p.getName() + " HP: " + p.getHP() + "/" + p.getMaxHP() + " Mana: " + p.getMana() + "/"
+			System.out.println("Level " + p.getLevel() + " " + p.getName() + " HP: " + p.getHP() + "/" + p.getMaxHP() + " Mana: " + p.getMana() + "/"
 					+ p.getMaxMana());
 			System.out.println(m.getName() + " HP: " + m.getHP() + "/" + m.getMaxHP() + " Mana: " + m.getMana() + "/"
 					+ m.getMaxMana());
@@ -38,6 +44,13 @@ public class CombatTest {
 			System.out.println(m.getExpGain() + " points of experience awarded!");
 		}
 		System.out.println(p.getName() + "'s EXP: " + p.getExp());
+		if(p.getExp() >= Math.pow(p.getLevel(), 3)) { p.LevelUp(); }
+		System.out.println(p.getName() +"'s Level: " + p.getLevel());
+		System.out.println("max HP: " +p.getMaxHP());
+		System.out.println("Str: " +p.getStr());
+		System.out.println("magic: " +p.getMagic());
+		System.out.println("max Mana: " +p.getMaxMana());
+		System.out.println("defense: "+p.getDf());
 
 	}
 }

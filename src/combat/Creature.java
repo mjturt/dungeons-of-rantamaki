@@ -13,6 +13,8 @@ public class Creature {
 	protected int defense;
 	protected int mana;
 	protected int maxMana;
+	protected int level;
+	protected int exp;
 
 	public Creature(int hp, String name, int strength, int defense, int magic) {
 		this.hp = hp;
@@ -23,6 +25,8 @@ public class Creature {
 		this.mana = magic * 2;
 		this.maxMana = mana;
 		this.defense = defense;
+		this.level = 1;
+		this.exp = 0;
 	}
 
 	public void incrementMaxHP(int hp) {
@@ -72,6 +76,18 @@ public class Creature {
 	public int getDf() {
 		return this.defense;
 	}
+	
+	public int getLevel() {
+		return this.level;
+	}
+	
+	public int getExp() {
+		return this.exp;
+	}
+	
+	public void addExp(int addition) {
+		this.exp += addition;
+	}
 
 	/**
 	 * Deals damage to creature by another.
@@ -80,13 +96,12 @@ public class Creature {
 	 *            - Creature that attacks
 	 * @param a
 	 *            - attack that hits
-	 * @return: nothing TODO: implement level modifier to damage, for example
-	 *          ((2*Level)/2)+2
+	 * @return: nothing 
 	 */
 	public void DealDamage(Creature attacker, Attack a) {
 		AttackType type = a.getType();
 		int pwr;
-		double AD, dmg;
+		double AD, dmg, lvl;
 		switch (type) {
 		case PHYSICAL:
 			AD = attacker.getStr() / this.defense;
@@ -97,9 +112,37 @@ public class Creature {
 		default:
 			AD = 0.5; // should never come to this
 		}
+		lvl = this.level * 2;
+		lvl = lvl/5;
+		lvl += 2;
 		pwr = a.getPwr();
-		dmg = (pwr * AD) / 50;
+		dmg = (lvl * pwr * AD) / 50;
 		dmg += 2;
 		this.hp -= Math.round(dmg);
+	}
+	
+	
+	/*
+	 * Levelup function, just increments stats by using formula of:
+	 * ((stat * level)*80)/50, also sets new maximum HP and mana and 
+	 * restores stats
+	 */
+	public void LevelUp() {
+		this.level++;
+		int deltaHP = this.maxHP*6;
+		deltaHP = deltaHP / 5;
+		this.maxHP = deltaHP;
+		this.hp = this.maxHP;
+		int deltaStrength = this.strength*6;
+		deltaStrength = deltaStrength / 5;
+		this.strength = deltaStrength;
+		int deltaDefense = this.defense*6;
+		deltaDefense = deltaDefense / 5;
+		this.defense = deltaDefense;
+		int deltaMagic = this.magic*6;
+		deltaMagic = deltaMagic / 5;
+		this.magic = deltaMagic;
+		this.maxMana = deltaMagic;
+		this.mana = deltaMagic;
 	}
 }
