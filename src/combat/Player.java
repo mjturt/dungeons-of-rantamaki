@@ -4,18 +4,15 @@ package combat;
  */
 
 import world.World;
-import java.util.ArrayList;
 
 class Player extends Creature {
 	private int experience;
 	private int posX;
 	private int posY;
-	private ArrayList<Consumable> inventory;
 
 	public Player(int hp, String name, int strength, int defense, int magic) {
 		super(hp, name, strength, defense, magic);
 		this.experience = 0;
-		this.inventory = new ArrayList<>();
 	}
 
 	public int getExp() {
@@ -90,26 +87,5 @@ class Player extends Creature {
 		} else {
 			System.out.println("Illegal move");
 		}
-	}
-
-	public void addItem(Consumable cons) {
-		this.inventory.add(cons);
-	}
-
-	public void listInventory() {
-		int i = 0;
-		for (Consumable cons : this.inventory) {
-			System.out.println(i + ": " + cons.getConsumableName());
-			i++;
-		}
-		System.out.println(i + ": Return");
-	}
-	
-	public int getInventoryLength () {
-		return this.inventory.size();
-	}
-	
-	public Consumable getItem(int a) {
-		return this.inventory.get(a);
 	}
 }

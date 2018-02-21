@@ -19,6 +19,7 @@ public class Creature {
 	protected int exp;
 	protected ArrayList<Attack> moveList;
 	protected ArrayList<Attack> spellBook;
+	protected ArrayList<Consumable> inventory;
 
 	public Creature(int hp, String name, int strength, int defense, int magic) {
 		this.hp = hp;
@@ -33,6 +34,7 @@ public class Creature {
 		this.exp = 0;
 		this.moveList = new ArrayList<>();
 		this.spellBook = new ArrayList<>();
+		this.inventory = new ArrayList<>();
 	}
 
 	public void incrementMaxHP(int hp) {
@@ -151,6 +153,27 @@ public class Creature {
 
 	public Attack getMove(int a) {
 		return this.moveList.get(a);
+	}
+	
+	public void addItem(Consumable cons) {
+		this.inventory.add(cons);
+	}
+
+	public void listInventory() {
+		int i = 0;
+		for (Consumable cons : this.inventory) {
+			System.out.println(i + ": " + cons.getConsumableName());
+			i++;
+		}
+		System.out.println(i + ": Return");
+	}
+	
+	public int getInventoryLength () {
+		return this.inventory.size();
+	}
+	
+	public Consumable getItem(int a) {
+		return this.inventory.get(a);
 	}
 
 	/**
