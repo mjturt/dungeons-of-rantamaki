@@ -4,6 +4,8 @@
  */
 package combat;
 
+import java.util.ArrayList;
+
 public class Creature {
 	protected int maxHP;
 	protected int hp;
@@ -15,6 +17,8 @@ public class Creature {
 	protected int maxMana;
 	protected int level;
 	protected int exp;
+	protected ArrayList<Attack> moveList;
+	protected ArrayList<Attack> spellBook;
 
 	public Creature(int hp, String name, int strength, int defense, int magic) {
 		this.hp = hp;
@@ -27,6 +31,8 @@ public class Creature {
 		this.defense = defense;
 		this.level = 1;
 		this.exp = 0;
+		this.moveList = new ArrayList<>();
+		this.spellBook = new ArrayList<>();
 	}
 
 	public void incrementMaxHP(int hp) {
@@ -84,17 +90,67 @@ public class Creature {
 	public int getDf() {
 		return this.defense;
 	}
-	
+
 	public int getLevel() {
 		return this.level;
 	}
-	
+
 	public int getExp() {
 		return this.exp;
 	}
-	
+
 	public void addExp(int addition) {
 		this.exp += addition;
+	}
+
+	public void addSpell(Attack a) {
+		if (a.getType() == AttackType.MAGICAL) {
+			this.spellBook.add(a);
+		} else {
+			System.out.println("Can't add " + a.getType() + " to spellbook");
+		}
+	}
+	
+	public Attack getSpell(int a) {
+		return this.spellBook.get(a);
+	}
+
+	public void listSpellbook() {
+		int i = 0;
+		for (Attack a : this.spellBook) {
+			System.out.println(i + ": " + a.getName());
+			i++;
+		}
+		System.out.println(i + ": Return");
+	}
+	
+	public int getSpellbookLength() {
+		return this.spellBook.size();
+	}
+
+	public void addAttack(Attack a) {
+		if (a.getType() == AttackType.PHYSICAL) {
+			this.moveList.add(a);
+		} else {
+			System.out.println("Can't add " + a.getType() + " to movelist");
+		}
+	}
+
+	public void listMoveList() {
+		int i = 0;
+		for (Attack a : this.moveList) {
+			System.out.println(i + ": " + a.getName());
+		}
+		i++;
+		System.out.println(i + ": Return");
+	}
+	
+	public int getMoveListLength() {
+		return this.moveList.size();
+	}
+
+	public Attack getMove(int a) {
+		return this.moveList.get(a);
 	}
 
 	/**
@@ -104,7 +160,7 @@ public class Creature {
 	 *            - Creature that attacks
 	 * @param a
 	 *            - attack that hits
-	 * @return: nothing 
+	 * @return: nothing
 	 */
 	public void DealDamage(Creature attacker, Attack a) {
 		AttackType type = a.getType();
@@ -121,33 +177,32 @@ public class Creature {
 			AD = 0.5; // should never come to this
 		}
 		lvl = this.level * 2;
-		lvl = lvl/5;
+		lvl = lvl / 5;
 		lvl += 2;
 		pwr = a.getPwr();
 		dmg = (lvl * pwr * AD) / 50;
 		dmg += 2;
 		this.hp -= Math.round(dmg);
+		attacker.setMana(attacker.getMana()-a.getMana());
 	}
-	
-	
+
 	/*
-	 * Levelup function, just increments stats by using formula of:
-	 * ((stat * level)*80)/50, also sets new maximum HP and mana and 
-	 * restores stats
+	 * Levelup function, just increments stats by using formula of: ((stat *
+	 * level)*80)/50, also sets new maximum HP and mana and restores stats
 	 */
 	public void LevelUp() {
 		this.level++;
-		int deltaHP = this.maxHP*6;
+		int deltaHP = this.maxHP * 6;
 		deltaHP = deltaHP / 5;
 		this.maxHP = deltaHP;
 		this.hp = this.maxHP;
-		int deltaStrength = this.strength*6;
+		int deltaStrength = this.strength * 6;
 		deltaStrength = deltaStrength / 5;
 		this.strength = deltaStrength;
-		int deltaDefense = this.defense*6;
+		int deltaDefense = this.defense * 6;
 		deltaDefense = deltaDefense / 5;
 		this.defense = deltaDefense;
-		int deltaMagic = this.magic*6;
+		int deltaMagic = this.magic * 6;
 		deltaMagic = deltaMagic / 5;
 		this.magic = deltaMagic;
 		this.maxMana = deltaMagic;

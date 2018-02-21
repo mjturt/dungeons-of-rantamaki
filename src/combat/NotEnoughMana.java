@@ -6,4 +6,8 @@ public class NotEnoughMana extends Exception {
 	public NotEnoughMana() {
 		super();
 	}
+	
+	public NotEnoughMana(String e) {
+		super(e);
+	}
 }

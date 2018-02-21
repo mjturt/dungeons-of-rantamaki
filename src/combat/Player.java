@@ -4,15 +4,18 @@ package combat;
  */
 
 import world.World;
+import java.util.ArrayList;
 
 class Player extends Creature {
 	private int experience;
 	private int posX;
 	private int posY;
+	private ArrayList<Consumable> inventory;
 
 	public Player(int hp, String name, int strength, int defense, int magic) {
 		super(hp, name, strength, defense, magic);
 		this.experience = 0;
+		this.inventory = new ArrayList<>();
 	}
 
 	public int getExp() {
@@ -27,65 +30,86 @@ class Player extends Creature {
 	public void addExp(int exp) {
 		this.experience += exp;
 	}
-	//for setting starting location, otherwise use moveDirecton()
-	public void setLocation (int x, int y) {
+
+	// for setting starting location, otherwise use moveDirecton()
+	public void setLocation(int x, int y) {
 		this.posX = x;
 		this.posY = y;
 	}
-	
-	public int getX () {
+
+	public int getX() {
 		return this.posX;
 	}
-	
-	public int getY () {
+
+	public int getY() {
 		return this.posY;
 	}
-	
-	
-	//temporary solution
-	public int[] getLocation () {
+
+	// temporary solution
+	public int[] getLocation() {
 		int[] pos = new int[2];
 		pos[0] = this.posX;
 		pos[1] = this.posY;
 		return pos;
 	}
 	/*
-	 * should implement an Exception to handle illegal moves
-	 * think of a way of passing the world to player class (maybe in constructor(?))
+	 * should implement an Exception to handle illegal moves think of a way of
+	 * passing the world to player class (maybe in constructor(?))
 	 */
-	
-	public void moveUp (World world) {
+
+	public void moveUp(World world) {
 		if (this.posY - 1 >= 0 && world.getTile(this.posY - 1, this.posX).getPassable()) {
-			this.posY --;
+			this.posY--;
 		} else {
 			System.out.println("Illegal move");
 		}
-		
+
 	}
-	
-	public void moveDown (World world) {
+
+	public void moveDown(World world) {
 		if (this.posY + 1 < world.getHeight() && world.getTile(this.posY + 1, this.posX).getPassable()) {
 			this.posY++;
 		} else {
 			System.out.println("Illegal move");
 		}
-		
+
 	}
-	
-	public void moveLeft (World world) {
+
+	public void moveLeft(World world) {
 		if (this.posX - 1 >= 0 && world.getTile(this.posY, this.posX - 1).getPassable()) {
 			this.posX--;
 		} else {
-			System.out.println("Illegal move"); 
+			System.out.println("Illegal move");
 		}
-		
+
 	}
-	
-	public void moveRight (World world) {
+
+	public void moveRight(World world) {
 		if (this.posX + 1 < world.getWidth() && world.getTile(this.posY, this.posX + 1).getPassable()) {
 			this.posX++;
 		} else {
 			System.out.println("Illegal move");
-		}	
+		}
+	}
+
+	public void addItem(Consumable cons) {
+		this.inventory.add(cons);
+	}
+
+	public void listInventory() {
+		int i = 0;
+		for (Consumable cons : this.inventory) {
+			System.out.println(i + ": " + cons.getConsumableName());
+			i++;
+		}
+		System.out.println(i + ": Return");
+	}
+	
+	public int getInventoryLength () {
+		return this.inventory.size();
+	}
+	
+	public Consumable getItem(int a) {
+		return this.inventory.get(a);
 	}
 }
