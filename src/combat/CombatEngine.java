@@ -52,7 +52,6 @@ public class CombatEngine {
 							continue;
 						} else {
 							m.DealDamage(p, p.getMove(b));
-							System.out.println(p.getName() + " used " + p.getMove(b).getName() + "!");
 							break;
 						}
 					case 2:

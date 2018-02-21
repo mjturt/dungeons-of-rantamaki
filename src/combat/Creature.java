@@ -205,6 +205,7 @@ public class Creature {
 		pwr = a.getPwr();
 		dmg = (lvl * pwr * AD) / 50;
 		dmg += 2;
+		System.out.println(attacker.getName() + " used " + a.getName() + ", it deals " + dmg + " damage!");
 		this.hp -= Math.round(dmg);
 		attacker.setMana(attacker.getMana()-a.getMana());
 	}
