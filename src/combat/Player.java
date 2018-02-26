@@ -5,7 +5,7 @@ package combat;
 
 import world.World;
 
-class Player extends Creature {
+public class Player extends Creature {
 	private int experience;
 	private int posX;
 	private int posY;
