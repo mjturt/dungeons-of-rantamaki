@@ -14,13 +14,13 @@ public class Tile {
 
 	private boolean passable;
 	private Maasto maasto;
-	private boolean vihollinen;
+	private boolean monster;
 
 	public Tile() {
 
 		this.passable = false;
 		this.maasto = Maasto.MAASTO1;
-		this.vihollinen = false;
+		this.monster = false;
 	}
 
 	public boolean getPassable() {
@@ -31,12 +31,12 @@ public class Tile {
 		this.passable = passable;
 	}
 
-	public boolean getVihollinen() {
-		return this.vihollinen;
+	public boolean hasMonster() {
+		return this.monster;
 	}
 
-	public void setVihollinen(boolean t) {
-		this.vihollinen = t;
+	public void setMonster(boolean t) {
+		this.monster = t;
 	}
 
 	public Maasto getMaasto() {
@@ -58,7 +58,7 @@ public class Tile {
 	public void setRandomVihollinen() {
 		Random r = new Random();
 		if (this.passable) {
-			this.vihollinen = r.nextBoolean();
+			this.monster = r.nextBoolean();
 		}
 	}
 

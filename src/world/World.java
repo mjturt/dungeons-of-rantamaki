@@ -2,8 +2,9 @@ package world;
 
 
 import java.util.Random;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
+import combat.Player;
 /**
  * Simple world class
  * 
@@ -13,12 +14,15 @@ public class World {
 	private int width;
 	private int height;
 	private Tile[][] world;
+	private int goalX;
+	private int goalY;
+	private int startX;
+	private int startY;
 
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.world = new Tile[height][width];
-		
 		/*
 		 * for filling the array with tiles, should maybe move this to its own method
 		 */
@@ -29,6 +33,8 @@ public class World {
 		}
 
 		this.populateWorld();
+		this.generateStart();
+		this.generateGoal();
 
 	}
 	
@@ -132,16 +138,61 @@ public class World {
 	/*
 	 * test method, remove from final
 	 */
-	public void testPopulate() {
+	public void testPopulate(Player p) {
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
-				if (this.world[i][j].getPassable()) {
-					System.out.print(" " + " ");
+				if (i == p.getY() && j == p.getX()) {
+					System.out.print("P" + " ");
 				} else {
-					System.out.print("#" + " ");
+					if (i == this.goalY && j == this.goalX) {
+						System.out.print("G" + " ");
+					} else if (i == this.startY && j == this.startX) {
+						System.out.print("S" + " ");
+					} else {
+						if (this.world[i][j].getPassable()) {
+							System.out.print(" " + " ");
+						} else {
+							System.out.print("#" + " ");
+						}
+					}
 				}
+				
 			}
 			System.out.println();
 		}
+	}
+	
+	public void generateStart () {
+		Random r = new Random();
+		this.startY = r.nextInt(this.height);
+		this.startX = r.nextInt(this.width);
+		while (!this.getTile(this.startY, this.startX).getPassable()) {
+			this.startY = r.nextInt(this.height);
+			this.startX = r.nextInt(this.width);
+		}
+	}
+	
+	public int[] getStart () {
+		int[] start = new int[2];
+		start[0] = this.startY;
+		start[1] = this.startX;
+		return start;
+	}
+	
+	public void generateGoal () {
+		Random r = new Random();
+		this.goalY = r.nextInt(this.height);
+		this.goalX = r.nextInt(this.width);
+		while (!this.getTile(this.goalY, this.goalX).getPassable() && this.startX == this.goalX && this.startY == this.goalY) {
+			this.goalY = r.nextInt(this.height);
+			this.goalX = r.nextInt(this.width);
+		}
+	}
+	
+	public int[] getGoal () {
+		int[] goal = new int[2];
+		goal[0] = this.goalY;
+		goal[1] = this.goalX;
+		return goal;
 	}
 }

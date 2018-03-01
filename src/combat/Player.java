@@ -5,7 +5,7 @@ package combat;
 
 import world.World;
 
-class Player extends Creature {
+public class Player extends Creature {
 	private int experience;
 	private int posX;
 	private int posY;
@@ -29,7 +29,7 @@ class Player extends Creature {
 	}
 
 	// for setting starting location, otherwise use moveDirecton()
-	public void setLocation(int x, int y) {
+	public void setLocation(int y, int x) {
 		this.posX = x;
 		this.posY = y;
 	}
@@ -45,8 +45,8 @@ class Player extends Creature {
 	// temporary solution
 	public int[] getLocation() {
 		int[] pos = new int[2];
-		pos[0] = this.posX;
-		pos[1] = this.posY;
+		pos[0] = this.posY;
+		pos[1] = this.posX;
 		return pos;
 	}
 	/*

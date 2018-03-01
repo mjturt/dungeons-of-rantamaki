@@ -10,6 +10,6 @@ class Test {
 		maailma.getTile(0, 1).setPassable(true);
 		maailma.getTile(maailma.getHeight()-1, maailma.getWidth()-2).setPassable(true);
 		pelaaja.setLocation(1, 1);
-		maailma.testPopulate();
+		maailma.testPopulate(pelaaja);
 	}
 }
