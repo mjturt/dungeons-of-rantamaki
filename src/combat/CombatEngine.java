@@ -82,7 +82,12 @@ public class CombatEngine {
 			p.DealDamage(m, m.getMove(j));
 			turn++;
 		}
-		System.out.println(p.getName() + " defeated " + m.getName() + "!");
+		if (m.getHP() <= 0) {
+			System.out.println(p.getName() + " defeated " + m.getName() + "!");
+		} else {
+			System.out.println("You didn't make it out of Räntämäki...");
+		}
+		
 	}
 
 	private static void printStats(Creature c) {
