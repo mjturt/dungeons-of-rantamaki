@@ -35,6 +35,7 @@ public class World {
 		this.populateWorld();
 		this.generateStart();
 		this.generateGoal();
+		this.spawnMonsters();
 
 	}
 	
@@ -139,17 +140,45 @@ public class World {
 	 * test method, remove from final
 	 */
 	public void testPopulate(Player p) {
-		for (int i = 0; i < this.height; i++) {
-			for (int j = 0; j < this.width; j++) {
-				if (i == p.getY() && j == p.getX()) {
+		int left = 0;
+		int right = 0;
+		int up = 0;
+		int down = 0;
+		
+		if (p.getY() - 10 < 0) {
+			up= 0;
+		} else {
+			up = p.getY() - 10;
+		}
+		
+		if (p.getY() + 10 > this.height) {
+			down = this.height;
+		} else {
+			down = p.getY() + 10;
+		}
+		
+		if (p.getX() - 10 < 0) {
+			left = 0;
+		} else {
+			left = p.getX() - 10;
+		}
+		
+		if (p.getX() + 10 > this.width) {
+			right = this.width;
+		} else {
+			right = p.getX() + 10;
+		}
+		for (int y = up; y < down; y++) {
+			for (int x = left; x < right; x++) {
+				if (y == p.getY() && x == p.getX()) {
 					System.out.print("P" + " ");
 				} else {
-					if (i == this.goalY && j == this.goalX) {
+					if (y == this.goalY && x == this.goalX) {
 						System.out.print("G" + " ");
-					} else if (i == this.startY && j == this.startX) {
+					} else if (y == this.startY && x == this.startX) {
 						System.out.print("S" + " ");
 					} else {
-						if (this.world[i][j].getPassable()) {
+						if (this.world[y][x].getPassable()) {
 							System.out.print(" " + " ");
 						} else {
 							System.out.print("#" + " ");
@@ -194,5 +223,16 @@ public class World {
 		goal[0] = this.goalY;
 		goal[1] = this.goalX;
 		return goal;
+	}
+	
+	public void spawnMonsters() {
+		Random r = new Random();
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.width; j++) {
+				if ((r.nextInt(5) + 5) > 7 && this.world[i][j].getPassable()) {
+					this.world[i][j].setMonster(true);
+				}
+			}
+		}
 	}
 }

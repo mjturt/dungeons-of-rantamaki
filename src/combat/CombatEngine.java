@@ -5,12 +5,11 @@ import java.util.Random;
 
 public class CombatEngine {
 
-	public static void main(Player p, Monster m) {
+	public static void combat(Player p, Monster m) {
 		Random r = new Random();
 		Scanner sc = new Scanner(System.in);
 		int turn = 1;
 		System.out.println("A wild " + m.getName() + " appears!");
-
 		while (p.getHP() > 0 && m.getHP() > 0) {
 			System.out.println();
 			System.out.println("Turn: " + turn);
@@ -26,12 +25,12 @@ public class CombatEngine {
 				n = sc.nextInt();
 				continue;
 			}
-			sc.nextLine();
+			
 			switch (n) {
 			case 1:
 				p.listInventory();
 				int a = sc.nextInt();
-				sc.nextLine();
+				
 				if (a == p.getInventoryLength()) {
 					continue;
 				} else {
@@ -47,7 +46,7 @@ public class CombatEngine {
 					case 1:
 						p.listMoveList();
 						b = sc.nextInt();
-						sc.nextLine();
+						
 						if (b == p.getMoveListLength()) {
 							continue;
 						} else {
@@ -57,6 +56,7 @@ public class CombatEngine {
 					case 2:
 						p.listSpellbook();
 						int c = sc.nextInt();
+						
 						if (c == p.getMoveListLength()) {
 							continue;
 						} else {
@@ -82,7 +82,6 @@ public class CombatEngine {
 			p.DealDamage(m, m.getMove(j));
 			turn++;
 		}
-		sc.close();
 		System.out.println(p.getName() + " defeated " + m.getName() + "!");
 	}
 

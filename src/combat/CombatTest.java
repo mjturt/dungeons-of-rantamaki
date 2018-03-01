@@ -15,6 +15,6 @@ public class CombatTest {
 		m.addAttack(a);
 		p.addItem(jallu);
 
-		CombatEngine.main(p, m);
+		CombatEngine.combat(p, m);
 	}
 }
