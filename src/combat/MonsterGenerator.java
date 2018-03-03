@@ -48,7 +48,7 @@ public class MonsterGenerator {
 	 * @return Monster that has stats read from comma separated values from the string
 	 */
 	private Monster parseLine(String line) {
-		line.trim();
+		line = line.trim();
 		String[] monsterArray = line.split(",");
 		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
 		}

@@ -201,6 +201,12 @@ public class Creature {
 	 * @return: nothing
 	 */
 	public void DealDamage(Creature defender, Attack a) {
+		double dmg = calculateDamage(defender, a);
+		System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
+		defender.setHP((int)(defender.getHP()-Math.floor(dmg)));
+		this.mana-=a.getMana();
+	}
+	public double calculateDamage(Creature defender, Attack a) {
 		AttackType type = a.getType();
 		int pwr;
 		double AD, dmg, lvl;
@@ -220,14 +226,13 @@ public class Creature {
 		pwr = a.getPwr();
 		dmg = (lvl * pwr * AD) / 50;
 		dmg += 2;
-		System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
-		defender.setHP((int)(defender.getHP()-Math.floor(dmg)));
-		this.mana-=a.getMana();
+		return dmg;
 	}
+
 
 	/*
 	 * Levelup function, just increments stats by using formula of: ((stat *
-	 * level)*80)/50, also sets new maximum HP and mana and restores stats
+	 * level)*6/5, also sets new maximum HP and mana and restores stats
 	 */
 	public void LevelUp() {
 		this.level++;

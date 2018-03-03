@@ -40,6 +40,7 @@ public class SpellIDList {
 	 * @return new AttackType.MAGICAL attack
 	 */
 	private Attack parseLine(String line) {
+		line = line.trim();
 		String[] lineArray = line.split(",");
 		return new Attack(lineArray[0], AttackType.valueOf(lineArray[1]), Integer.parseInt(lineArray[2]), Integer.parseInt(lineArray[3]));
 	}

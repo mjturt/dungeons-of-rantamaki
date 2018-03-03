@@ -1,4 +1,5 @@
 package combat;
+import java.util.ArrayList;
 
 public class Monster extends Creature {
 	final protected int EXPGAIN;
@@ -11,5 +12,42 @@ public class Monster extends Creature {
 
 	public int getExpGain() {
 		return this.EXPGAIN;
+	}
+	/**
+	 * @param target = the target creature
+	 * @return the most hard-hitting attack
+	 * 
+	 */
+	public Attack selectAttack(Creature target) {
+		Attack maxPhys = null;
+		Attack maxMagic = null;
+		double maxPhysDamage = 0.0;
+		double maxMagicDamage = 0.0;
+		for(int i=0;i<this.moveList.size();i++) {
+			Attack a = this.moveList.get(i);
+			double aDmg = this.calculateDamage(target, a);
+			if(aDmg > maxPhysDamage) {
+				maxPhys = a;
+				maxPhysDamage = aDmg;
+			}
+		}
+		for(int j=0;j<this.spellBook.size();j++) {
+			Attack m = this.spellBook.get(j);
+			if(m.getMana()>this.mana) {
+				continue;
+			}
+			double mDmg = this.calculateDamage(target, m);
+			if(mDmg > maxMagicDamage) {
+				maxMagic = m;
+				maxMagicDamage = mDmg;				
+			}
+		}
+		
+		if(maxMagicDamage > maxPhysDamage) {
+			return maxMagic;
+		}
+		else {
+			return maxPhys;
+		}
 	}
 }

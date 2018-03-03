@@ -79,9 +79,8 @@ public class CombatEngine {
 					break;
 				}
 			}
-			int j = r.nextInt(m.getMoveListLength());
 			if (m.getHP() > 0) {
-				m.DealDamage(p, m.getMove(j));
+				m.DealDamage(p, m.selectAttack(p));
 			}
 			turn++;
 		}
