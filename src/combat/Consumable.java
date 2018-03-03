@@ -5,17 +5,13 @@ public class Consumable {
 	private String consumableName;
 	private int restoreHp;
 	private int restoreMana;
+	private int uses;
 
-	public Consumable(String name, int hp, int mana) {
+	public Consumable(String name, int hp, int mana, int uses) {
 		this.consumableName = name;
 		this.restoreHp = hp;
 		this.restoreMana = mana;
-	}
-
-	public void useConsumable(Creature creature) {
-		creature.setHP(this.restoreHp + creature.hp);
-		creature.setMana(this.restoreMana + creature.mana);
-		creature.inventory.remove(this);
+		this.uses = uses;
 	}
 
 	public void setRestoreHp(int a) {
@@ -40,5 +36,13 @@ public class Consumable {
 
 	public String getConsumableName() {
 		return this.consumableName;
+	}
+	
+	public void setUses (int i) {
+		this.uses = i;
+	}
+	
+	public int getUses () {
+		return this.uses;
 	}
 }

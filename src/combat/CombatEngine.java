@@ -34,7 +34,7 @@ public class CombatEngine {
 				if (a == p.getInventoryLength()) {
 					continue;
 				} else {
-					p.getItem(a).useConsumable(p);
+					p.useItem(a);
 					break;
 				}
 			case 2:

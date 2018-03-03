@@ -175,6 +175,18 @@ public class Creature {
 	public Consumable getItem(int a) {
 		return this.inventory.get(a);
 	}
+	
+	public void useItem(int index) {
+		Consumable tmp = this.inventory.get(index);
+		this.setHP(this.getHP() + tmp.getRestoreHp());
+		System.out.println("You restore " + tmp.getRestoreHp() + " and ");
+		this.setMana(this.getMana() + tmp.getRestoreMana());
+		System.out.print(tmp.getRestoreMana() + " mana!");
+		tmp.setUses(tmp.getUses() - 1);
+		if (tmp.getUses() < 1) {
+			inventory.remove(index);
+		}
+	}
 
 	/**
 	 * Deals damage to creature by another.
