@@ -1,3 +1,2 @@
 TODO:
-	-General list of enemy templates
-	-Method that takes the template and adjusts the stats based on the player's
+	-method that randomizes monsters so they all won't be same level as the player?

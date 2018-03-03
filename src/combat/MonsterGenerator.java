@@ -26,12 +26,17 @@ public class MonsterGenerator {
 		}
 	}
 	//returns the monster by it's line number in a file
-	public Monster getMonster(int i) { 
-		return monsterList.get(i);
+	//with level that is inputted, could use randomization?
+	public Monster getMonster(int i, int lvl) { 
+		Monster prototype = monsterList.get(i);
+		for(int j=1;j<lvl;j++) {
+			prototype.LevelUp();
+		}
+		return prototype;
 	}
 	
 	private Monster parseLine(String line) {
 		String[] monsterArray = line.split(",");
-		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]), Integer.valueOf(monsterArray[5]));
+		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
 		}
 }
