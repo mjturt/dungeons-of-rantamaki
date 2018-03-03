@@ -19,7 +19,7 @@ public class ItemGenerator {
 		try {
 			String spath = Paths.get(".").toAbsolutePath().toString();
 			spath = spath.substring(0, (spath.length()-1)) + "src\\combat\\";
-			Path aPath = Paths.get(spath, "attackList");
+			Path aPath = Paths.get(spath, "itemlist");
 			List<String> attacks = Files.readAllLines(aPath); //itemlist is read as utf-8 and autoclosed
 			for(String s: attacks) {
 				IDList.add(parseLine(s));

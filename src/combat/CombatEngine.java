@@ -1,6 +1,7 @@
 package combat;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class CombatEngine {
@@ -25,12 +26,12 @@ public class CombatEngine {
 				n = sc.nextInt();
 				continue;
 			}
-			
+
 			switch (n) {
 			case 1:
 				p.listInventory();
 				int a = sc.nextInt();
-				
+
 				if (a == p.getInventoryLength()) {
 					continue;
 				} else {
@@ -46,7 +47,7 @@ public class CombatEngine {
 					case 1:
 						p.listMoveList();
 						b = sc.nextInt();
-						
+
 						if (b == p.getMoveListLength()) {
 							continue;
 						} else {
@@ -56,7 +57,7 @@ public class CombatEngine {
 					case 2:
 						p.listSpellbook();
 						int c = sc.nextInt();
-						
+
 						if (c == p.getMoveListLength()) {
 							continue;
 						} else {
@@ -79,15 +80,36 @@ public class CombatEngine {
 				}
 			}
 			int j = r.nextInt(m.getMoveListLength());
-			m.DealDamage(p, m.getMove(j));
+			if (m.getHP() > 0) {
+				m.DealDamage(p, m.getMove(j));
+			}
 			turn++;
 		}
 		if (m.getHP() <= 0) {
 			System.out.println(p.getName() + " defeated " + m.getName() + "!");
+			ArrayList<Consumable> tmp = generateLoot(m);
+			if (tmp.size() > 0) {
+				while (true) {
+					if (tmp.size() <= 0) {
+						break;
+					}
+					printLoot(tmp);
+					int n = sc.nextInt();
+					if (n >= tmp.size()) {
+						break;
+					} else {
+						p.addItem(tmp.get(n));
+						tmp.remove(n);
+						continue;
+					}
+				}
+			} else {
+				System.out.println("Nothing to loot!");
+			}
 		} else {
 			System.out.println("You didn't make it out of R�nt�m�ki...");
 		}
-		
+
 	}
 
 	private static void printStats(Creature c) {
@@ -98,4 +120,30 @@ public class CombatEngine {
 		System.out.println("MANA: " + c.getMana() + "/" + c.getMaxMana());
 		System.out.println("DEF: " + c.getDf());
 	}
+
+	private static ArrayList<Consumable> generateLoot(Monster m) {
+		ArrayList<Consumable> loot = new ArrayList<>();
+		ItemGenerator lst = new ItemGenerator();
+		Random r = new Random();
+		int maxLoot = m.getLevel() / 10;
+		if (maxLoot < 1) {
+			maxLoot = r.nextInt(2);
+		}
+		if (maxLoot > 0) {
+			for (int i = 0; i < maxLoot; i++) {
+				loot.add(lst.getItem(r.nextInt(lst.getListSize())));
+			}
+		}
+		return loot;
+	}
+
+	private static void printLoot(ArrayList<Consumable> loot) {
+		int i = 0;
+		for (Consumable c : loot) {
+			System.out.println(i + ": " + c.getConsumableName());
+			i++;
+		}
+		System.out.println(i + ": DISCARD ALL");
+	}
+
 }

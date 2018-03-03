@@ -183,6 +183,9 @@ public class Creature {
 		this.setMana(this.getMana() + tmp.getRestoreMana());
 		System.out.print(tmp.getRestoreMana() + " mana!");
 		tmp.setUses(tmp.getUses() - 1);
+		if (tmp.getUses() > 0) {
+			System.out.println("Your " + tmp.getConsumableName() + " has " + tmp.getUses() + " uses left!");
+		}
 		if (tmp.getUses() < 1) {
 			inventory.remove(index);
 		}
