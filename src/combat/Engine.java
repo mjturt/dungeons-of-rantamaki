@@ -17,7 +17,7 @@ public class Engine {
 		p.setLocation(testi.getStart()[0], testi.getStart()[1]);
 		Scanner s = new Scanner(System.in);
 		ArrayList<Monster> monsters = new ArrayList<>();
-		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 5);
+		Monster m = new Monster(50, "Spurgu", 5, 5, 5);
 		monsters.add(m);
 		Attack a = new Attack("Bash", AttackType.PHYSICAL, 50);
 		Attack b = new Attack( "Fireball", AttackType.MAGICAL, 100, 5);
@@ -56,7 +56,7 @@ public class Engine {
 
 			if (testi.getTile(p.getY(), p.getX()).hasMonster()) {
 					CombatEngine.combat(p, m);
-					m = new Monster(50, "Spurgu", 5, 5, 5, 5);
+					m = new Monster(50, "Spurgu", 5, 5, 5);
 					m.addAttack(a);
 					continue;
 				}

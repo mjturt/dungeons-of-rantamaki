@@ -50,7 +50,7 @@ public class CombatEngine {
 						if (b == p.getMoveListLength()) {
 							continue;
 						} else {
-							m.DealDamage(p, p.getMove(b));
+							p.DealDamage(m, p.getMove(b));
 							break;
 						}
 					case 2:
@@ -64,7 +64,7 @@ public class CombatEngine {
 								if (p.getMana() < p.getSpell(c).getMana()) {
 									throw new NotEnoughMana("Not enough mana!");
 								} else {
-									m.DealDamage(p, p.getSpell(c));
+									p.DealDamage(m, p.getSpell(c));
 									break;
 								}
 							} catch (NotEnoughMana e) {
@@ -79,13 +79,13 @@ public class CombatEngine {
 				}
 			}
 			int j = r.nextInt(m.getMoveListLength());
-			p.DealDamage(m, m.getMove(j));
+			m.DealDamage(p, m.getMove(j));
 			turn++;
 		}
 		if (m.getHP() <= 0) {
 			System.out.println(p.getName() + " defeated " + m.getName() + "!");
 		} else {
-			System.out.println("You didn't make it out of Räntämäki...");
+			System.out.println("You didn't make it out of Rï¿½ntï¿½mï¿½ki...");
 		}
 		
 	}
