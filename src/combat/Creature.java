@@ -185,16 +185,16 @@ public class Creature {
 	 *            - attack that hits
 	 * @return: nothing
 	 */
-	public void DealDamage(Creature attacker, Attack a) {
+	public void DealDamage(Creature defender, Attack a) {
 		AttackType type = a.getType();
 		int pwr;
 		double AD, dmg, lvl;
 		switch (type) {
 		case PHYSICAL:
-			AD = attacker.getStr() / this.defense;
+			AD = this.strength / defender.getDf();
 			break;
 		case MAGICAL:
-			AD = attacker.getMagic() / this.magic;
+			AD = this.magic / defender.getMagic();
 			break;
 		default:
 			AD = 0.5; // should never come to this
@@ -205,9 +205,9 @@ public class Creature {
 		pwr = a.getPwr();
 		dmg = (lvl * pwr * AD) / 50;
 		dmg += 2;
-		System.out.println(attacker.getName() + " used " + a.getName() + ", it deals " + dmg + " damage!");
-		this.hp -= Math.round(dmg);
-		attacker.setMana(attacker.getMana()-a.getMana());
+		System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
+		defender.setHP((int)(defender.getHP()-Math.floor(dmg)));
+		this.mana+=a.getMana();
 	}
 
 	/*
