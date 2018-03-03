@@ -21,12 +21,10 @@ public class Engine {
 		monsters.add(m);
 		Attack a = new Attack("Bash", AttackType.PHYSICAL, 50);
 		Attack b = new Attack( "Fireball", AttackType.MAGICAL, 100, 5);
-		Consumable jallu = new Consumable("Jallu", 10, 10);
 
 		p.addAttack(a);
 		p.addSpell(b);
 		m.addAttack(a);
-		p.addItem(jallu);
 		
 		while (testi.getGoal()[0] != p.getLocation()[0] && testi.getGoal()[1] != p.getLocation()[1] && p.getHP() > 0) {
 			testi.testPopulate(p);
