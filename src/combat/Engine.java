@@ -19,8 +19,8 @@ public class Engine {
 		ArrayList<Monster> monsters = new ArrayList<>();
 		Monster m = new Monster(50, "Spurgu", 5, 5, 5, 5);
 		monsters.add(m);
-		Attack a = new Attack(AttackType.PHYSICAL, 50, "Bash");
-		Attack b = new Attack(AttackType.MAGICAL, 100, 5, "Fireball");
+		Attack a = new Attack("Bash", AttackType.PHYSICAL, 50);
+		Attack b = new Attack( "Fireball", AttackType.MAGICAL, 100, 5);
 		Consumable jallu = new Consumable("Jallu", 10, 10);
 
 		p.addAttack(a);
