@@ -34,7 +34,11 @@ public class AttackIDList {
 	public Attack getAttack(int i) { 
 		return IDList.get(i);
 	}
-	
+	/**
+	 * 
+	 * @param line = the attack's statline, comma separated values
+	 * @return new AttackType.PHYSICAL attack 
+	 */
 	private Attack parseLine(String line) {
 		String[] lineArray = line.split(",");
 		return new Attack(lineArray[0], AttackType.valueOf(lineArray[1]), Integer.parseInt(lineArray[2]));

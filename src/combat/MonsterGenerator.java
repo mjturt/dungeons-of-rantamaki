@@ -15,7 +15,7 @@ public class MonsterGenerator {
 		path = path.substring(0, path.length()-1) + "src\\combat\\";
 		Path mPath = Paths.get(path, "monsterlist");
 		try {
-			List<String> monsters = Files.readAllLines(mPath); //monsterlist is read as utf-8 and autoclosed
+			List<String> monsters = Files.readAllLines(mPath); //monsterlist is read line by line as String as utf-8 and autoclosed
 			int i=-1;
 			for(String s: monsters) {
 				if (s.indexOf(";")==-1) { //check if it's monster statline
@@ -42,12 +42,22 @@ public class MonsterGenerator {
 		}
 		return prototype;
 	}
-	
+	/**
+	 * 
+	 * @param line = comma separated statline and name for the monster
+	 * @return Monster that has stats read from comma separated values from the string
+	 */
 	private Monster parseLine(String line) {
+		line.trim();
 		String[] monsterArray = line.split(",");
 		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
 		}
-	
+	/**
+	 * 
+	 * @param m = the monster we're attaching these skills for
+	 * @param inputline = the string that contains comma separated id's for attacks and spells,
+	 * separated by semicolon
+	 */
 	private void addSkills(Monster m, String inputline) {
 		AttackIDList lista = new AttackIDList();
 		SpellIDList grimoire = new SpellIDList();
