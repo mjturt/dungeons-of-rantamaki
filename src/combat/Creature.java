@@ -179,10 +179,13 @@ public class Creature {
 	public void useItem(int index) {
 		Consumable tmp = this.inventory.get(index);
 		this.setHP(this.getHP() + tmp.getRestoreHp());
-		System.out.println("You restore " + tmp.getRestoreHp() + " and ");
+		System.out.print("You restore " + tmp.getRestoreHp() + " HP and ");
 		this.setMana(this.getMana() + tmp.getRestoreMana());
-		System.out.print(tmp.getRestoreMana() + " mana!");
+		System.out.println(tmp.getRestoreMana() + " mana!");
 		tmp.setUses(tmp.getUses() - 1);
+		if (tmp.getUses() > 0) {
+			System.out.println("Your " + tmp.getConsumableName() + " has " + tmp.getUses() + " uses left!");
+		}
 		if (tmp.getUses() < 1) {
 			inventory.remove(index);
 		}
@@ -219,7 +222,7 @@ public class Creature {
 		dmg += 2;
 		System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
 		defender.setHP((int)(defender.getHP()-Math.floor(dmg)));
-		this.mana+=a.getMana();
+		this.mana-=a.getMana();
 	}
 
 	/*
