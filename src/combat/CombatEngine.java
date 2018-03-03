@@ -32,7 +32,7 @@ public class CombatEngine {
 				p.listInventory();
 				int a = sc.nextInt();
 
-				if (a == p.getInventoryLength()) {
+				if (a >= p.getInventoryLength()) {
 					continue;
 				} else {
 					p.useItem(a);
@@ -48,7 +48,7 @@ public class CombatEngine {
 						p.listMoveList();
 						b = sc.nextInt();
 
-						if (b == p.getMoveListLength()) {
+						if (b >= p.getMoveListLength()) {
 							continue;
 						} else {
 							p.DealDamage(m, p.getMove(b));
@@ -58,7 +58,7 @@ public class CombatEngine {
 						p.listSpellbook();
 						int c = sc.nextInt();
 
-						if (c == p.getMoveListLength()) {
+						if (c >= p.getMoveListLength()) {
 							continue;
 						} else {
 							try {

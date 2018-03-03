@@ -229,7 +229,7 @@ public class World {
 		Random r = new Random();
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
-				if ((r.nextInt(5) + 5) > 7 && this.world[i][j].getPassable()) {
+				if ((r.nextDouble()) > 0.9 && this.world[i][j].getPassable()) {
 					this.world[i][j].setMonster(true);
 				}
 			}

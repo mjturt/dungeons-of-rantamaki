@@ -8,23 +8,21 @@ import world.World;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 public class Engine {
-	
+
 	public static void main (String[] args) {
+		Random r = new Random();
 		World testi = new World(150, 150);
 		Player p = new Player(25, "Kaitsu", 10, 10, 20);
 		p.setLocation(testi.getStart()[0], testi.getStart()[1]);
 		Scanner s = new Scanner(System.in);
-		ArrayList<Monster> monsters = new ArrayList<>();
-		Monster m = new Monster(50, "Spurgu", 5, 5, 5);
-		monsters.add(m);
-		Attack a = new Attack("Bash", AttackType.PHYSICAL, 50);
-		Attack b = new Attack( "Fireball", AttackType.MAGICAL, 100, 5);
-
-		p.addAttack(a);
-		p.addSpell(b);
-		m.addAttack(a);
+		MonsterGenerator mg = new MonsterGenerator();
+		SpellIDList tome = new SpellIDList();
+		AttackIDList atk = new AttackIDList();
+		p.addAttack(atk.getAttack(r.nextInt(2)));
+		p.addSpell(tome.getSpell(r.nextInt(2)));
 		
 		while (testi.getGoal()[0] != p.getLocation()[0] && testi.getGoal()[1] != p.getLocation()[1] && p.getHP() > 0) {
 			testi.testPopulate(p);
@@ -53,13 +51,12 @@ public class Engine {
 			}
 
 			if (testi.getTile(p.getY(), p.getX()).hasMonster()) {
+					Monster m = mg.getMonster(0, r.nextInt(20) + 1);
 					CombatEngine.combat(p, m);
-					m = new Monster(50, "Spurgu", 5, 5, 5);
-					m.addAttack(a);
 					continue;
 				}
 			}
 		s.close();
 		}
-		
-	}
+
+}
