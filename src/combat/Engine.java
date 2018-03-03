@@ -51,7 +51,7 @@ public class Engine {
 			}
 
 			if (testi.getTile(p.getY(), p.getX()).hasMonster()) {
-					Monster m = mg.getMonster(0, r.nextInt(20) + 1);
+					Monster m = mg.getMonster(0, r.nextInt(p.getLevel() + 3) + 1);
 					CombatEngine.combat(p, m);
 					continue;
 				}
