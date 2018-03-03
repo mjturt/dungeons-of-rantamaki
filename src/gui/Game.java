@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
+import world.World;
+
 /* 
  * gui packages main class Game
  *
@@ -57,7 +59,7 @@ public class Game extends Canvas implements Runnable {
 
     /* Main game loop
      * It's pretty advanced, made with help of lots gamemaking-tutorials, so that game speed is 
-     * good and not varying with different specs machines
+     * good and not varying with different machines with different specs
      * More info about how it work's: http://www.java-gaming.org/index.php?topic=24220.0
      * */
 
@@ -124,10 +126,18 @@ public class Game extends Canvas implements Runnable {
     /* Here we generate level with the world.World */
 
     public void loadLevel() {
-        /* Couple example blocks */
-        handler.addObject(new Block(1, 1, ID.Block));
-        handler.addObject(new Block(1, 32, ID.Block));
-        handler.addObject(new Block(100, 200, ID.Block));
+
+        World world = new World(100, 100);
+        int w = world.getHeight();
+        int h = world.getWidth();
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                if (world.getTile(x, y).getPassable() == true) {
+                    handler.addObject(new Block(x*32, y*32, ID.Block));
+                }
+            }
+
+        }
     }
 
     /* Main method */
