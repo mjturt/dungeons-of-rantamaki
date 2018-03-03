@@ -13,7 +13,6 @@ public class CombatTest {
 
 		p.addAttack(lista.getAttack(0));
 		p.addSpell(grimoire.getSpell(0));
-		m.addAttack(lista.getAttack(0));
 		p.addItem(jallu);
 
 		CombatEngine.combat(p, m);

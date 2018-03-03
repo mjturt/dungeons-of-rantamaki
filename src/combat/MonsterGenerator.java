@@ -11,13 +11,21 @@ public class MonsterGenerator {
 	
 	public MonsterGenerator() {
 		monsterList = new ArrayList<Monster>();
-		String path = Paths.get(".").toAbsolutePath().toString();
+		String path = Paths.get(".").toAbsolutePath().toString(); 
 		path = path.substring(0, path.length()-1) + "src\\combat\\";
 		Path mPath = Paths.get(path, "monsterlist");
 		try {
 			List<String> monsters = Files.readAllLines(mPath); //monsterlist is read as utf-8 and autoclosed
+			int i=-1;
 			for(String s: monsters) {
-				monsterList.add(parseLine(s));
+				if (s.indexOf(";")==-1) { //check if it's monster statline
+					monsterList.add(parseLine(s));
+					i++;
+				}
+				else {
+					addSkills(monsterList.get(i), s);
+				}
+				
 			}
 		}
 		catch(IOException ioe) {
@@ -39,4 +47,18 @@ public class MonsterGenerator {
 		String[] monsterArray = line.split(",");
 		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
 		}
+	
+	private void addSkills(Monster m, String inputline) {
+		AttackIDList lista = new AttackIDList();
+		SpellIDList grimoire = new SpellIDList();
+		String[] skills = inputline.split(";");
+		String[] attacks = skills[0].split(",");
+		String[] spells = skills[1].split(",");
+		for(String a: attacks) {
+			m.addAttack(lista.getAttack(Integer.valueOf(a)));
+		}
+		for(String s: spells) {
+			m.addSpell(grimoire.getSpell(Integer.valueOf(s)));
+		}
+	}
 }
