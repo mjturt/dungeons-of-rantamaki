@@ -6,7 +6,6 @@ package combat;
 
 import world.World;
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -25,7 +24,8 @@ public class Engine {
 		p.addSpell(tome.getSpell(r.nextInt(2)));
 		
 		while (testi.getGoal()[0] != p.getLocation()[0] && testi.getGoal()[1] != p.getLocation()[1] && p.getHP() > 0) {
-			testi.testPopulate(p);
+			testi.render(p);
+			//testi.printWorld();
 			if (!s.hasNext()) {
 				s.close();
 				s = new Scanner(System.in);

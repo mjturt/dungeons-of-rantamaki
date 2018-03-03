@@ -35,6 +35,7 @@ public class World {
 		this.populateWorld();
 		this.generateStart();
 		this.generateGoal();
+		this.generateOpenings();
 		this.spawnMonsters();
 
 	}
@@ -139,7 +140,7 @@ public class World {
 	/*
 	 * test method, remove from final
 	 */
-	public void testPopulate(Player p) {
+	public void render(Player p) {
 		int left = 0;
 		int right = 0;
 		int up = 0;
@@ -191,6 +192,19 @@ public class World {
 		}
 	}
 	
+	public void printWorld() {
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.width; j++) {
+				if (this.world[i][j].getPassable()) {
+					System.out.print(" " + " ");
+				} else {
+					System.out.print("#" + " ");
+				}
+			}
+			System.out.println();
+		}
+	}
+	
 	public void generateStart () {
 		Random r = new Random();
 		this.startY = r.nextInt(this.height);
@@ -229,8 +243,29 @@ public class World {
 		Random r = new Random();
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
-				if ((r.nextDouble()) > 0.9 && this.world[i][j].getPassable()) {
+				if ((r.nextDouble()) > 0.92 && this.world[i][j].getPassable()) {
 					this.world[i][j].setMonster(true);
+				}
+			}
+		}
+	}
+	/*
+	 * A horrible way to generate opening to the maze, needs cleanup. 
+	 */
+	public void generateOpenings() {
+		Random r = new Random();
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.width; j++) {
+				double rand = r.nextDouble();
+				if (rand > 0.96) {
+					int n = r.nextInt(5);
+					if (n + i < this.height - 1 && n + j < this.width - 1) {
+						for (int k = i; k < i + n; k++) {
+							for (int l = j; l < j + n; l++) {
+								this.world[k][l].setPassable(true);
+							}
+						}
+					}
 				}
 			}
 		}
