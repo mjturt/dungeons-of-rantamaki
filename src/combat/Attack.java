@@ -11,14 +11,14 @@ public class Attack {
 	final private String name;
 	final private int mana;
 
-	public Attack(AttackType type, int power, int mana, String name) {
+	public Attack(String name, AttackType type, int power, int mana) {
 		this.type = type;
 		this.power = power;
 		this.name = name;
 		this.mana = mana;
 	}
 
-	public Attack(AttackType type, int power, String name) {
+	public Attack(String name, AttackType type, int power) {
 		this.type = type;
 		this.power = power;
 		this.name = name;
