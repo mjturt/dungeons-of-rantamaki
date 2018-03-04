@@ -29,7 +29,7 @@ public class Game extends Canvas implements Runnable {
     private Handler handler;
 
     public Game() {
-        new Window(640, 480, "Dungeons of Räntämäki", this); 
+        new Window(800, 640, "Dungeons of Räntämäki", this); 
         start();
 
         handler = new Handler();
@@ -37,7 +37,6 @@ public class Game extends Canvas implements Runnable {
 
         /* Adding objects to game */
 
-        handler.addObject(new Player(300, 200, ID.Player, handler));
         
         loadLevel();
     }
@@ -114,7 +113,7 @@ public class Game extends Canvas implements Runnable {
 
         /* Background first */
         g.setColor(Color.yellow);
-        g.fillRect(0, 0, 640, 480);
+        g.fillRect(0, 0, 800, 640);
 
         /* And then objects */
         handler.render(g);
@@ -130,13 +129,20 @@ public class Game extends Canvas implements Runnable {
         World world = new World(100, 100);
         int w = world.getHeight();
         int h = world.getWidth();
+        int[] start = world.getStart();
+        int[] goal = world.getGoal();
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-                if (world.getTile(x, y).getPassable() == true) {
-                    handler.addObject(new Block(x*32, y*32, ID.Block));
+                if (world.getTile(x, y).getPassable() == false) {
+                    handler.addObject(new Block(x*64, y*64, ID.Block));
+                }
+                if(start[0] == y && start[1] == x) {
+                    handler.addObject(new Player(x*64, y*64, ID.Player, handler));
+                }
+                if(goal[0] == y && goal[1] == x) {
+                    handler.addObject(new Goal(x*64, y*64, ID.Goal));
                 }
             }
-
         }
     }
 
