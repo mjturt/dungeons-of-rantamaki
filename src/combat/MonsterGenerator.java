@@ -12,7 +12,7 @@ public class MonsterGenerator {
 	public MonsterGenerator() {
 		monsterList = new ArrayList<Monster>();
 		String path = Paths.get(".").toAbsolutePath().toString(); 
-		path = path.substring(0, path.length()-1) + "src\\combat\\";
+		path = path.substring(0, path.length()-1) + "src/combat/";
 		Path mPath = Paths.get(path, "monsterlist");
 		try {
 			List<String> monsters = Files.readAllLines(mPath); //monsterlist is read line by line as String as utf-8 and autoclosed

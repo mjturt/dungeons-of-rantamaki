@@ -18,7 +18,7 @@ public class AttackIDList {
 		IDList = new ArrayList<Attack>();
 		try {
 			String spath = Paths.get(".").toAbsolutePath().toString();
-			spath = spath.substring(0, (spath.length()-1)) + "src\\combat\\";
+			spath = spath.substring(0, (spath.length()-1)) + "src/combat/";
 			Path aPath = Paths.get(spath, "attackList");
 			List<String> attacks = Files.readAllLines(aPath); //attacklist is read line by line as String as utf-8 and autoclosed
 			for(String s: attacks) {
