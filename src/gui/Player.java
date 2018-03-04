@@ -25,31 +25,53 @@ public class Player extends GameObject {
 
         /* Moving coordinates based on velocity */
 
-        x += velX;
-        y += velY;
+        
 
         /* Moving, using velocity instead of coordinates for smooth movement */
 
         if (handler.isUp()) {
-            velY = -2;
+            if (collides(this.handler)) {
+            	velY = 2;
+            	this.handler.setUp(true);
+            } else {
+        	velY = -2;
+            }
         } else if (!handler.isDown()) {
             velY = 0;
         }
         if (handler.isDown()) {
-            velY = 2;
+        	if (collides(this.handler)) {
+        		velY = -2;
+        		this.handler.setDown(true);
+        	} else {
+        		velY = 2;
+        	}
         } else if (!handler.isUp()) {
             velY = 0;
         }
         if (handler.isRight()) {
-            velX = 2;
+            if (collides(this.handler)) {
+            	velX = -2;
+            	this.handler.setRight(true);
+            } else {
+            	velX = 2;
+            }
         } else if (!handler.isLeft()) {
             velX = 0;
         }
         if (handler.isLeft()) {
-            velX = -2;
+        	if (collides(this.handler)) {
+        		velX = 2;
+        		this.handler.setLeft(true);
+        	} else {
+        		velX = -2;
+        	}
         } else if (!handler.isRight()) {
             velX = 0;
         }
+        
+        x += velX;
+        y += velY;
     }
 
     public void render(Graphics g) {
@@ -62,5 +84,14 @@ public class Player extends GameObject {
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, 32, 32);
+    }
+    
+    public boolean collides(Handler h) {
+    	for (GameObject go : h.objects) {
+    		if (go.getBounds().intersects(this.getBounds()) && go.getClass() == Block.class) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 }
