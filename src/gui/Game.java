@@ -3,6 +3,7 @@ package gui;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
@@ -27,18 +28,16 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private Handler handler;
+    GameCamera cam;
+    
 
     public Game() {
-        new Window(800, 640, "Dungeons of Räntämäki", this); 
+        new Window(1920, 1080, "Dungeons of Räntämäki", this); 
+        cam = new GameCamera(this.HEIGHT, this.WIDTH);
         start();
-
         handler = new Handler();
+        handler.loadLevel();
         this.addKeyListener(new KeyInput(handler));
-
-        /* Adding objects to game */
-
-        
-        loadLevel();
     }
 
     private void start(){
@@ -84,6 +83,7 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
+                System.out.println("FPS: " + frames + " TICKS: " + ticks);
                 frames = 0;
             }
         }
@@ -93,7 +93,12 @@ public class Game extends Canvas implements Runnable {
     /* Updating stuff to game */
 
     public void tick() {
-        handler.tick(); 
+        handler.tick();
+        for (GameObject go : handler.objects) {
+        	if (go.getClass() == Player.class) {
+        		cam.tick(go);
+        	}
+        }
     }
 
     /* Render method */
@@ -102,49 +107,26 @@ public class Game extends Canvas implements Runnable {
         BufferStrategy bs = this.getBufferStrategy(); 
         Toolkit.getDefaultToolkit().sync(); 
         if (bs == null) {
-            /* 2 frames preloaded in buffer and one shown, "Triplebuffering" */
             this.createBufferStrategy(3);
             return;
         }
-
         Graphics g = bs.getDrawGraphics();
-
-        /* Rendering stuff to screen */
-
-        /* Background first */
-        g.setColor(Color.yellow);
-        g.fillRect(0, 0, 800, 640);
-
-        /* And then objects */
+        Graphics2D g2d = (Graphics2D) g;
+        /*////////////////////////////////////
+         *Draw here 
+         *////////////////////////////////////
+        g.translate(cam.getX(), cam.getY());
+        g.setColor(Color.white);
+        g.fillRect(0, 0, 1920, 1080);
         handler.render(g);
-
+        //////////////////////////////////////
         g.dispose();
         bs.show();
     }
 
     /* Here we generate level with the world.World */
 
-    public void loadLevel() {
-
-        World world = new World(100, 100);
-        int w = world.getHeight();
-        int h = world.getWidth();
-        int[] start = world.getStart();
-        int[] goal = world.getGoal();
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                if (world.getTile(x, y).getPassable() == false) {
-                    handler.addObject(new Block(x*64, y*64, ID.Block));
-                }
-                if(start[0] == y && start[1] == x) {
-                    handler.addObject(new Player(x*64, y*64, ID.Player, handler));
-                }
-                if(goal[0] == y && goal[1] == x) {
-                    handler.addObject(new Goal(x*64, y*64, ID.Goal));
-                }
-            }
-        }
-    }
+    
 
     /* Main method */
 
