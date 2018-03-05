@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.Dimension;
-import java.awt.Frame;
-
 import javax.swing.JFrame;
 
 /* Basic class for creating windows with Swing + AWT */ 

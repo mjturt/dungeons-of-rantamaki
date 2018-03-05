@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.Frame;
-
 public class GameCamera {
 	private int x, y, cx, cy;
 	
