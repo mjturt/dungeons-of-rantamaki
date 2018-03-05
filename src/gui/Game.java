@@ -3,6 +3,7 @@ package gui;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
@@ -27,12 +28,14 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private Handler handler;
+    private GameCamera gc;
 
     public Game() {
         new Window(800, 640, "Dungeons of Räntämäki", this); 
         start();
 
         handler = new Handler();
+        gc = new GameCamera(0, 0);
         this.addKeyListener(new KeyInput(handler));
 
         /* Adding objects to game */
@@ -93,6 +96,13 @@ public class Game extends Canvas implements Runnable {
     /* Updating stuff to game */
 
     public void tick() {
+
+        for (int i = 0; i < handler.objects.size(); i++) {
+            if (handler.objects.get(i).getId() == ID.Player) {
+                gc.tick(handler.objects.get(i));
+            }
+        }
+
         handler.tick(); 
     }
 
@@ -108,15 +118,20 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = bs.getDrawGraphics();
+        Graphics2D g2d = (Graphics2D) g;
 
         /* Rendering stuff to screen */
+
 
         /* Background first */
         g.setColor(Color.yellow);
         g.fillRect(0, 0, 800, 640);
 
         /* And then objects */
+
+        g2d.translate(-gc.getX(), -gc.getY());
         handler.render(g);
+        g2d.translate(gc.getX(), gc.getY());
 
         g.dispose();
         bs.show();
