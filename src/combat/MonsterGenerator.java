@@ -34,7 +34,7 @@ public class MonsterGenerator {
 		}
 	}
 	//returns the monster by it's line number in a file
-	//with level that is inputted, could use randomization?
+	//with level that ifs inputted, could use randomization?
 	public Monster getMonster(int i, int lvl) { 
 		Monster prototype = monsterList.get(i);
 		for(int j=1;j<lvl;j++) {

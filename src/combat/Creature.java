@@ -252,4 +252,28 @@ public class Creature {
 		this.maxMana = deltaMagic;
 		this.mana = deltaMagic;
 	}
+	/**
+	 * checks if there's enough XP for levelup, prints out stats and calls itself again
+	 */
+	public void CheckLevelUp() {
+		if(this.exp >= (int) Math.pow(this.level+1, 3)) {
+			this.LevelUp();
+			System.out.println("Level up!");
+			this.dumpStats();
+			this.CheckLevelUp();
+		}
+	}
+	/**
+	 * nuthin' fancy, just dump the stats on console
+	 */
+	public void dumpStats() {
+		System.out.println(this.name + "'s LVL: " + this.level);
+		System.out.println("HP: " + this.hp + "/" + this.maxHP);
+		System.out.println("MP: " + this.mana + "/" + this.maxMana);
+		System.out.println("EXP: " + this.exp);
+		System.out.println("Str: " + this.strength);
+		System.out.println("Def: " + this.defense);
+		System.out.println("Magic: " + this.magic);
+		System.out.println("");
+	}
 }

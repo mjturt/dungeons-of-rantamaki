@@ -86,7 +86,8 @@ public class CombatEngine {
 		}
 		if (m.getHP() <= 0) {
 			System.out.println(p.getName() + " defeated " + m.getName() + "!");
-			p.addExp(m.getHP());
+			p.addExp(m.getMaxHP());
+			p.CheckLevelUp();
 			ArrayList<Consumable> tmp = generateLoot(m);
 			if (tmp.size() > 0) {
 				while (true) {

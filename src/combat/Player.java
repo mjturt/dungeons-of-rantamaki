@@ -19,13 +19,12 @@ public class Player extends Creature {
 		return this.experience;
 	}
 
-	/**
-	 * @param: gained
-	 *             experience
-	 * @return: nothing just adds the experience to the player
-	 */
 	public void addExp(int exp) {
 		this.experience += exp;
+	}
+	
+	public void setExp(int exp) {
+		this.experience = exp;
 	}
 
 	// for setting starting location, otherwise use moveDirecton()
