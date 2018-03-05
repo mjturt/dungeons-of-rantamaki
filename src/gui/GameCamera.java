@@ -3,13 +3,13 @@ package gui;
 import java.awt.Frame;
 
 public class GameCamera {
-	private int x, y;
-	Window w;
+	private int x, y, cx, cy;
 	
-	public GameCamera (int x, int y, Window w) {
+	public GameCamera (int x, int y, int cx, int cy) {
 		this.x = x;
 		this.y = y;
-		this.w = w;
+		this.cx = cx;
+		this.cy = cy;
 	}
 	
 	public void setX (int x) {
@@ -29,7 +29,7 @@ public class GameCamera {
 	}
 
 	public void tick(GameObject player) {
-		x = -player.getX() + w.getWidth()/2;
-		y = -player.getY() + w.getHeigth()/2;
+		x = -player.getX() + cx/2;
+		y = -player.getY() + cy/2;
 	}
 }

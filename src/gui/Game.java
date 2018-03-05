@@ -33,7 +33,7 @@ public class Game extends Canvas implements Runnable {
 
     public Game(int x, int y) {
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
-        cam = new GameCamera(x, y, w);
+        cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
         handler = new Handler();
         handler.loadLevel();
