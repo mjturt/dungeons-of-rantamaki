@@ -79,7 +79,7 @@ public class Handler {
         int[] goal = world.getGoal();
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-               if (world.getTile(x, y).getPassable() == false) {
+               if (world.getTile(y, x).getPassable() == false) {
                     addObject(new Block(x*64, y*64, ID.Block));
                 }
                 if(start[0] == y && start[1] == x) {
