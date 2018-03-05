@@ -22,10 +22,6 @@ public class Player extends Creature {
 	public void addExp(int exp) {
 		this.experience += exp;
 	}
-	
-	public void setExp(int exp) {
-		this.experience = exp;
-	}
 
 	// for setting starting location, otherwise use moveDirecton()
 	public void setLocation(int y, int x) {
