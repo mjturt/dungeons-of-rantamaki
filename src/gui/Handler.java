@@ -84,17 +84,14 @@ public class Handler {
                 }
                 if(start[0] == y && start[1] == x) {
                     addObject(new Player(x*64, y*64, ID.Player, this));
-                    
-                    //handler.addObject(new GameCamera(handler, y, x));
                 }
                 if(goal[0] == y && goal[1] == x) {
                     addObject(new Goal(x*64, y*64, ID.Goal));
                 }
-                
-               //if (y == 1 && x == 1) {
-            	   //handler.addObject(new Player(x*64, y*64, ID.Player, handler));
-            	   //handler.addObject(new GameCamera(handler, y, x));
-               //}
+                if (world.getTile(y, x).hasMonster()) {
+                	addObject(new Monster(x*64, y*64, ID.Enemy));
+                }
+               
             }
         }
     }

@@ -69,7 +69,12 @@ public class Player extends GameObject {
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 32, 32);
 	}
-
+	/**
+	 * @param newY == the position the player will be next rendered to
+	 * @param newX == the position the player will be next rendered to
+	 * 
+	 * This method needs another collision check to see if the player collides with an enemy. If it does, initiate combat routine.
+	 */
 	public void updatePos(int newY, int newX) {
 		Rectangle newPos = new Rectangle(newX, newY, 32, 32);
 		for (GameObject o : handler.objects) {
