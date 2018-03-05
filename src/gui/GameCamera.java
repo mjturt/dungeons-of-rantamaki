@@ -1,13 +1,15 @@
 package gui;
 
+import java.awt.Frame;
+
 public class GameCamera {
 	private int x, y;
-	private int width = Game.WIDTH;
-	private int height = Game.HEIGHT;
+	Window w;
 	
-	public GameCamera (int x, int y) {
+	public GameCamera (int x, int y, Window w) {
 		this.x = x;
 		this.y = y;
+		this.w = w;
 	}
 	
 	public void setX (int x) {
@@ -25,9 +27,9 @@ public class GameCamera {
 	public int getY() {
 		return this.y;
 	}
-	//test, you see the rendering problem here
+
 	public void tick(GameObject player) {
-		x = -player.getX() + Game.WIDTH/2;
-		//y = player.getY() - Game.HEIGHT/2;
+		x = -player.getX() + w.getWidth()/2;
+		y = -player.getY() + w.getHeigth()/2;
 	}
 }

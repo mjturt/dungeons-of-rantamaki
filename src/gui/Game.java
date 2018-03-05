@@ -31,9 +31,9 @@ public class Game extends Canvas implements Runnable {
     GameCamera cam;
     
 
-    public Game() {
-        new Window(1920, 1080, "Dungeons of Räntämäki", this); 
-        cam = new GameCamera(this.HEIGHT, this.WIDTH);
+    public Game(int x, int y) {
+        Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
+        cam = new GameCamera(x, y, w);
         start();
         handler = new Handler();
         handler.loadLevel();
@@ -133,6 +133,6 @@ public class Game extends Canvas implements Runnable {
     /* Main method */
 
     public static void main(String[] args) {
-        new Game();
+        new Game(640, 480);
     }
 }
