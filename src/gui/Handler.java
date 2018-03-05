@@ -19,8 +19,8 @@ public class Handler {
     private boolean left = false;
 
     public void tick() {
-        for (GameObject g : objects) {
-            g.tick();
+        for (int i=0;i<objects.size();i++) {
+            objects.get(i).tick();
         }
     }
 
