@@ -4,7 +4,7 @@ package gui;
 
 public enum ID {
     Player(),
-    Enemy(),
+    Monster(),
     Block(),
     Goal(),
     Consumable();

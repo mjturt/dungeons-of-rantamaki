@@ -124,7 +124,7 @@ public class Game extends Canvas implements Runnable {
 
 
         /* Background first */
-        g.setColor(Color.yellow);
+        g.setColor(Color.darkGray);
         g.fillRect(0, 0, 800, 640);
 
         /* And then objects */
@@ -141,7 +141,7 @@ public class Game extends Canvas implements Runnable {
 
     public void loadLevel() {
 
-        World world = new World(100, 100);
+        World world = new World(10, 10);
         int w = world.getHeight();
         int h = world.getWidth();
         int[] start = world.getStart();
@@ -156,6 +156,9 @@ public class Game extends Canvas implements Runnable {
                 }
                 if(goal[0] == y && goal[1] == x) {
                     handler.addObject(new Goal(x*64, y*64, ID.Goal));
+                }
+                if(world.getTile(x, y).hasMonster() == true) {
+                    handler.addObject(new Monster(x*64, y*64, ID.Monster));
                 }
             }
         }

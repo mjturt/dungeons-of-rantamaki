@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -59,8 +58,6 @@ public class Player extends GameObject {
 
 
 	public void render(Graphics g) {
-		// g.setColor(Color.green);
-		// g.fillRect(x, y, 32, 32);
 		/* Current image is just example and its too big */
 		g.drawImage(playerimg, x, y, null);
 
