@@ -11,6 +11,12 @@ import world.World;
  * All objects must be added through this class, so that it can loop through list of all objects
  * */
 
+
+/*
+ * Due to handler class being called from multiple other classes,
+ *  and all game objects being stored in objects ArrayList<GameObject> is the use of enhanced for loop rendered
+ *  impossible due to conflict in modification from multiple threads.
+ */
 public class Handler {
 
     ArrayList<GameObject> objects = new ArrayList<GameObject>();
