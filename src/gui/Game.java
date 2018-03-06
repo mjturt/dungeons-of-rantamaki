@@ -95,7 +95,7 @@ public class Game extends Canvas implements Runnable {
     public void tick() {
         handler.tick();
         for (int i=0;i<handler.objects.size();i++) {
-        	if (handler.objects.get(i).getClass() == Player.class) {
+        	if (handler.objects.get(i).getClass() == GuiPlayer.class) {
         		cam.tick(handler.objects.get(i));
         	}
         }

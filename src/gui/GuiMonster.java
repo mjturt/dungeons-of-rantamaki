@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Monster extends GameObject {
+public class GuiMonster extends GameObject {
 
-	public Monster(int x, int y, ID id) {
+	public GuiMonster(int x, int y, ID id) {
 		super(x, y, id);
 	}
 

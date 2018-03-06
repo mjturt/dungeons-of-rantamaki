@@ -71,4 +71,8 @@ public class MonsterGenerator {
 			m.addSpell(grimoire.getSpell(Integer.valueOf(s)));
 		}
 	}
+	
+	public int getMonsterListSize() {
+		return this.monsterList.size();
+	}
 }

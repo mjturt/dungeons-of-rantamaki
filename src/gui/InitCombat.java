@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Iterator;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
@@ -13,7 +14,10 @@ public class InitCombat {
 
 	private static boolean running;
 
-	public static void main(Handler h, GameObject o) {
+	public static void main(Handler h, GameObject o, combat.Monster m, combat.Player p) {
+		/*////////////////////////////////////////////////////
+		///CONFIGURATION OF WINDOW STARTS
+		////////////////////////////////////////////////////*/
 		running = true;
 		JFrame jf = h.getFrame();
 		jf.setEnabled(false);
@@ -21,12 +25,17 @@ public class InitCombat {
 		jd.setSize(640, 480);
 		jd.setVisible(true);
 		jd.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		System.out.println("InitCombat reached HIDE ON CLOSE");
+		JButton cons = new JButton("CONSUMABLES");
+		JButton att = new JButton("ATTACK");
+		/*//////////////////////////////////////////////////////
+		//CONFIGURATION OF WINDOW ENDS
+		//////////////////////////////////////////////////////*/
 		Iterator<GameObject> iter = h.objects.iterator();
+		System.out.println("InitCombat reached HIDE ON CLOSE");
 		jd.setVisible(false);
+		// to stop ConcurrentModificationError from happening
 		while(iter.hasNext()) {
-			GameObject temp = iter.next();
-			
+			GameObject temp = iter.next();	
 			if (temp.equals(o)) {
 				iter.remove();
 			}
@@ -44,5 +53,9 @@ public class InitCombat {
 	
 	public static void stop() {
 		running = false;
+	}
+	
+	public void fightEvent(combat.Monster m, combat.Player p) {
+		
 	}
 }

@@ -100,13 +100,13 @@ public class Handler {
                     addObject(new Block(x*64, y*64, ID.Block));
                 }
                 if(start[0] == y && start[1] == x) {
-                    addObject(new Player(x*64, y*64, ID.Player, this));
+                    addObject(new GuiPlayer(x*64, y*64, ID.Player, this));
                 }
                 if(goal[0] == y && goal[1] == x) {
                     addObject(new Goal(x*64, y*64, ID.Goal));
                 }
                 if (world.getTile(y, x).hasMonster()) {
-                	addObject(new Monster(x*64, y*64, ID.Enemy));
+                	addObject(new GuiMonster(x*64, y*64, ID.Enemy));
                 }
                
             }
