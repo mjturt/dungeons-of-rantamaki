@@ -72,14 +72,14 @@ public class Handler {
     }
     public void loadLevel() {
 
-        World world = new World(100, 100);
+        World world = new World(99, 99);
         int w = world.getHeight();
         int h = world.getWidth();
         int[] start = world.getStart();
         int[] goal = world.getGoal();
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-               if (world.getTile(y, x).getPassable() == false) {
+               if (!world.getTile(y, x).getPassable()) {
                     addObject(new Block(x*64, y*64, ID.Block));
                 }
                 if(start[0] == y && start[1] == x) {

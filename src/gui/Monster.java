@@ -19,8 +19,8 @@ public class Monster extends GameObject {
 
 	@Override
 	public void render(Graphics g) {
-		g.fillRect(x, y, 64, 64);
 		g.setColor(Color.cyan);
+		g.fillRect(x, y, 64, 64);
 	}
 
 	@Override
