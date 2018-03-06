@@ -87,6 +87,14 @@ public class Handler {
     public void setLeft(boolean left) {
         this.left = left;
     }
+    
+    public void releaseKeys() {
+    	setLeft(false);
+    	setRight(false);
+    	setUp(false);
+    	setDown(false);
+    }
+    
     public void loadLevel() {
 
         World world = new World(99, 99);

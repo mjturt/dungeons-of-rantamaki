@@ -102,7 +102,12 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				InitCombat.main(this.handler, handler.objects.get(i), this.mg.getMonster(r.nextInt(this.mg.getMonsterListSize()), p.getLevel() + 3), this.p);
-				this.handler.getFrame().requestFocus();
+				handler.releaseKeys();
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+					e.getStackTrace();
+				}
 			}
 		}
 		y = tempY;

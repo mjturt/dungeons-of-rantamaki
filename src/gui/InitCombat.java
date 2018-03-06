@@ -41,7 +41,7 @@ public class InitCombat {
 		jf.setEnabled(false);
 		JDialog jd = new JDialog(jf);
 		jd.setSize(640, 480);
-		jd.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		jd.setDefaultCloseOperation(JFrame.NORMAL);
 		Player tempPlayer = p;
 		JPanel test = new JPanel();
 		ArrayList<JButton> tmp = createButtons(getSpellNames(p));
