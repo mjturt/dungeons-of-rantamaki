@@ -126,6 +126,14 @@ public class Creature {
 		System.out.println(i + ": Return");
 	}
 	
+	public ArrayList<Attack> getSpellbook() {
+		return this.spellBook;
+	}
+	
+	public ArrayList<Attack> getMovelist() {
+		return this.moveList;
+	}
+	
 	public int getSpellbookLength() {
 		return this.spellBook.size();
 	}

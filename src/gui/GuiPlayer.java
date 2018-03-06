@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 import combat.MonsterGenerator;
 import combat.Player;
+import combat.*;
 
 /* Player class, must be joined with combat.Player */
 
@@ -17,13 +18,23 @@ public class GuiPlayer extends GameObject {
 	int tempY;
 	Player p;
 	MonsterGenerator mg;
-	
+	/**
+	 * @param x position in the x-axis
+	 * @param y position in the y-axis
+	 * @param id Enum.ID
+	 * @param handler game event handler
+	 */
 	public GuiPlayer(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
+		Random r = new Random();
 		this.handler = handler;
 		ImageLoader loader = new ImageLoader();
 		playerimg = loader.loadImage("/player.png");
 		p = new Player(25, "Kaitsu", 10, 10, 20);
+		AttackIDList aid = new AttackIDList();
+		SpellIDList sid = new SpellIDList();
+		p.addAttack(aid.getAttack(r.nextInt(2)));
+		p.addSpell(sid.getSpell(r.nextInt(2)));
 		mg = new MonsterGenerator();
 	}
 
@@ -91,6 +102,7 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				InitCombat.main(this.handler, handler.objects.get(i), this.mg.getMonster(r.nextInt(this.mg.getMonsterListSize()), p.getLevel() + 3), this.p);
+				this.handler.getFrame().requestFocus();
 			}
 		}
 		y = tempY;
