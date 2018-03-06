@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable {
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
-        handler = new Handler();
+        handler = new Handler(w.getFrame());
         handler.loadLevel();
         this.addKeyListener(new KeyInput(handler));
     }

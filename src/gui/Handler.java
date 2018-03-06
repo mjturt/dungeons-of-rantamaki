@@ -3,6 +3,8 @@ package gui;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 import world.World;
 
 /* Handler for all GameObjects so that Game class doesn't have to tick and render them separetly
@@ -17,6 +19,15 @@ public class Handler {
     private boolean down = false;
     private boolean right = false;
     private boolean left = false;
+    private JFrame frame;
+    
+    public Handler(JFrame frame) {
+    	this.frame = frame;
+    }
+    
+    public JFrame getFrame () {
+    	return this.frame;
+    }
 
     public void tick() {
         for (int i=0;i<objects.size();i++) {

@@ -13,12 +13,13 @@ public class Player extends GameObject {
 	private BufferedImage playerimg = null;
 	int tempX;
 	int tempY;
-
+	InitCombat combat;
 	public Player(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
 		this.handler = handler;
 		ImageLoader loader = new ImageLoader();
 		playerimg = loader.loadImage("/player.png");
+		
 	}
 
 	/* Players own ticking and rendering methods */
@@ -53,7 +54,6 @@ public class Player extends GameObject {
 		tempX += velX;
 		tempY = y;
 		tempY += velY;
-		
 		updatePos(tempY, tempX);
 	}
 
@@ -77,12 +77,24 @@ public class Player extends GameObject {
 	 */
 	public void updatePos(int newY, int newX) {
 		Rectangle newPos = new Rectangle(newX, newY, 32, 32);
-		for (GameObject o : handler.objects) {
-			if (newPos.intersects(o.getBounds()) && o.getClass() == Block.class) {
+		for (int i = 0; i < handler.objects.size(); i++) {
+			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Block.class) {
 				return;
+			}
+			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Monster.class) {
+				InitCombat.main(this.handler, handler.objects.get(i));
+				while(InitCombat.getRunning()) {
+					try {
+						Thread.sleep(500);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				}
 			}
 		}
 		y = tempY;
 		x = tempX;
 	}
+	
 }

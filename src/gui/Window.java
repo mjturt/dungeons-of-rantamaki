@@ -21,11 +21,27 @@ public class Window {
         frame.setVisible(true);
     }
     
+    public Window(int width, int height, String title) {
+    	frame = new JFrame(title);
+    	frame.setPreferredSize(new Dimension(height, width));
+    	frame.setMaximumSize(new Dimension(height, width));
+    	frame.setMinimumSize(new Dimension(height, width));
+    	frame.setSize(width, height);
+    	frame.setResizable(false);
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frame.setLocationRelativeTo(null);
+    	frame.setVisible(true);
+    }
+    
     public int getWidth() {
     	return frame.getWidth();
     }
     
     public int getHeigth() {
     	return frame.getHeight();
+    }
+    
+    public JFrame getFrame () {
+    	return this.frame;
     }
 }
