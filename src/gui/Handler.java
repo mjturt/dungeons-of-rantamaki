@@ -2,10 +2,14 @@ package gui;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
-
 import world.World;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.nio.file.Paths;
+
 
 /* Handler for all GameObjects so that Game class doesn't have to tick and render them separetly
  * All objects must be added through this class, so that it can loop through list of all objects
@@ -17,7 +21,7 @@ import world.World;
  *  and all game objects being stored in objects ArrayList<GameObject> is the use of enhanced for loop rendered
  *  impossible due to conflict in modification from multiple threads.
  */
-public class Handler {
+public class Handler implements java.io.Serializable  {
 
     ArrayList<GameObject> objects = new ArrayList<GameObject>();
 
