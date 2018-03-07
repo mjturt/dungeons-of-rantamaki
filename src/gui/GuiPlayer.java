@@ -97,7 +97,7 @@ public class GuiPlayer extends GameObject {
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 32, 32);
+		return new Rectangle(x, y, 16, 16);
 	}
 	/**
 	 * @param newY == the position the player will be next rendered to
@@ -109,7 +109,7 @@ public class GuiPlayer extends GameObject {
 	 */
 	public void updatePos(int newY, int newX) {
 		Random r = new Random();
-		Rectangle newPos = new Rectangle(newX, newY, 32, 32);
+		Rectangle newPos = new Rectangle(newX, newY, 16, 16);
 		for (int i = 0; i < handler.objects.size(); i++) {
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Block.class) {
 				return;
