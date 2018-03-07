@@ -1,4 +1,4 @@
-bpackage gui;
+package gui;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
