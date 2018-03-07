@@ -7,9 +7,9 @@ import java.util.Random;
 
 /* This is example class for all GameObjects */
 
-public class Block extends GameObject {
+public class Road extends GameObject {
 
-	private BufferedImage bushimg = null;
+	private BufferedImage roadimg = null;
 	private BufferedImage bushtreeimg = null;
 	private BufferedImage houseimg = null;
 	private BufferedImage house2img = null;
@@ -17,10 +17,10 @@ public class Block extends GameObject {
     private Random rand = new Random(); 
     private int r;
 
-    public Block(int x, int y, ID id) {
+    public Road(int x, int y, ID id) {
         super(x, y, id);
 		ImageLoader loader = new ImageLoader();
-		bushimg = loader.loadImage("/bushes.png");
+		roadimg = loader.loadImage("/road.png");
 		bushtreeimg = loader.loadImage("/bushesAndTree.png");
 		houseimg = loader.loadImage("/house.png");
 		house2img = loader.loadImage("/house2.png");
@@ -38,18 +38,7 @@ public class Block extends GameObject {
     /* Render method, all GameObjects must have their own render method */
 
     public void render(Graphics g) {
-        if (r <= 5) {
-            g.drawImage(houseimg, x, y, null);
-        } else if (r > 5 && r < 10) {
-            g.drawImage(house2img, x, y, null);
-        } else if (r >= 10 && r < 14) {
-            g.drawImage(bushimg, x, y, null);
-        } else if (r >= 14 && r < 17) {
-            g.drawImage(bushtreeimg, x, y, null);
-        } else {
-            g.drawImage(parklotimg, x, y, null);
-        }
-
+        g.drawImage(roadimg, x, y, null);
     }
 
     /* This is for collision detection */

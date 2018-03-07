@@ -33,7 +33,7 @@ public class GuiPlayer extends GameObject {
 		this.handler = handler;
 		ImageLoader loader = new ImageLoader();
 		playerimg = loader.loadImage("/player.png");
-		playerimgL = loader.loadImage("/playerLeft.png");
+		playerimgL = loader.loadImage("/playerLeftAni.gif");
 		playerimgR = loader.loadImage("/playerRight.png");
 		playerimgB = loader.loadImage("/playerBack.png");
 		p = new Player(25, "Kaitsu", 10, 10, 20);

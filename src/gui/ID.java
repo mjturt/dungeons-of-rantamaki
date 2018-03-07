@@ -6,6 +6,7 @@ public enum ID {
     Player(),
     Enemy(),
     Block(),
+    Road(),
     Goal(),
     Consumable();
 }

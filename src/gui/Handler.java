@@ -101,15 +101,31 @@ public class Handler implements java.io.Serializable  {
     
     public void loadLevel() {
 
-        World world = new World(99, 99);
+        World world = new World(39, 39);
         int w = world.getHeight();
         int h = world.getWidth();
         int[] start = world.getStart();
         int[] goal = world.getGoal();
+
+        /* First background texture */
+        
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-               if (!world.getTile(y, x).getPassable()) {
+                if (world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
+                    addObject(new Road(x*64, y*64, ID.Road));
+                }
+            }
+        }
+
+        /* Then all other objects */
+
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                if (!world.getTile(y, x).getPassable()) {
                     addObject(new Block(x*64, y*64, ID.Block));
+                }
+                if (world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
+                    addObject(new Road(x*64, y*64, ID.Road));
                 }
                 if(start[0] == y && start[1] == x) {
                     addObject(new GuiPlayer(x*64, y*64, ID.Player, this));

@@ -27,7 +27,13 @@ public class GameCamera {
 	}
 
 	public void tick(GameObject player) {
-		x = -player.getX() + cx/2;
-		y = -player.getY() + cy/2;
-	}
+		x = player.getX() + cx/2;
+		y = player.getY() + cy/2;
+/*
+        if (x <= 0) { x = 0; }
+        if (x >= 640+42) { x = 640+42; }
+        if (y <= 0) {y = 0;}
+        if (y >= 480+64){ y = 480+64; }
+        */
+    }
 }
