@@ -33,8 +33,8 @@ public class GuiPlayer extends GameObject {
 		p = new Player(25, "Kaitsu", 10, 10, 20);
 		AttackIDList aid = new AttackIDList();
 		SpellIDList sid = new SpellIDList();
-		p.addAttack(aid.getAttack(r.nextInt(2)));
-		p.addSpell(sid.getSpell(r.nextInt(2)));
+		p.addAttack(aid.getAttack(r.nextInt(1)));
+		p.addSpell(sid.getSpell(r.nextInt(1)));
 		mg = new MonsterGenerator();
 	}
 
