@@ -101,7 +101,7 @@ public class Handler implements java.io.Serializable  {
     
     public void loadLevel() {
 
-        World world = new World(99, 99);
+        World world = new World(29, 29);
         int w = world.getHeight();
         int h = world.getWidth();
         int[] start = world.getStart();

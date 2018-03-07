@@ -176,6 +176,10 @@ public class Creature {
 		System.out.println(i + ": Return");
 	}
 	
+	public ArrayList<Consumable> getInventory() {
+		return this.inventory;
+	}
+	
 	public int getInventoryLength () {
 		return this.inventory.size();
 	}
@@ -196,6 +200,21 @@ public class Creature {
 		}
 		if (tmp.getUses() < 1) {
 			inventory.remove(index);
+		}
+	}
+	
+	public void useItem(Consumable c) {
+		
+		this.setHP(this.getHP() + c.getRestoreHp());
+		System.out.print("You restore " + c.getRestoreHp() + " HP and ");
+		this.setMana(this.getMana() + c.getRestoreMana());
+		System.out.println(c.getRestoreMana() + " mana!");
+		c.setUses(c.getUses() - 1);
+		if (c.getUses() > 0) {
+			System.out.println("Your " + c.getConsumableName() + " has " + c.getUses() + " uses left!");
+		}
+		if (c.getUses() < 1) {
+			inventory.remove(c);
 		}
 	}
 
