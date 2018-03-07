@@ -14,6 +14,9 @@ public class GuiPlayer extends GameObject {
 	
 	Handler handler;
 	private BufferedImage playerimg = null;
+	private BufferedImage playerimgL = null;
+	private BufferedImage playerimgR = null;
+	private BufferedImage playerimgB = null;
 	int tempX;
 	int tempY;
 	Player p;
@@ -30,6 +33,9 @@ public class GuiPlayer extends GameObject {
 		this.handler = handler;
 		ImageLoader loader = new ImageLoader();
 		playerimg = loader.loadImage("/player.png");
+		playerimgL = loader.loadImage("/playerLeft.png");
+		playerimgR = loader.loadImage("/playerRight.png");
+		playerimgB = loader.loadImage("/playerBack.png");
 		p = new Player(25, "Kaitsu", 10, 10, 20);
 		AttackIDList aid = new AttackIDList();
 		SpellIDList sid = new SpellIDList();
@@ -75,10 +81,18 @@ public class GuiPlayer extends GameObject {
 
 
 	public void render(Graphics g) {
-		// g.setColor(Color.green);
-		// g.fillRect(x, y, 32, 32);
-		/* Current image is just example and its too big */
-		g.drawImage(playerimg, x, y, null);
+
+        /* Player character direction */
+
+        if ( velX > 0 ) {
+		    g.drawImage(playerimgR, x, y, null);
+        } else if ( velX < 0 ) {
+		    g.drawImage(playerimgL, x, y, null);
+        } else if ( velY < 0 && velX == 0 ) {
+            g.drawImage(playerimgB, x, y, null);
+        } else {
+            g.drawImage(playerimg, x, y, null);
+        }
 
 	}
 
