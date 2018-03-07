@@ -1,25 +1,21 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import combat.Player;
+import combat.Monster;
+import combat.Creature;
 
 public class InitCombat {
 
 	private static boolean running;
+	private static Player p;
+	private static combat.Monster m;
+	private static ArrayList<combat.Attack> attacks;
 	/**
 	 * @param h the handler object for getting info on game events
 	 * @param o GameObject in question
@@ -36,20 +32,34 @@ public class InitCombat {
 		/*////////////////////////////////////////////////////
 		///CONFIGURATION OF WINDOW STARTS
 		////////////////////////////////////////////////////*/
+		attacks = new ArrayList<>();
+		for (combat.Attack a : p.getMovelist()) {
+			attacks.add(a);
+		}
+		setPlayer(p);
+		setMonster(m);
 		running = true;
 		JFrame jf = h.getFrame();
 		jf.setEnabled(false);
 		JDialog jd = new JDialog(jf);
 		jd.setSize(640, 480);
-		jd.setDefaultCloseOperation(JFrame.NORMAL);
-		Player tempPlayer = p;
-		JPanel test = new JPanel();
+		jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jd.setUndecorated(true);
+		JPanel combatButtons = new JPanel();
+		JPanel playerInfo = new JPanel();
+		JPanel enemyInfo = new JPanel();
+		playerInfo.setSize(640/2, 480/2);
+		enemyInfo.setSize(640/2, 480/2);
+		combatButtons.setSize(640/2, 480);
+		combatButtons.setLayout(new GridLayout(0, 1, 10, 10));
 		ArrayList<JButton> tmp = createButtons(getSpellNames(p));
 		for (JButton b : tmp) {
-			test.add(b);
+			combatButtons.add(b);
 		}
-		test.setLayout(new GridLayout(5, 5));
-		jd.getContentPane().add(test);
+		combatButtons.setLayout(new GridLayout(5, 5));
+		jd.getContentPane().add(combatButtons);
+		jd.getContentPane().add(playerInfo);
+		jd.getContentPane().add(enemyInfo);
 		jd.setVisible(true);
 		/*//////////////////////////////////////////////////////
 		//CONFIGURATION OF WINDOW ENDS
@@ -80,6 +90,21 @@ public class InitCombat {
 	public static boolean getRunning() {
 		return running;
 	}
+	
+	public static void setPlayer(Player player) {
+		p = player;
+	}
+	
+	public static Player getPlayer() {
+		return p;
+	}
+	public static void setMonster(combat.Monster monster) {
+		m = monster;
+	}
+	
+	public static Monster getMonster() {
+		return m;
+	}
 	/**
 	 * 
 	 */
@@ -89,19 +114,8 @@ public class InitCombat {
 	/*
 	 * Implement the main loop for drawing windows and fighting
 	 */
-	public void fightEvent(combat.Monster m, combat.Player p) {
+	public void fightEvent() {
 		
-	}
-	/*
-	 * UNFINISHED, NEEDS MORE RESEARCH
-	 */
-	public void actionPerformed(ActionEvent e, ArrayList<JButton> btns) {
-		Object o = e;
-		for (JButton button : btns) {
-			if (button.getName() == "ATTACK") {
-				
-			}
-		}
 	}
 	
 	/**
@@ -113,11 +127,13 @@ public class InitCombat {
 		int n = 0;
 		for (int i = 0; i < names.size(); i++) {
 			JButton b = new JButton(names.get(i));
+			b.addActionListener(new AttackButton());
 			b.setSize(64, 32);
 			b.setMnemonic(i);
 			buttons.add(b);
 			n = i;
 		}
+		
 		JButton ret = new JButton("RETURN");
 		ret.setSize(64, 32);
 		ret.setMaximumSize(new Dimension(64, 32));
@@ -147,4 +163,17 @@ public class InitCombat {
 		}
 		return attacks;
 	}
+}
+
+class AttackButton implements ActionListener {
+
+	@Override	
+	public void actionPerformed(ActionEvent e) {
+		Monster m = InitCombat.getMonster();
+		Player p = InitCombat.getPlayer();
+		Component c = (Component)e.getSource();
+		JButton j = (JButton)c;
+		p.DealDamage(m, p.getSpell(j.getMnemonic()));
+	}
+	
 }
