@@ -10,3 +10,9 @@
 /Monster.class
 /Player.class
 /Window.class
+/GuiMonster.class
+/GuiPlayer.class
+/InitCombat.class
+/MyAction.class
+/InitCombat$1.class
+/AttackButton.class

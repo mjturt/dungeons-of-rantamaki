@@ -129,7 +129,7 @@ public class Game extends Canvas implements Runnable {
 
     /* Here we generate level with the world.World */
 
-    
+
 
     /* Main method */
 
