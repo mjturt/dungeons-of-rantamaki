@@ -45,4 +45,3 @@ public class AttackIDList {
 		return new Attack(lineArray[0], AttackType.valueOf(lineArray[1]), Integer.parseInt(lineArray[2]));
 	}
 }
-

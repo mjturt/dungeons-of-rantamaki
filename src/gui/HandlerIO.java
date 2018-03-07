@@ -18,7 +18,7 @@ public class HandlerIO {
 	
 	public static void writeHandler(Handler h) throws IOException{
 		spath = Paths.get(".").toAbsolutePath().toString();//because java is an absolute bitch
-		spath = spath.substring(0, (spath.length()-1)) + "save/"; //when it comes down to relative file paths
+		spath = spath.substring(0, (spath.length()-1)) + "sav/"; //when it comes down to relative file paths
 		sname = "game.sav";
 		FileOutputStream outStream = new FileOutputStream(spath+sname);
 		new ObjectOutputStream(outStream).writeObject(h);
@@ -26,7 +26,7 @@ public class HandlerIO {
 	
 	public static Handler readHandler() throws IOException, ClassNotFoundException, FileNotFoundException{
 		spath = Paths.get(".").toAbsolutePath().toString();//because java is an absolute bitch
-		spath = spath.substring(0, (spath.length()-1)) + "save/"; //when it comes down to relative file paths
+		spath = spath.substring(0, (spath.length()-1)) + "sav/"; //when it comes down to relative file paths
 		sname = "game.sav";
 		FileInputStream inStream = new FileInputStream(spath + sname);
 		ObjectInputStream in = new ObjectInputStream(inStream);
