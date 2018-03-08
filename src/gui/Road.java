@@ -38,7 +38,7 @@ public class Road extends GameObject {
     /* Render method, all GameObjects must have their own render method */
 
     public void render(Graphics g) {
-        g.drawImage(roadimg, x, y, null);
+     //   g.drawImage(roadimg, x, y, null);
     }
 
     /* This is for collision detection */
