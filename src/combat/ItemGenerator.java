@@ -6,11 +6,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 /**
- * Simple class to contain a list of all known attacks to the game engine
- * 
- *
+ * For getting items from pool of all items available in-game.
  */
-
 public class ItemGenerator {
 	private ArrayList<Consumable> IDList;
 
@@ -29,16 +26,29 @@ public class ItemGenerator {
 		}
 		
 	}
-	//returns the attack by it's line number in a file
+	/**
+	 * getItem retrieves a Consumable from pool of all known Consumables defined in itemlist
+	 * 
+	 * @param i index to get
+	 * @return A new Consumable
+	 */
 	public Consumable getItem(int i) { 
 		return IDList.get(i);
 	}
-	
+	/**
+	 * Parses information from file
+	 * 
+	 * @param line To parse
+	 * @return Consumable
+	 */
 	private Consumable parseLine(String line) {
 		String[] lineArray = line.split(",");
 		return new Consumable(lineArray[0],Integer.parseInt(lineArray[1]), Integer.parseInt(lineArray[2]), Integer.parseInt(lineArray[3]));
 	}
-	
+	/**
+	 * Returns the size of the item pool.
+	 * @return size of item pool
+	 */
 	public int getListSize() {
 		return this.IDList.size();
 	}

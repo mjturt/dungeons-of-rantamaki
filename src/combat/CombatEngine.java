@@ -4,6 +4,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class for combat simulation in the console environment. Has multiple faults, is unmaintained and unsupported.
+ *
+ */
 public class CombatEngine {
 
 	public static void combat(Player p, Monster m) {

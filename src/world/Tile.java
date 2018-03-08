@@ -3,19 +3,18 @@ package world;
 import java.util.Random;
 
 /**
- * passable indicates if a Person object can reside in this Tile Maasto is used
- * to indicate the type of terrain(GUI) onkoVihollista if a Monster object is
- * present in this Tile
+ * Class for creating Tiles to the world.
  * 
- * TODO: EVERYTHING
- * 
+ *
  */
 public class Tile {
 
 	private boolean passable;
 	private Maasto maasto;
 	private boolean monster;
-
+	/**
+	 * Creates a new Tile() with default values.
+	 */
 	public Tile() {
 
 		this.passable = false;
@@ -62,6 +61,9 @@ public class Tile {
 		}
 	}
 
+	/**
+	 * Obsolete due to changes in development
+	 */
 	enum Maasto {
 		MAASTO1, MAASTO2, MAASTO3;
 

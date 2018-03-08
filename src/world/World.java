@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import combat.Player;
 /**
- * Simple world class
- * 
- * TODO: cleanup, refine
+ * Simple world class containing an array of Tiles making up the world
  */
 public class World {
 	private int width;
@@ -18,7 +16,13 @@ public class World {
 	private int goalY;
 	private int startX;
 	private int startY;
-
+	/**
+	 * Due to restrictions in world creation (see world.World.createWorld()), the world should always be of odd width and height.
+	 * Creates a new World, with given parameters and generates start and goal Tiles, also spawns monsters to Tiles based on world.World.spawnMonsters() (frequency can be adjusted).
+	 * Last creates some opening to the maze to make the world feel less cramped. 
+	 * @param width World width
+	 * @param height World height
+	 */
 	public World(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -32,7 +36,7 @@ public class World {
 			}
 		}
 
-		this.populateWorld();
+		this.createWorld();
 		this.generateStart();
 		this.generateGoal();
 		this.generateOpenings();
@@ -53,9 +57,9 @@ public class World {
 	}
 
 	/**
-	 * public method for populating the world array
+	 * Creates a world array by calling world.World.recursiveCreateWorld
 	 */
-	private void populateWorld() {
+	private void createWorld() {
 		Random r = new Random();
 		int row = r.nextInt(this.height);
 		while (row % 2 == 0) {
@@ -67,15 +71,18 @@ public class World {
 			column = r.nextInt(this.width);
 		}
 		this.world[row][column].setPassable(true);
-		recursivePopulateWorld(row, column);
+		recursiveCreateWorld(row, column);
 	}
 
 	
 /**
- * @param r = row
- * @param c = column
+ * Uses a simple recursion to create a mathematically sound maze (the generated maze is always solvable).
+ * 
+ * 
+ * @param r = row Starting row
+ * @param c = column Starting column
  */
-	private void recursivePopulateWorld(int r, int c) {
+	private void recursiveCreateWorld(int r, int c) {
 		Integer[] rand = randDirections();
 
 		for (int i = 0; i < rand.length; i++) {
@@ -88,7 +95,7 @@ public class World {
 				if (!this.world[r - 2][c].getPassable()) {
 					this.world[r - 2][c].setPassable(true);
 					this.world[r - 1][c].setPassable(true);
-					recursivePopulateWorld(r - 2, c);
+					recursiveCreateWorld(r - 2, c);
 				}
 				break;
 			case 2:
@@ -98,7 +105,7 @@ public class World {
 				if (!this.world[r][c + 2].getPassable()) {
 					this.world[r][c + 2].setPassable(true);
 					this.world[r][c + 1].setPassable(true);
-					recursivePopulateWorld(r, c + 2);
+					recursiveCreateWorld(r, c + 2);
 				}
 				break;
 			case 3:
@@ -108,7 +115,7 @@ public class World {
 				if (!this.world[r + 2][c].getPassable()) {
 					this.world[r + 2][c].setPassable(true);
 					this.world[r + 1][c].setPassable(true);
-					recursivePopulateWorld(r + 2, c);
+					recursiveCreateWorld(r + 2, c);
 				}
 				break;
 			case 4:
@@ -118,7 +125,7 @@ public class World {
 				if (!this.world[r][c - 2].getPassable()) {
 					this.world[r][c - 2].setPassable(true);
 					this.world[r][c - 1].setPassable(true);
-					recursivePopulateWorld(r, c - 2);
+					recursiveCreateWorld(r, c - 2);
 				}
 				break;
 			}
@@ -126,6 +133,7 @@ public class World {
 	}
 
 	/**
+	 * Random direction generator for recursiveCreateWorld
 	 * @return list of random directions (1-4), used by recursivePopulateWorld
 	 */
 	private Integer[] randDirections() {
@@ -137,8 +145,10 @@ public class World {
 
 		return directions.toArray(new Integer[4]);
 	}
-	/*
-	 * test method, remove from final
+	/**
+	 * ASCII render method for playing the game in command line environment.
+	 * 
+	 * @param p Player object for referencing relative position.
 	 */
 	public void render(Player p) {
 		int left = 0;
@@ -191,7 +201,9 @@ public class World {
 			System.out.println();
 		}
 	}
-	
+	/**
+	 * Prints the whole World array. For testing purposes only.
+	 */
 	public void printWorld() {
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
@@ -204,7 +216,10 @@ public class World {
 			System.out.println();
 		}
 	}
-	
+	/**
+	 * Generates a sane starting position, so the player won't spawn inside a wall or outside the array.
+	 * 
+	 */
 	public void generateStart () {
 		Random r = new Random();
 		this.startY = r.nextInt(this.height);
@@ -221,7 +236,9 @@ public class World {
 		start[1] = this.startX;
 		return start;
 	}
-	
+	/**
+	 * Generates a goal to a random corner of the map
+	 */
 	public void generateGoal () {
 		Random r = new Random();
 		int n = r.nextInt(4);
@@ -247,8 +264,10 @@ public class World {
 		goal[1] = this.goalX;
 		return goal;
 	}
-	
-	public void spawnMonsters() {
+	/**
+	 * Sets world.Tile.monster to true randomly.
+	 */
+	private void spawnMonsters() {
 		Random r = new Random();
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
@@ -258,10 +277,10 @@ public class World {
 			}
 		}
 	}
-	/*
-	 * A horrible way to generate opening to the maze, needs cleanup. 
+	/**
+	 * A messy way for creating opening to the maze
 	 */
-	public void generateOpenings() {
+	private void generateOpenings() {
 		Random r = new Random();
 		for (int i = 1; i < this.height - 1; i++) {
 			for (int j = 1; j < this.width - 1; j++) {

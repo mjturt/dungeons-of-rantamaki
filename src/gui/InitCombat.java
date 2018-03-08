@@ -29,6 +29,8 @@ public class InitCombat implements ActionListener {
 	private JTextArea enemyText = new JTextArea();
 	private ArrayList<Consumable> loot;
 	/**
+	 * Initiates a new combat event
+	 * 
 	 * @param p Player fighting
 	 * @param m Monster fighting
 	 * @param jf Games JFrame object to be passed to create new dialogs and other Swing objects

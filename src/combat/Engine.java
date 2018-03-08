@@ -1,14 +1,12 @@
-/*
- * TODO: List of monsters, list of available spells and attacks, method for recreating slain monsters and also scaling them according to player level
- */
-
 package combat;
 
 import world.World;
 import java.util.Scanner;
 import java.util.NoSuchElementException;
 import java.util.Random;
-
+/**
+ * Engine for playing in text-only environment.
+ */
 public class Engine {
 
 	public static void main (String[] args) {

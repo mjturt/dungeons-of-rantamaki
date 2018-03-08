@@ -19,10 +19,20 @@ public abstract class GameObject {
         this.y = y;
         this.id = id;
     }
-
+    /**
+     * Updates GameObjects. Including but not limited to: position, velocity, rendering, Enum.id ...
+     */
     public abstract void tick();
+    /**
+     * Calls the GameObject to repaint itself. 
+     * @param g Graphics (usually BufferedImage) that contains the graphics used to render the object.
+     */
     public abstract void render(Graphics g);
-
+    /**
+     * Used for collision detection
+     * 
+     * @return new Rectangle() that corresponds to the object dimensions
+     */
     public abstract Rectangle getBounds(); // for collision detection
 
     /* Just getters and setters */

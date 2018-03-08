@@ -1,11 +1,14 @@
 package combat;
-
+/**
+ * Consumable class is to represent items that the player can obtain in the world. 
+ * For now is only used for regenerative items. 
+ */
 public class Consumable {
 
-	private String consumableName;
-	private int restoreHp;
-	private int restoreMana;
-	private int uses;
+	private String consumableName; //name
+	private int restoreHp; //how much the item restores HP
+	private int restoreMana; //how much the item restore mana
+	private int uses; //how many times it can be used before its consumed/destroyed
 
 	public Consumable(String name, int hp, int mana, int uses) {
 		this.consumableName = name;
