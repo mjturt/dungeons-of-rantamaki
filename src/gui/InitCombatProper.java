@@ -8,8 +8,7 @@ import java.util.Random;
 import javax.swing.*;
 import combat.*;
 
-@SuppressWarnings("serial")
-public class InitCombatProper extends JDialog implements ActionListener {
+public class InitCombatProper implements ActionListener {
 	private Monster m;
 	private Player p;
 	private JDialog jd;
