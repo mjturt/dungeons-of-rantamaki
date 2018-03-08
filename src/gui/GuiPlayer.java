@@ -9,7 +9,9 @@ import combat.Player;
 import combat.*;
 
 /* Player class, must be joined with combat.Player */
-
+/**
+ * Class for GUI aspects of the player.
+ */
 public class GuiPlayer extends GameObject {
 	
 	Handler handler;
@@ -44,7 +46,9 @@ public class GuiPlayer extends GameObject {
 	}
 
 	/* Players own ticking and rendering methods */
-
+	/**
+	 * Updates the player velocity information based on key events, and calls updatePos() to check for collision and finally updating the player position.
+	 */
 	public void tick() {
 
 		/* Moving coordinates based on velocity */
@@ -78,7 +82,9 @@ public class GuiPlayer extends GameObject {
 		updatePos(tempY, tempX);
 	}
 
-
+	/**
+	 * Draws picture of the player depending on direction of its movement.
+	 */
 	public void render(Graphics g) {
 
         /* Player character direction */
@@ -94,17 +100,21 @@ public class GuiPlayer extends GameObject {
         }
 
 	}
-
+	/**
+	 * Returns Rectangle of player dimension, used for collision checking
+	 */
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 16, 16);
 	}
 	/**
-	 * @param newY == the position the player will be next rendered to
-	 * @param newX == the position the player will be next rendered to
 	 * 
-	 * Method for updating player position based on velocity. Checks if the player collides with other gameobject
+	 * Method for updating player position based on velocity. Checks if the player collides with other GameObject
 	 * than itself, and then updates its position based on the result of collision. Also checks if a monster is present
 	 * in a block and initiates a combat sequence if necessary.
+	 * 
+	 * @param newY the Y-axis position the player will be next rendered to
+	 * @param newX the X-axis position the player will be next rendered to
+	 * 
 	 */
 	public void updatePos(int newY, int newX) {
 		Random r = new Random();
@@ -115,7 +125,7 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
-				InitCombat combat = new InitCombat(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
+				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
 				combat.createMain();
 				while (combat.isRunning()) {
 					try {

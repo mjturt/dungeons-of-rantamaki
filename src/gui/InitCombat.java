@@ -286,7 +286,7 @@ public class InitCombat implements ActionListener {
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
 		JPanel selectConsumable = new JPanel();
-		ArrayList<JButton> buttons = createButtonsLoot(getConsumableNames(this.loot));
+		ArrayList<JButton> buttons = createButtonsLoot(getLootNames());
 		for (int i = 0; i < buttons.size(); i++) {
 			System.out.println("creating...");
 			selectConsumable.add(buttons.get(i));
@@ -325,6 +325,11 @@ public class InitCombat implements ActionListener {
 	 * Helper methods for parsing names for different player or loot related objects 
 	 * STARTS HERE
 	 */
+	
+	/**
+	 * Auto-generates ArrayList of player spell names, used in JButton auto-generation
+	 * @return ArrayList of spell names
+	 */
 	private ArrayList<String> getSpellNames() {
 		ArrayList<String> spellnames = new ArrayList<>();
 		for (combat.Attack a : this.p.getSpellbook()) {
@@ -332,15 +337,20 @@ public class InitCombat implements ActionListener {
 		}
 		return spellnames;
 	}
-
-	private ArrayList<String> getConsumableNames(ArrayList<Consumable> list) {
+	/**
+	 * @return list of Consumable (loot rewards) names, used in JButton auto-generation
+	 */
+	private ArrayList<String> getLootNames() {
 		ArrayList<String> itemNames = new ArrayList<>();
 		for (Consumable c : this.loot) {
 			itemNames.add(c.getConsumableName());
 		}
 		return itemNames;
 	}
-
+	/**
+	 * Auto-generates ArrayList of player attack names, used in JButton auto-generation
+	 * @return ArrayList of Attack names
+	 */
 	private ArrayList<String> getAttackNames() {
 		ArrayList<String> attacks = new ArrayList<>();
 		for (combat.Attack a : this.p.getMovelist()) {
@@ -348,7 +358,10 @@ public class InitCombat implements ActionListener {
 		}
 		return attacks;
 	}
-
+	/**
+	 * Auto-generates ArrayList that contains inventory items names, used in JButton auto-generation
+	 * @return ArrayList of consumable names
+	 */
 	private ArrayList<String> getInventoryItemNames() {
 		ArrayList<String> consumables = new ArrayList<>();
 		for (Consumable c : this.p.getInventory()) {
