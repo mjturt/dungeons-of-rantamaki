@@ -254,12 +254,12 @@ public class World {
 	 */
 	public void generateOpenings() {
 		Random r = new Random();
-		for (int i = 0; i < this.height; i++) {
-			for (int j = 0; j < this.width; j++) {
+		for (int i = 1; i < this.height - 1; i++) {
+			for (int j = 1; j < this.width - 1; j++) {
 				double rand = r.nextDouble();
 				if (rand > 0.96) {
 					int n = r.nextInt(5);
-					if (n + i < this.height - 1 && n + j < this.width - 1) {
+					if (n + i < this.height  - 1 && n + j < this.width - 1) {
 						for (int k = i; k < i + n; k++) {
 							for (int l = j; l < j + n; l++) {
 								this.world[k][l].setPassable(true);

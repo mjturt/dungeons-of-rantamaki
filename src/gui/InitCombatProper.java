@@ -15,8 +15,8 @@ public class InitCombatProper extends JDialog implements ActionListener {
 	private JDialog jd;
 	private boolean running;
 	private JFrame jf;
-	private JTextField playerText = new JTextField();
-	private JTextField enemyText = new JTextField();
+	private JTextArea playerText = new JTextArea();
+	private JTextArea enemyText = new JTextArea();
 	private ArrayList<Consumable> loot;
 
 	public InitCombatProper(Player p, Monster m, JFrame jf) {
@@ -32,6 +32,7 @@ public class InitCombatProper extends JDialog implements ActionListener {
 
 	public void createMain() {
 		this.jd.setSize(640, 480);
+		this.jd.setTitle("COMBAT");
 		JButton cons = new JButton("CONSUMABLES");
 		cons.setActionCommand("CONSUMABLES");
 		cons.addActionListener(this);
@@ -45,8 +46,8 @@ public class InitCombatProper extends JDialog implements ActionListener {
 		information.setSize(128, 64);
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
-		this.playerText.setText(this.p.getName() + "\n" + this.p.getHP() + "/" + this.p.getMaxHP());
-		this.enemyText.setText(this.m.getName() + "\n" + this.m.getHP() + "/" + this.m.getMaxHP());
+		this.playerText.setText(this.p.getName() +" Lvl: " +  this.p.getLevel() + "\n HP: " + this.p.getHP() + "/" + this.p.getMaxHP() + "\n Mana: " + this.p.getMana() + "/" + this.p.getMaxMana());
+		this.enemyText.setText(this.m.getName() +" Lvl: " +  this.m.getLevel() + "\n HP:" + this.m.getHP() + "/" + this.m.getMaxHP()+ "\n Mana: " + this.m.getMana() + "/" + this.m.getMaxMana());
 		selectAction.add(cons);
 		selectAction.add(att);
 		information.add(this.playerText);
@@ -237,6 +238,7 @@ public class InitCombatProper extends JDialog implements ActionListener {
 	}
 
 	public void createLootMenu() {
+		this.jd.setTitle("LOOT");
 		if (this.loot.size() == 0) {
 			System.out.println("no loot");
 			kill();
@@ -358,19 +360,19 @@ public class InitCombatProper extends JDialog implements ActionListener {
 		this.jf = jf;
 	}
 
-	public JTextField getPlayerText() {
+	public JTextArea getPlayerText() {
 		return playerText;
 	}
 
-	public void setPlayerText(JTextField playerText) {
+	public void setPlayerText(JTextArea playerText) {
 		this.playerText = playerText;
 	}
 
-	public JTextField getEnemyText() {
+	public JTextArea getEnemyText() {
 		return enemyText;
 	}
 
-	public void setEnemyText(JTextField enemyText) {
+	public void setEnemyText(JTextArea enemyText) {
 		this.enemyText = enemyText;
 	}
 
@@ -443,10 +445,14 @@ class Loot implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("DISCARD ALL".equals(e.getActionCommand())) {
-			this.ic.stillAlive();
+			this.ic.setRunning(false);
+			this.ic.getJf().setEnabled(true);
+			this.ic.getJd().dispatchEvent(new WindowEvent(this.ic.getJd(), WindowEvent.WINDOW_CLOSING));
 		}
 		ArrayList<Consumable> temp = this.ic.getLoot();
 		if (temp.size() == 0) {
+			this.ic.setRunning(false);
+			this.ic.getJf().setEnabled(true);
 			this.ic.getJd().dispatchEvent(new WindowEvent(this.ic.getJd(), WindowEvent.WINDOW_CLOSING));
 		}
 		for (int i = 0; i < temp.size(); i++) {

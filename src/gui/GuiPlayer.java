@@ -4,9 +4,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
-import javax.swing.JDialog;
-
 import combat.MonsterGenerator;
 import combat.Player;
 import combat.*;
@@ -118,7 +115,7 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
-				InitCombatProper combat = new InitCombatProper(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(p.getLevel() + 3)), this.handler.getFrame());
+				InitCombatProper combat = new InitCombatProper(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
 				combat.createMain();
 				while (combat.isRunning()) {
 					try {
