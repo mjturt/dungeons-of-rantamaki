@@ -84,17 +84,14 @@ public class InitCombat implements ActionListener {
 	 * Auto-generates the usable consumables menu and its buttons based on the players inventory. Invoked by action listener
 	 */
 	private void createConsumablesMenu() {
-		System.out.println("started creating consumables");
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
 		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getInventoryItemNames());
 		for (int i = 0; i < buttons.size(); i++) {
-			System.out.println("creating...");
+			
 			selectConsumable.add(buttons.get(i));
-			System.out.println("Added: " + buttons.get(i).getName());
 		}
-		System.out.println("finished adding buttons");
 		JPanel information = new JPanel();
 		information.add(this.playerText);
 		information.add(this.enemyText);
@@ -140,17 +137,13 @@ public class InitCombat implements ActionListener {
 	 * Auto-generates buttons for physical attacks, invoked by ActionListener
 	 */
 	private void createPhysicalsMenu() {
-		System.out.println("started creating physical attacks");
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
 		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getAttackNames());
 		for (int i = 0; i < buttons.size(); i++) {
-			System.out.println("creating...");
 			selectConsumable.add(buttons.get(i));
-			System.out.println("Added: " + buttons.get(i).getName());
 		}
-		System.out.println("finished adding buttons");
 		JPanel information = new JPanel();
 		information.add(this.playerText);
 		information.add(this.enemyText);
@@ -167,17 +160,13 @@ public class InitCombat implements ActionListener {
 	 * Auto-generates buttons for magical attacks, invoked by ActionListener
 	 */
 	private void createMagicalsMenu() {
-		System.out.println("started creating magical attacks!");
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
 		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getSpellNames());
 		for (int i = 0; i < buttons.size(); i++) {
-			System.out.println("creating...");
 			selectConsumable.add(buttons.get(i));
-			System.out.println("Added: " + buttons.get(i).getName());
 		}
-		System.out.println("finished adding buttons");
 		JPanel information = new JPanel();
 		information.add(this.playerText);
 		information.add(this.enemyText);
@@ -205,7 +194,6 @@ public class InitCombat implements ActionListener {
 			b.setActionCommand(names.get(i));
 			b.setSize(64, 32);
 			b.setMnemonic(i);
-			System.out.println(b.getActionCommand());
 			buttons.add(b);
 			n = i;
 		}
@@ -234,7 +222,6 @@ public class InitCombat implements ActionListener {
 			b.setActionCommand(names.get(i));
 			b.setSize(64, 32);
 			b.setMnemonic(i);
-			System.out.println(b.getActionCommand());
 			buttons.add(b);
 			n = i;
 		}
@@ -279,20 +266,15 @@ public class InitCombat implements ActionListener {
 	public void createLootMenu() {
 		this.jd.setTitle("LOOT");
 		if (this.loot.size() == 0) {
-			System.out.println("no loot");
 			kill();
 		}
-		System.out.println("started creating loot");
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
 		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtonsLoot(getLootNames());
 		for (int i = 0; i < buttons.size(); i++) {
-			System.out.println("creating...");
 			selectConsumable.add(buttons.get(i));
-			System.out.println("Added: " + buttons.get(i).getName());
 		}
-		System.out.println("finished adding buttons");
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
 		this.jd.getContentPane().add(selectConsumable);
@@ -312,7 +294,6 @@ public class InitCombat implements ActionListener {
 		int maxLoot = m.getLevel() / 10;
 		if (maxLoot < 1) {
 			maxLoot = r.nextInt(2);
-			System.out.println("MaxLoot: " + maxLoot);
 		}
 		if (maxLoot > 0) {
 			for (int i = 0; i < maxLoot; i++) {
@@ -461,7 +442,6 @@ public class InitCombat implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("ActionCommand: " + e.getActionCommand());
 		if ("CONSUMABLES".equals(e.getActionCommand())) {
 			createConsumablesMenu();
 		} else if ("ATTACK".equals(e.getActionCommand())) {
@@ -548,7 +528,6 @@ class Loot implements ActionListener {
 			if (e.getActionCommand().equals(temp.get(i).getConsumableName())) {
 				this.ic.getP().addItem(temp.get(i));
 				this.ic.getLoot().remove(temp.get(i));
-				System.out.println("After removing item from loot player inventory contains: ");
 				this.ic.getP().listInventory();
 				this.ic.getJd().getContentPane().removeAll();
 				if (temp.size() == 0) {
