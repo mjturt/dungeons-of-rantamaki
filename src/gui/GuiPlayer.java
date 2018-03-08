@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
+import javax.swing.JDialog;
+
 import combat.MonsterGenerator;
 import combat.Player;
 import combat.*;
@@ -37,6 +40,7 @@ public class GuiPlayer extends GameObject {
 		playerimgR = loader.loadImage("/playerRight.png");
 		playerimgB = loader.loadImage("/playerBack.png");
 		p = new Player(25, "Kaitsu", 10, 10, 20);
+		this.p.addItem(new Consumable("Testi", 1, 1, 1));
 		AttackIDList aid = new AttackIDList();
 		SpellIDList sid = new SpellIDList();
 		p.addAttack(aid.getAttack(r.nextInt(1)));
@@ -115,13 +119,18 @@ public class GuiPlayer extends GameObject {
 				return;
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
-				InitCombat.main(this.handler, handler.objects.get(i), this.mg.getMonster(r.nextInt(this.mg.getMonsterListSize()), p.getLevel() + 3), this.p);
-				handler.releaseKeys();
-				try {
-					Thread.sleep(500);
-				} catch (Exception e) {
-					e.getStackTrace();
+				InitCombatProper combat = new InitCombatProper(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(p.getLevel() + 3)), this.handler.getFrame());
+				combat.createMain();
+				while (combat.isRunning()) {
+					try {
+						Thread.sleep(500);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 				}
+				handler.releaseKeys();
+				handler.removeObject(handler.objects.get(i));
 			}
 		}
 		y = tempY;
