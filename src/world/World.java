@@ -224,11 +224,20 @@ public class World {
 	
 	public void generateGoal () {
 		Random r = new Random();
-		this.goalY = r.nextInt(this.height);
-		this.goalX = r.nextInt(this.width);
-		while (!this.getTile(this.goalY, this.goalX).getPassable() && this.startX == this.goalX && this.startY == this.goalY) {
-			this.goalY = r.nextInt(this.height);
-			this.goalX = r.nextInt(this.width);
+		int n = r.nextInt(4);
+		switch (n) {
+		case 0: 
+			this.goalX = 1;
+			this.goalY = 1;
+		case 1:
+			this.goalX = this.width - 1;
+			this.goalY = this.height - 1;
+		case 2:
+			this.goalX = 1;
+			this.goalY = this.height -1;
+		case 3:
+			this.goalX = this.width - 1;
+			this.goalY = 1;
 		}
 	}
 	
