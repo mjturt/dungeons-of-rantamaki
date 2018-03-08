@@ -1,15 +1,10 @@
 package gui;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import javax.swing.JFrame;
-import world.World;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.nio.file.Paths;
 
+import javax.swing.JFrame;
 
 /* Handler for all GameObjects so that Game class doesn't have to tick and render them separetly
  * All objects must be added through this class, so that it can loop through list of all objects
@@ -124,50 +119,5 @@ public class Handler implements java.io.Serializable  {
     /**
      * Generates the level based on a recursive back-track maze generator in combat.World.
      */
-    public void loadLevel() {
 
-        World world = new World(41, 41);
-        int w = world.getHeight();
-        int h = world.getWidth();
-        int[] start = world.getStart();
-        int[] goal = world.getGoal();
-        
-        
-        //THIS IS OBSOLETE!
-        /* First background texture */
-        /*
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                if (world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
-                    addObject(new Road(x*64, y*64, ID.Road));
-                }
-            }
-        }
-        */
-
-        /* Then all other objects */
-        /*
-         * Creates new objects depending on the state of the Tile object in the World array.
-         */
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                if (!world.getTile(y, x).getPassable()) {
-                    addObject(new Block(x*64, y*64, ID.Block));
-                }
-                if (world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
-                    addObject(new Road(x*64, y*64, ID.Road));
-                }
-                if(start[0] == y && start[1] == x) {
-                    addObject(new GuiPlayer(x*64, y*64, ID.Player, this));
-                }
-                if(goal[0] == y && goal[1] == x) {
-                    addObject(new Goal(x*64, y*64, ID.Goal));
-                }
-                if (world.getTile(y, x).hasMonster()) {
-                	addObject(new GuiMonster(x*64, y*64, ID.Enemy));
-                }
-               
-            }
-        }
-    }
 }

@@ -16,15 +16,16 @@ public class Block extends GameObject {
 	private BufferedImage parklotimg = null;
     private Random rand = new Random(); 
     private int r;
+    private SpriteSheet ss;
 
-    public Block(int x, int y, ID id) {
+    public Block(int x, int y, ID id, SpriteSheet ss) {
         super(x, y, id);
-		ImageLoader loader = new ImageLoader();
-		bushimg = loader.loadImage("/bushes.png");
-		bushtreeimg = loader.loadImage("/bushesAndTree.png");
-		houseimg = loader.loadImage("/house.png");
-		house2img = loader.loadImage("/house2.png");
-		parklotimg = loader.loadImage("/parklot.png");
+        this.ss = ss;
+		bushimg = ss.grabImage(1, 1, 64, 64);
+		bushtreeimg = ss.grabImage(2, 1, 64, 64);
+		houseimg = ss.grabImage(3, 1, 64, 64);
+		house2img = ss.grabImage(4, 1, 64, 64);
+		parklotimg = ss.grabImage(5, 1, 64, 64);
         r = rand.nextInt(20); 
     }
 

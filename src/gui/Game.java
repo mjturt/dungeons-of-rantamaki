@@ -6,9 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import world.World;
-
 /* 
  * gui packages main class Game
  *
@@ -28,16 +28,26 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private Handler handler;
-    GameCamera cam;
-    
+    private GameCamera cam;
+
+    private SpriteSheet ss;
+    private BufferedImage ssImg = null;
+
+    private BufferedImage road = null;
 
     public Game(int x, int y) {
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
         handler = new Handler(w.getFrame());
-        handler.loadLevel();
+
         this.addKeyListener(new KeyInput(handler));
+        ImageLoader loader = new ImageLoader();
+        ssImg = loader.loadImage("/sheet.png");
+        ss = new SpriteSheet(ssImg);
+
+        road = ss.grabImage(1, 2, 64, 64);
+        loadLevel();
     }
 
     private void start(){
@@ -96,7 +106,7 @@ public class Game extends Canvas implements Runnable {
         handler.tick();
         this.requestFocus();
         for (int i=0;i<handler.objects.size();i++) {
-        	if (handler.objects.get(i).getClass() == GuiPlayer.class) {
+        	if (handler.objects.get(i).getId() == ID.Player) {
         		cam.tick(handler.objects.get(i));
         	}
         }
@@ -119,17 +129,62 @@ public class Game extends Canvas implements Runnable {
         
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.white);
+
         g2d.translate(-cam.getX(), -cam.getY());
+
+        for (int x = 0; x < 41 * 64; x += 64) {
+            for (int y = 0; y < 41 * 64; y+=64) {
+                g.drawImage(road, x, y, null);
+            }
+        }
         handler.render(g);
+
         //////////////////////////////////////
         g2d.translate(cam.getX(), cam.getY());
+
         g.dispose();
         bs.show();
     }
 
     /* Here we generate level with the world.World */
 
+    public void loadLevel() {
 
+        World world = new World(41, 41);
+        int w = world.getHeight();
+        int h = world.getWidth();
+        int[] start = world.getStart();
+        int[] goal = world.getGoal();
+        
+        
+        /* First background texture */
+
+
+
+        /* Then all other objects */
+        /*
+         * Creates new objects depending on the state of the Tile object in the World array.
+         */
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                if (!world.getTile(y, x).getPassable()) {
+                    handler.addObject(new Block(x*64, y*64, ID.Block, ss));
+                }
+                if (world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
+                    handler.addObject(new Road(x*64, y*64, ID.Road));
+                }
+                if(start[0] == y && start[1] == x) {
+                    handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler));
+                }
+                if(goal[0] == y && goal[1] == x) {
+                    handler.addObject(new Goal(x*64, y*64, ID.Goal));
+                }
+                if (world.getTile(y, x).hasMonster()) {
+                	handler.addObject(new GuiMonster(x*64, y*64, ID.Enemy));
+                }
+            }
+        }
+    }
 
     /* Main method */
 
