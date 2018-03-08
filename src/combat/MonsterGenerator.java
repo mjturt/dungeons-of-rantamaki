@@ -1,8 +1,8 @@
 package combat;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +11,8 @@ public class MonsterGenerator {
 	
 	public MonsterGenerator() {
 		monsterList = new ArrayList<Monster>();
-		String path = Paths.get(".").toAbsolutePath().toString(); 
-		path = path.substring(0, path.length()-1) + "src/combat/";
-		Path mPath = Paths.get(path, "monsterlist");
+		//Path mPath = Paths.get(System.getProperty("user.dir")+"/src/combat/monsterlist");
+		Path mPath = FileSystems.getDefault().getPath("./src/combat/monsterlist");
 		try {
 			List<String> monsters = Files.readAllLines(mPath); //monsterlist is read line by line as String as utf-8 and autoclosed
 			int i=-1;

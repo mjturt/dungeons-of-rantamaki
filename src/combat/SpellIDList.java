@@ -2,9 +2,9 @@ package combat;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 /*
  * Simple class to contain a list of all known attacks to the game engine
  * 
@@ -17,10 +17,8 @@ public class SpellIDList {
 	public SpellIDList() {
 		IDList = new ArrayList<Attack>();
 		try {
-			String spath = Paths.get(".").toAbsolutePath().toString();
-			spath = spath.substring(0, (spath.length()-1)) + "src/combat/";
-			Path aPath = Paths.get(spath, "spellist");
-			List<String> spells = Files.readAllLines(aPath); //spellist is read line by line as String as utf-8 and autoclosed
+			Path sPath = FileSystems.getDefault().getPath("./src/combat/spelllist");
+			List<String> spells = Files.readAllLines(sPath); //spellist is read line by line as String as utf-8 and autoclosed
 			for(String s: spells) {
 				IDList.add(parseLine(s));
 			}
