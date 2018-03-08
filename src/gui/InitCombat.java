@@ -7,18 +7,33 @@ import java.util.Random;
 
 import javax.swing.*;
 import combat.*;
-
-public class InitCombatProper implements ActionListener {
+/**
+ * Class for initiating a new combat window
+ */
+public class InitCombat implements ActionListener {
 	private Monster m;
 	private Player p;
 	private JDialog jd;
+	/**
+	 * True, if InitCombatProper is still running.
+	 */
 	private boolean running;
 	private JFrame jf;
+	/**
+	 * Displays player related information.
+	 */
 	private JTextArea playerText = new JTextArea();
+	/**
+	 * Displays enemy related information.
+	 */
 	private JTextArea enemyText = new JTextArea();
 	private ArrayList<Consumable> loot;
-
-	public InitCombatProper(Player p, Monster m, JFrame jf) {
+	/**
+	 * @param p Player fighting
+	 * @param m Monster fighting
+	 * @param jf Games JFrame object to be passed to create new dialogs and other Swing objects
+	 */
+	public InitCombat(Player p, Monster m, JFrame jf) {
 		this.running = true;
 		this.jf = jf;
 		jf.setEnabled(false);
@@ -28,7 +43,9 @@ public class InitCombatProper implements ActionListener {
 		this.jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.loot = generateLoot();
 	}
-
+	/**
+	 * Creates the main combat window with basic selections. Adds swing elements. Invoked by action listener
+	 */
 	public void createMain() {
 		this.jd.setSize(640, 480);
 		this.jd.setTitle("COMBAT");
@@ -63,7 +80,9 @@ public class InitCombatProper implements ActionListener {
 		this.jd.revalidate();
 		this.jd.repaint();
 	}
-
+	/**
+	 * Auto-generates the usable consumables menu and its buttons based on the players inventory. Invoked by action listener
+	 */
 	private void createConsumablesMenu() {
 		System.out.println("started creating consumables");
 		this.jd.getContentPane().removeAll();
@@ -88,7 +107,9 @@ public class InitCombatProper implements ActionListener {
 		this.jd.repaint();
 		this.jd.setVisible(true);
 	}
-
+	/**
+	 * Creates the attack type selection menu, invoked by ActionListener
+	 */
 	private void createAttacksMenu() {
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
@@ -115,7 +136,9 @@ public class InitCombatProper implements ActionListener {
 		this.jd.repaint();
 		this.jd.setVisible(true);
 	}
-
+	/**
+	 * Auto-generates buttons for physical attacks, invoked by ActionListener
+	 */
 	private void createPhysicalsMenu() {
 		System.out.println("started creating physical attacks");
 		this.jd.getContentPane().removeAll();
@@ -140,7 +163,9 @@ public class InitCombatProper implements ActionListener {
 		this.jd.repaint();
 		this.jd.setVisible(true);
 	}
-
+	/**
+	 * Auto-generates buttons for magical attacks, invoked by ActionListener
+	 */
 	private void createMagicalsMenu() {
 		System.out.println("started creating magical attacks!");
 		this.jd.getContentPane().removeAll();
@@ -165,7 +190,11 @@ public class InitCombatProper implements ActionListener {
 		this.jd.repaint();
 		this.jd.setVisible(true);
 	}
-
+	/**
+	 * Auto-generates an ArrayList<JButton> to be used in other menu creators
+	 * @param names ArrayList<String> of names to be used for button titles and ActionEvent.ActionCommand
+	 * @return ArrayList<JButton> for generating menu objects.
+	 */
 	private ArrayList<JButton> createButtons(ArrayList<String> names) {
 		ArrayList<JButton> buttons = new ArrayList<>();
 		int n = 0;
@@ -190,7 +219,11 @@ public class InitCombatProper implements ActionListener {
 		buttons.add(ret);
 		return buttons;
 	}
-
+	/**
+	 * Separate button generation method for loot window, sets a different ActionListener to the buttons, which is used only in looting situations to avoid unwanted side-effects.
+	 * @param names ArrayList<String> of names to be used for button titles and ActionEvent.ActionCommand
+	 * @return ArrayList<JButton> of JButtons for generating menu objects.
+	 */
 	private ArrayList<JButton> createButtonsLoot(ArrayList<String> names) {
 		ArrayList<JButton> buttons = new ArrayList<>();
 		int n = 0;
@@ -215,7 +248,9 @@ public class InitCombatProper implements ActionListener {
 		buttons.add(ret);
 		return buttons;
 	}
-
+	/**
+	 * a void method invoked after every attack or consumable use, to check if the player or the monster has been killed, and act according to the situation.
+	 */
 	public void stillAlive() {
 		if (this.p.getHP() > 0 && this.m.getHP() > 0) {
 			monsterRandomAttack();
@@ -229,13 +264,18 @@ public class InitCombatProper implements ActionListener {
 			kill();
 		}
 	}
-
+	
+	/**
+	 * kills the window and sets its running variable to false, to notify the main thread that combat has ended.
+	 */
 	public void kill() {
 		this.running = false;
 		this.jf.setEnabled(true);
 		this.jd.dispatchEvent(new WindowEvent(this.jd, WindowEvent.WINDOW_CLOSING));
 	}
-
+	/**
+	 * Autogenerates a loot menu based on generated loot(if any available)
+	 */
 	public void createLootMenu() {
 		this.jd.setTitle("LOOT");
 		if (this.loot.size() == 0) {
@@ -261,7 +301,10 @@ public class InitCombatProper implements ActionListener {
 		this.jd.repaint();
 		this.jd.setVisible(true);
 	}
-
+	/**
+	 * Used for generating loot based on the monsters level
+	 * @return ArrayList<Consumable> loot containing the items rewarded as loot.
+	 */
 	public ArrayList<Consumable> generateLoot() {
 		ArrayList<Consumable> loot = new ArrayList<>();
 		ItemGenerator lst = new ItemGenerator();
@@ -278,7 +321,10 @@ public class InitCombatProper implements ActionListener {
 		}
 		return loot;
 	}
-
+	/*
+	 * Helper methods for parsing names for different player or loot related objects 
+	 * STARTS HERE
+	 */
 	private ArrayList<String> getSpellNames() {
 		ArrayList<String> spellnames = new ArrayList<>();
 		for (combat.Attack a : this.p.getSpellbook()) {
@@ -310,7 +356,13 @@ public class InitCombatProper implements ActionListener {
 		}
 		return consumables;
 	}
-
+	
+	/*
+	 *  ENDS HERE
+	 */
+	/**
+	 * Selects a random attack from the monsters move list, invoked after the player uses a consumable or attacks (given that the monster is still alive at the time).
+	 */
 	private void monsterRandomAttack() {
 		Random r = new Random();
 		this.m.DealDamage(this.p, this.m.getMovelist().get(r.nextInt(this.m.getMovelist().size())));
@@ -319,6 +371,7 @@ public class InitCombatProper implements ActionListener {
 	/*
 	 * GETTERS AND SETTERS START
 	 */
+	
 	public Monster getM() {
 		return m;
 	}
@@ -342,7 +395,9 @@ public class InitCombatProper implements ActionListener {
 	public void setJd(JDialog jd) {
 		this.jd = jd;
 	}
-
+	/**
+	 * @return True if InitCombat is still running
+	 */
 	public boolean isRunning() {
 		return running;
 	}
@@ -387,7 +442,11 @@ public class InitCombatProper implements ActionListener {
 	 * GETTERS AND SETTERS END
 	 */
 
-
+	/**
+	 * Action listener for everything else, except looting. Looting has its own ActionListener due to risk of conflict with using items.
+	 * After invoking a action in src.combat, it removes all objects from the JDialog and invokes a generator to create new ones, thus "showing" a new submenu.
+	 * Not best practice or industry standard.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("ActionCommand: " + e.getActionCommand());
@@ -404,7 +463,13 @@ public class InitCombatProper implements ActionListener {
 			createPhysicalsMenu();
 		} else {
 			for (int i = 0; i < this.p.getInventory().size(); i++) {
-				if (e.getActionCommand().equals(this.p.getInventory().get(i).getConsumableName())) {
+				/*
+				 * casts the action event to a JButton, to get the mnemonic given to it during autogeneration, to use the corresponding item in players inventory.
+				 * using objects causes all instances of the selected item to be used, instead of the one preferred
+				 */
+				Component comp = (Component) e.getSource();
+				JButton b = (JButton) comp;
+				if (b.getMnemonic() == i) {
 					this.p.useItem(i);
 					jd.getContentPane().removeAll();
 					createMain();
@@ -413,6 +478,9 @@ public class InitCombatProper implements ActionListener {
 			}
 			for (int i = 0; i < this.p.getSpellbook().size(); i++) {
 				Attack a = this.p.getSpellbook().get(i);
+				/*
+				 *  iterates all attacks in the spellbook until a corresponding one has been found, then deals damage.
+				 */
 				if (e.getActionCommand().equals(a.getName())) {
 					this.p.DealDamage(this.m, a);
 					jd.getContentPane().removeAll();
@@ -422,6 +490,9 @@ public class InitCombatProper implements ActionListener {
 			}
 			for (int i = 0; i < this.p.getMovelist().size(); i++) {
 				Attack a = this.p.getMovelist().get(i);
+				/*
+				 * same as above, but for physical attacks.
+				 */
 				if (e.getActionCommand().equals(a.getName())) {
 					this.p.DealDamage(this.m, a);
 					jd.getContentPane().removeAll();
@@ -432,15 +503,19 @@ public class InitCombatProper implements ActionListener {
 		}
 	}
 }
-
+/**
+ *	Listens for loot related buttons and acts accordingly. 
+ */
 class Loot implements ActionListener {
 
-	InitCombatProper ic;
-
-	public Loot(InitCombatProper ic) {
+	InitCombat ic;
+	/**
+	 * @param ic the InitCombat objects that invoked the ActionEvent
+	 */
+	public Loot(InitCombat ic) {
 		this.ic = ic;
 	}
-
+	//very similar to the one above
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("DISCARD ALL".equals(e.getActionCommand())) {

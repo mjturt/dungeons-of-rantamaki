@@ -115,17 +115,16 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
-				InitCombatProper combat = new InitCombatProper(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
+				InitCombat combat = new InitCombat(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
 				combat.createMain();
 				while (combat.isRunning()) {
 					try {
-						Thread.sleep(500);
+						Thread.sleep(100);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
 				}
-				handler.releaseKeys();
+				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
 				handler.removeObject(handler.objects.get(i));
 			}
 		}
