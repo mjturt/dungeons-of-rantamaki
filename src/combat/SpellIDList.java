@@ -17,7 +17,7 @@ public class SpellIDList {
 	public SpellIDList() {
 		IDList = new ArrayList<Attack>();
 		try {
-			Path sPath = FileSystems.getDefault().getPath("./src/combat/spelllist");
+			Path sPath = FileSystems.getDefault().getPath("./src/combat/spellist");
 			List<String> spells = Files.readAllLines(sPath); //spellist is read line by line as String as utf-8 and autoclosed
 			for(String s: spells) {
 				IDList.add(parseLine(s));

@@ -230,7 +230,7 @@ public class Creature {
 	public void DealDamage(Creature defender, Attack a) {
 		double dmg = calculateDamage(defender, a);
 		System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
-		defender.setHP((int)(defender.getHP()-Math.floor(dmg)));
+		defender.setHP((int)(defender.getHP()-Math.round(dmg)));
 		this.mana-=a.getMana();
 	}
 	public double calculateDamage(Creature defender, Attack a) {
@@ -256,27 +256,21 @@ public class Creature {
 
 
 	/*
-	 * Levelup function, just increments stats by using formula of: ((stat *
-	 * level)*6/5, also sets new maximum HP and mana and restores stats
+	 * Levelup function, just increments stats by using formula of: 10 + level / 10, rounded downward
+	 * also sets new maximum HP and mana and restores stats
 	 */
 	public void LevelUp() {
 		this.level++;
-		int deltaHP = this.maxHP * 6;
-		deltaHP = deltaHP / 5;
-		this.maxHP = deltaHP;
+		int up = (int) Math.floor((10.0+this.level)/10);
+		this.maxHP += up;
 		this.hp = this.maxHP;
-		int deltaStrength = this.strength * 6;
-		deltaStrength = deltaStrength / 5;
-		this.strength = deltaStrength;
-		int deltaDefense = this.defense * 6;
-		deltaDefense = deltaDefense / 5;
-		this.defense = deltaDefense;
-		int deltaMagic = this.magic * 6;
-		deltaMagic = deltaMagic / 5;
-		this.magic = deltaMagic;
-		this.maxMana = deltaMagic;
-		this.mana = deltaMagic;
+		this.maxMana += up;
+		this.mana = this.maxMana;
+		this.magic += up;
+		this.strength += up;
+		this.defense += up;
 	}
+	
 	/*
 	 * checks if there's enough XP for levelup, prints out stats and calls itself again
 	 */
