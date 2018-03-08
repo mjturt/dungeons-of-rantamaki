@@ -240,10 +240,8 @@ public class Creature {
 		switch (type) {
 		case PHYSICAL:
 			AD = this.strength / defender.getDf();
-			break;
 		case MAGICAL:
 			AD = this.magic / defender.getMagic();
-			break;
 		default:
 			AD = 0.5; // should never come to this
 		}
@@ -283,7 +281,9 @@ public class Creature {
 	 * checks if there's enough XP for levelup, prints out stats and calls itself again
 	 */
 	public void CheckLevelUp() {
-		if(this.getExp() >= (int) Math.pow(this.level+1, 3)) {
+		int nxtLvl = (int) Math.pow(this.level+1, 3);
+		nxtLvl = (5*4)*nxtLvl;
+		if(this.getExp() >= nxtLvl) {
 			this.LevelUp();
 			System.out.println("Level up!");
 			this.dumpStats();
