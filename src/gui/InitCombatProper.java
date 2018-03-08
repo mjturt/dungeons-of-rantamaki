@@ -18,7 +18,6 @@ public class InitCombatProper extends JDialog implements ActionListener {
 	private JTextField playerText = new JTextField();
 	private JTextField enemyText = new JTextField();
 	private ArrayList<Consumable> loot;
-	private boolean looted;
 
 	public InitCombatProper(Player p, Monster m, JFrame jf) {
 		this.running = true;
@@ -29,7 +28,6 @@ public class InitCombatProper extends JDialog implements ActionListener {
 		this.p = p;
 		this.jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.loot = generateLoot();
-		this.looted = false;
 	}
 
 	public void createMain() {
@@ -221,20 +219,28 @@ public class InitCombatProper extends JDialog implements ActionListener {
 	public void stillAlive() {
 		if (this.p.getHP() > 0 && this.m.getHP() > 0) {
 			monsterRandomAttack();
-		} else if (this.p.getHP() > 0 && this.m.getHP() <= 0) {
+		} else if (this.p.getHP() > 0 && this.m.getHP() <= 0 && this.loot.size() > 0) {
+			this.p.addExp(this.m.getHP());
+			this.p.LevelUp();
 			createLootMenu();
 		} else {
+			this.p.addExp(this.m.getHP());
+			this.p.LevelUp();
 			kill();
 		}
 	}
-	
+
 	public void kill() {
 		this.running = false;
 		this.jf.setEnabled(true);
-		jd.dispatchEvent(new WindowEvent(jd, WindowEvent.WINDOW_CLOSING));
+		this.jd.dispatchEvent(new WindowEvent(this.jd, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public void createLootMenu() {
+		if (this.loot.size() == 0) {
+			System.out.println("no loot");
+			kill();
+		}
 		System.out.println("started creating loot");
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
@@ -380,13 +386,6 @@ public class InitCombatProper extends JDialog implements ActionListener {
 	 * GETTERS AND SETTERS END
 	 */
 
-	public boolean isLooted() {
-		return looted;
-	}
-
-	public void setLooted(boolean looted) {
-		this.looted = looted;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -448,14 +447,20 @@ class Loot implements ActionListener {
 		}
 		ArrayList<Consumable> temp = this.ic.getLoot();
 		if (temp.size() == 0) {
-			this.ic.kill();
+			this.ic.getJd().dispatchEvent(new WindowEvent(this.ic.getJd(), WindowEvent.WINDOW_CLOSING));
 		}
 		for (int i = 0; i < temp.size(); i++) {
 			if (e.getActionCommand().equals(temp.get(i).getConsumableName())) {
 				this.ic.getP().addItem(temp.get(i));
 				this.ic.getLoot().remove(temp.get(i));
 				this.ic.getJd().getContentPane().removeAll();
-				this.ic.createLootMenu();
+				if (temp.size() == 0) {
+					this.ic.setRunning(false);
+					this.ic.getJf().setEnabled(true);
+					this.ic.getJd().dispatchEvent(new WindowEvent(this.ic.getJd(), WindowEvent.WINDOW_CLOSING));
+				} else {
+					this.ic.createLootMenu();
+				}
 			}
 		}
 	}
