@@ -8,13 +8,13 @@ import combat.MonsterGenerator;
 import combat.Player;
 import combat.*;
 
-/* Player class, must be joined with combat.Player */
 /**
  * Class for GUI aspects of the player.
  */
 public class GuiPlayer extends GameObject {
 	
 	Handler handler;
+    private SpriteSheet ss;
 	private BufferedImage playerimg = null;
 	private BufferedImage playerimgL = null;
 	private BufferedImage playerimgR = null;
@@ -28,15 +28,16 @@ public class GuiPlayer extends GameObject {
 	 * @param id Enum.ID
 	 * @param handler game event handler
 	 */
-	public GuiPlayer(int x, int y, ID id, Handler handler) {
+	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss) {
 		super(x, y, id);
 		Random r = new Random();
 		this.handler = handler;
-		ImageLoader loader = new ImageLoader();
-		playerimg = loader.loadImage("/player.png");
-		playerimgL = loader.loadImage("/playerLeftAni.gif");
-		playerimgR = loader.loadImage("/playerRight.png");
-		playerimgB = loader.loadImage("/playerBack.png");
+        this.ss = ss;
+		playerimg = ss.grabImage(1, 1, 16, 16);
+		playerimgL = ss.grabImage(4, 1, 16, 16);
+		playerimgR = ss.grabImage(3, 1, 16, 16);
+		playerimgB = ss.grabImage(2, 1, 16, 16);
+
 		p = new Player(25, "Kaitsu", 10, 10, 20);
 		this.p.addItem(new Consumable("Testi", 1, 1, 1));
 		AttackIDList aid = new AttackIDList();
@@ -45,10 +46,10 @@ public class GuiPlayer extends GameObject {
 		p.addSpell(sid.getSpell(r.nextInt(1)));
 	}
 
-	/* Players own ticking and rendering methods */
 	/**
 	 * Updates the player velocity information based on key events, and calls updatePos() to check for collision and finally updating the player position.
 	 */
+
 	public void tick() {
 
 		/* Moving coordinates based on velocity */
@@ -82,7 +83,7 @@ public class GuiPlayer extends GameObject {
 		updatePos(tempY, tempX);
 	}
 
-	/**
+	/*
 	 * Draws picture of the player depending on direction of its movement.
 	 */
 	public void render(Graphics g) {

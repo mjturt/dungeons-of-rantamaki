@@ -116,8 +116,4 @@ public class Handler implements java.io.Serializable  {
     	setUp(false);
     	setDown(false);
     }
-    /**
-     * Generates the level based on a recursive back-track maze generator in combat.World.
-     */
-
 }

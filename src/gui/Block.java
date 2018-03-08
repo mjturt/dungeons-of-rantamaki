@@ -14,6 +14,7 @@ public class Block extends GameObject {
 	private BufferedImage houseimg = null;
 	private BufferedImage house2img = null;
 	private BufferedImage parklotimg = null;
+	private BufferedImage studentsimg = null;
     private Random rand = new Random(); 
     private int r;
     private SpriteSheet ss;
@@ -26,6 +27,7 @@ public class Block extends GameObject {
 		houseimg = ss.grabImage(3, 1, 64, 64);
 		house2img = ss.grabImage(4, 1, 64, 64);
 		parklotimg = ss.grabImage(5, 1, 64, 64);
+		studentsimg = ss.grabImage(4, 2, 64, 64);
         r = rand.nextInt(20); 
     }
 
@@ -39,13 +41,15 @@ public class Block extends GameObject {
     /* Render method, all GameObjects must have their own render method */
 
     public void render(Graphics g) {
-        if (r <= 5) {
+        if (r <= 4) {
             g.drawImage(houseimg, x, y, null);
-        } else if (r > 5 && r < 10) {
+        } else if (r > 4 && r < 10) {
             g.drawImage(house2img, x, y, null);
-        } else if (r >= 10 && r < 14) {
+        } else if (r >= 10 && r < 11) {
+            g.drawImage(studentsimg, x, y, null);
+        } else if (r >= 11 && r < 14) {
             g.drawImage(bushimg, x, y, null);
-        } else if (r >= 14 && r < 17) {
+        } else if (r >= 14 && r < 18) {
             g.drawImage(bushtreeimg, x, y, null);
         } else {
             g.drawImage(parklotimg, x, y, null);

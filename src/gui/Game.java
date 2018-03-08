@@ -10,16 +10,13 @@ import java.awt.image.BufferedImage;
 
 import world.World;
 /* 
- * gui packages main class Game
+ * gui packages main clablocksheet Game
  *
  * Basicly we have 640x480 sized window in pixels and we can add objects to coordinates like 244x100
  * Main game loop handles all game-technic stuff. It's updates stuff 60 times/s (tick-rate) and renders out
  * something like 2k fps
- * Handler class iterates through list of all game objects and makes them tick and render with their own methods
- *
- * TODO game "camera", collision detection, collision with enemy triggers combat window, pictures for objects,
- * menu, high scores, saving/loadig, animations?
- * */
+ * Handler clablocksheet iterates through list of all game objects and makes them tick and render with their own methods
+ */
 
 public class Game extends Canvas implements Runnable {
 
@@ -30,8 +27,10 @@ public class Game extends Canvas implements Runnable {
     private Handler handler;
     private GameCamera cam;
 
-    private SpriteSheet ss;
-    private BufferedImage ssImg = null;
+    private SpriteSheet blocksheet;
+    private BufferedImage blocksheetImg = null;
+    private SpriteSheet playersheet;
+    private BufferedImage playersheetImg = null;
 
     private BufferedImage road = null;
 
@@ -40,13 +39,15 @@ public class Game extends Canvas implements Runnable {
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
         handler = new Handler(w.getFrame());
-
         this.addKeyListener(new KeyInput(handler));
-        ImageLoader loader = new ImageLoader();
-        ssImg = loader.loadImage("/sheet.png");
-        ss = new SpriteSheet(ssImg);
 
-        road = ss.grabImage(1, 2, 64, 64);
+        ImageLoader loader = new ImageLoader();
+        blocksheetImg = loader.loadImage("/blocksheet.png");
+        blocksheet = new SpriteSheet(blocksheetImg);
+        playersheetImg = loader.loadImage("/playersheet.png");
+        playersheet = new SpriteSheet(playersheetImg);
+
+        road = blocksheet.grabImage(2, 2, 64, 64);
         loadLevel();
     }
 
@@ -65,11 +66,9 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    /* Main game loop
-     * It's pretty advanced, made with help of lots gamemaking-tutorials, so that game speed is 
-     * good and not varying with different machines with different specs
-     * More info about how it work's: http://www.java-gaming.org/index.php?topic=24220.0
-     * */
+    /*
+     * Main game loop
+     */
 
     public void run(){
         this.requestFocus();
@@ -127,9 +126,6 @@ public class Game extends Canvas implements Runnable {
          *Draw here 
          *////////////////////////////////////
         
-        g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.white);
-
         g2d.translate(-cam.getX(), -cam.getY());
 
         for (int x = 0; x < 41 * 64; x += 64) {
@@ -146,7 +142,9 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    /* Here we generate level with the world.World */
+    /**
+     * Generates the level based on a recursive back-track maze generator in world.World.
+     */
 
     public void loadLevel() {
 
@@ -156,25 +154,17 @@ public class Game extends Canvas implements Runnable {
         int[] start = world.getStart();
         int[] goal = world.getGoal();
         
-        
-        /* First background texture */
-
-
-
-        /* Then all other objects */
         /*
          * Creates new objects depending on the state of the Tile object in the World array.
          */
+
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 if (!world.getTile(y, x).getPassable()) {
-                    handler.addObject(new Block(x*64, y*64, ID.Block, ss));
-                }
-                if (world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
-                    handler.addObject(new Road(x*64, y*64, ID.Road));
+                    handler.addObject(new Block(x*64, y*64, ID.Block, blocksheet));
                 }
                 if(start[0] == y && start[1] == x) {
-                    handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler));
+                    handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler, playersheet));
                 }
                 if(goal[0] == y && goal[1] == x) {
                     handler.addObject(new Goal(x*64, y*64, ID.Goal));
