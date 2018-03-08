@@ -282,7 +282,7 @@ public class Creature {
 	 */
 	public void CheckLevelUp() {
 		int nxtLvl = (int) Math.pow(this.level+1, 3);
-		nxtLvl = (5*4)*nxtLvl;
+		nxtLvl = (5/4)*nxtLvl;
 		if(this.getExp() >= nxtLvl) {
 			this.LevelUp();
 			System.out.println("Level up!");
