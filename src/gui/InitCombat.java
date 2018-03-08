@@ -253,14 +253,14 @@ public class InitCombat implements ActionListener {
 	 */
 	public void stillAlive() {
 		if (this.p.getHP() > 0 && this.m.getHP() > 0) {
-			monsterRandomAttack();
+			monsterAttack();
 		} else if (this.p.getHP() > 0 && this.m.getHP() <= 0 && this.loot.size() > 0) {
 			this.p.addExp(this.m.getHP());
-			this.p.LevelUp();
+			this.p.CheckLevelUp();
 			createLootMenu();
 		} else {
 			this.p.addExp(this.m.getHP());
-			this.p.LevelUp();
+			this.p.CheckLevelUp();
 			kill();
 		}
 	}
@@ -274,7 +274,7 @@ public class InitCombat implements ActionListener {
 		this.jd.dispatchEvent(new WindowEvent(this.jd, WindowEvent.WINDOW_CLOSING));
 	}
 	/**
-	 * Autogenerates a loot menu based on generated loot(if any available)
+	 * Auto-generates a loot menu based on generated loot(if any available)
 	 */
 	public void createLootMenu() {
 		this.jd.setTitle("LOOT");
@@ -361,11 +361,10 @@ public class InitCombat implements ActionListener {
 	 *  ENDS HERE
 	 */
 	/**
-	 * Selects a random attack from the monsters move list, invoked after the player uses a consumable or attacks (given that the monster is still alive at the time).
+	 * Select the attack best suit for the scenario, utilizes combat.Monster.selectAttack
 	 */
-	private void monsterRandomAttack() {
-		Random r = new Random();
-		this.m.DealDamage(this.p, this.m.getMovelist().get(r.nextInt(this.m.getMovelist().size())));
+	private void monsterAttack() {
+		this.m.DealDamage(this.p, this.m.selectAttack(this.p));
 	}
 
 	/*
@@ -467,6 +466,7 @@ public class InitCombat implements ActionListener {
 				 * casts the action event to a JButton, to get the mnemonic given to it during autogeneration, to use the corresponding item in players inventory.
 				 * using objects causes all instances of the selected item to be used, instead of the one preferred
 				 */
+				if (e.getActionCommand().equals(this.p.getInventory().get(i).getConsumableName())) {
 				Component comp = (Component) e.getSource();
 				JButton b = (JButton) comp;
 				if (b.getMnemonic() == i) {
@@ -474,6 +474,7 @@ public class InitCombat implements ActionListener {
 					jd.getContentPane().removeAll();
 					createMain();
 					stillAlive();
+				}
 				}
 			}
 			for (int i = 0; i < this.p.getSpellbook().size(); i++) {
@@ -518,6 +519,7 @@ class Loot implements ActionListener {
 	//very similar to the one above
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		this.ic.getP().listInventory();
 		if ("DISCARD ALL".equals(e.getActionCommand())) {
 			this.ic.setRunning(false);
 			this.ic.getJf().setEnabled(true);
@@ -533,6 +535,8 @@ class Loot implements ActionListener {
 			if (e.getActionCommand().equals(temp.get(i).getConsumableName())) {
 				this.ic.getP().addItem(temp.get(i));
 				this.ic.getLoot().remove(temp.get(i));
+				System.out.println("After removing item from loot player inventory contains: ");
+				this.ic.getP().listInventory();
 				this.ic.getJd().getContentPane().removeAll();
 				if (temp.size() == 0) {
 					this.ic.setRunning(false);
