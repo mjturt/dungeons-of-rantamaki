@@ -1,7 +1,3 @@
-/* 
- *  TODO: Implement list of known attacks and spells
- * 
- */
 package combat;
 
 import java.util.ArrayList;
@@ -48,7 +44,11 @@ public class Creature {
 	public int getHP() {
 		return this.hp;
 	}
-
+	/**
+	 * @param hp the amount of HP set
+	 * sets the HP to specified amount, 
+	 * or maxHP in case the parameter is too high 
+	 */
 	public void setHP(int hp) {
 		if (hp >= this.maxHP) {
 			this.hp = this.maxHP;
@@ -72,7 +72,11 @@ public class Creature {
 	public int getMana() {
 		return this.mana;
 	}
-
+	/**
+	 * @param hp the amount of mana set
+	 * sets the mana to specified amount, 
+	 * or maxMana in case the parameter is too high 
+	 */
 	public void setMana(int mana) {
 		if (mana >= this.maxMana) {
 			this.mana = this.maxMana;
@@ -219,10 +223,10 @@ public class Creature {
 	}
 
 	/**
-	 * Deals damage to creature by another.
+	 * Deals damage to target creature by this.Creature.
 	 * 
-	 * @param attacker
-	 *            - Creature that attacks
+	 * @param defender
+	 *            - Creature that defends
 	 * @param a
 	 *            - attack that hits
 	 * @return: nothing
@@ -233,6 +237,16 @@ public class Creature {
 		defender.setHP((int)(defender.getHP()-Math.round(dmg)));
 		this.mana-=a.getMana();
 	}
+	
+	/**
+	 * 
+	 * @param defender - defending creature
+	 * @param a 	- attack that hits
+	 * @return nothing
+	 * 
+	 *calculates the amount of damage that could be done using specified attack
+	 *to specified target
+	 */
 	public double calculateDamage(Creature defender, Attack a) {
 		AttackType type = a.getType();
 		int pwr;
