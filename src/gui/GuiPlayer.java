@@ -23,7 +23,6 @@ public class GuiPlayer extends GameObject {
 	int tempX;
 	int tempY;
 	Player p;
-	MonsterGenerator mg;
 	/**
 	 * @param x position in the x-axis
 	 * @param y position in the y-axis
@@ -45,7 +44,6 @@ public class GuiPlayer extends GameObject {
 		SpellIDList sid = new SpellIDList();
 		p.addAttack(aid.getAttack(r.nextInt(1)));
 		p.addSpell(sid.getSpell(r.nextInt(1)));
-		mg = new MonsterGenerator();
 	}
 
 	/* Players own ticking and rendering methods */
@@ -119,6 +117,7 @@ public class GuiPlayer extends GameObject {
 				return;
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
+				MonsterGenerator mg = new MonsterGenerator();
 				InitCombatProper combat = new InitCombatProper(this.p, mg.getMonster(mg.getMonsterListSize() - 1, r.nextInt(p.getLevel() + 3)), this.handler.getFrame());
 				combat.createMain();
 				while (combat.isRunning()) {
