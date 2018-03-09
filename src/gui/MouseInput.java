@@ -3,6 +3,10 @@ package gui;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/*
+ * Mouse input, used only in menus
+ */
+
 public class MouseInput implements MouseListener {
     private Game game;
 
@@ -30,8 +34,8 @@ public class MouseInput implements MouseListener {
         int mx = e.getX();
         int my = e.getY();
 
-        if (mx >= 70 && mx <= 120 ) {
-            if (my >= 250 && my <= 280) {
+        if (mx >= 70 && mx <= 200 ) {
+            if (my >= 220 && my <= 250) {
                 game.setState(STATE.GAME);
             }
         }
