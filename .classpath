@@ -5,4 +5,5 @@
 	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="src" path="assets"/>
+	<classpathentry kind="src" path="sav"/>
 </classpath>
