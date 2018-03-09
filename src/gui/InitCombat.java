@@ -551,6 +551,7 @@ class Spells implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("RETURN")) {
+			this.ic.getJd().getContentPane().removeAll();
 			this.ic.createMain();
 		} else {
 			for (Attack a : this.ic.getP().getSpellbook()) {
@@ -588,6 +589,7 @@ class Physicals implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("RETURN")) {
+			this.ic.getJd().getContentPane().removeAll();
 			this.ic.createMain();
 		} else {
 			for (Attack a : this.player.getMovelist()) {
@@ -620,6 +622,7 @@ class UseItem implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("RETURN")) {
+			this.ic.getJd().getContentPane().removeAll();
 			this.ic.createMain();
 		} else {
 			for (int i = 0; i < this.player.getInventory().size(); i++) {
