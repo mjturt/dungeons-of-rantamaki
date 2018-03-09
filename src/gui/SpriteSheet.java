@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.image.BufferedImage;
 
-/**
+/*
  * Cut out the sprite from spritesheet
  */
 
@@ -14,8 +14,8 @@ public class SpriteSheet {
         this.img = img;
     }
 
-    /**
-     * Works with spritesheet where individual sprites dimensions are symmetrical
+    /*
+     * Making grid layout to spritesheet
      */
 
     public BufferedImage grabImage(int col, int row, int width, int height) {

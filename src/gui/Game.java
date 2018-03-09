@@ -34,12 +34,16 @@ public class Game extends Canvas implements Runnable {
 
     private BufferedImage road = null;
 
+    private Menu menu;
+
     public Game(int x, int y) {
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
         handler = new Handler(w.getFrame());
         this.addKeyListener(new KeyInput(handler));
+
+        menu = new Menu();
 
         ImageLoader loader = new ImageLoader();
         blocksheetImg = loader.loadImage("/blocksheet.png");
@@ -99,15 +103,29 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
+    /*
+     *  Main menu 
+     */
+
+    public enum STATUS {
+        MENU,
+        GAME
+    };
+
+    private STATUS status = STATUS.MENU;
+
     /* Updating stuff to game */
 
     public void tick() {
-        handler.tick();
-        this.requestFocus();
-        for (int i=0;i<handler.objects.size();i++) {
-        	if (handler.objects.get(i).getId() == ID.Player) {
-        		cam.tick(handler.objects.get(i));
-        	}
+        if (status == STATUS.GAME) {
+            handler.tick();
+            this.requestFocus();
+            for (int i=0;i<handler.objects.size();i++) {
+        	    if (handler.objects.get(i).getId() == ID.Player) {
+        		    cam.tick(handler.objects.get(i));
+        	    }
+            }
+        } else if (status == STATUS.MENU) {
         }
     }
 
@@ -126,18 +144,22 @@ public class Game extends Canvas implements Runnable {
          *Draw here 
          *////////////////////////////////////
         
+        if (status == STATUS.GAME) {
         g2d.translate(-cam.getX(), -cam.getY());
 
-        for (int x = 0; x < 41 * 64; x += 64) {
-            for (int y = 0; y < 41 * 64; y+=64) {
-                g.drawImage(road, x, y, null);
+            for (int x = 0; x < 41 * 64; x += 64) {
+                for (int y = 0; y < 41 * 64; y+=64) {
+                    g.drawImage(road, x, y, null);
+                }
             }
-        }
-        handler.render(g);
+            handler.render(g);
 
         //////////////////////////////////////
         g2d.translate(cam.getX(), cam.getY());
+        } else if (status == STATUS.MENU) {
 
+            menu.render(g);
+        }
         g.dispose();
         bs.show();
     }
