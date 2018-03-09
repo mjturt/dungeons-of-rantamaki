@@ -133,7 +133,12 @@ public class Game extends Canvas implements Runnable {
                 g.drawImage(road, x, y, null);
             }
         }
-        handler.render(g);
+        try {
+        	handler.render(g);
+        } catch (NullPointerException npe) {
+        	throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
+        }
+        
 
         //////////////////////////////////////
         g2d.translate(cam.getX(), cam.getY());
