@@ -2,9 +2,11 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
-import java.io.IOException;
+
+/* 
+ * Main menu class
+ */
 
 public class Menu {
 
@@ -22,9 +24,9 @@ public class Menu {
         Font font2 = fl.loadFont("/fonts/morris.ttf", 30);
         g.setFont(font2);
         g.drawString("New Game", 50, 150);
-        g.drawString("Load", 200, 150);
-        g.drawString("Save", 350, 150);
-        g.drawString("Exit", 100, 250);
+        g.drawString("Load", 250, 150);
+        g.drawString("Save", 450, 150);
+        g.drawString("Exit", 250, 250);
         
     }
 }
