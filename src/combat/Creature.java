@@ -232,10 +232,10 @@ public class Creature {
 	 * @return: nothing
 	 */
 	public void DealDamage(Creature defender, Attack a) {
-		double dmg = calculateDamage(defender, a);
-		System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
-		defender.setHP((int)(defender.getHP()-Math.round(dmg)));
-		this.mana-=a.getMana();
+			double dmg = calculateDamage(defender, a);
+			System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
+			defender.setHP((int)(defender.getHP()-Math.round(dmg)));
+			this.mana-=a.getMana();
 	}
 	
 	/**
@@ -266,6 +266,13 @@ public class Creature {
 		dmg = (lvl * pwr * AD) / 50;
 		dmg += 2;
 		return dmg;
+	}
+	
+	public boolean ManaCheck(Attack a) {
+		if(this.mana>=a.getMana()) {
+			return true;
+		}
+		return false;
 	}
 
 
