@@ -38,7 +38,11 @@ public class KeyInput extends KeyAdapter {
             }
         }
         if (key == KeyEvent.VK_ESCAPE) {
-            game.setState(STATE.MENU);
+            if (game.getState() == STATE.GAME) {
+                game.setState(STATE.PAUSE);
+            } else if (game.getState() == STATE.PAUSE) {
+                game.setState(STATE.GAME);
+            }
         }
     }
 

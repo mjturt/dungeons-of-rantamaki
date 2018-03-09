@@ -33,10 +33,20 @@ public class MouseInput implements MouseListener {
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
+        
+        /* "New Game" button */
 
         if (mx >= 70 && mx <= 200 ) {
             if (my >= 220 && my <= 250) {
                 game.setState(STATE.GAME);
+            }
+        }
+
+        /* "Exit" button */
+
+        if (mx >= 290 && mx <= 340 ) {
+            if (my >= 320 && my <= 350) {
+                System.exit(1);
             }
         }
 

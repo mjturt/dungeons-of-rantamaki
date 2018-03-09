@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -35,6 +37,7 @@ public class Game extends Canvas implements Runnable {
 
     private STATE state;
     private Menu menu;
+    private PauseMenu pmenu;
 
     public Game(int x, int y) {
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
@@ -46,6 +49,7 @@ public class Game extends Canvas implements Runnable {
 
         state = STATE.MENU;
         menu = new Menu();
+        pmenu = new PauseMenu();
 
         ImageLoader loader = new ImageLoader();
         blocksheetImg = loader.loadImage("/blocksheet.png");
@@ -116,7 +120,7 @@ public class Game extends Canvas implements Runnable {
                     cam.tick(handler.objects.get(i));
                 }
             }
-        } else if (state == STATE.MENU) {
+        } else if (state == STATE.MENU || state == STATE.PAUSE) {
         }
     }
 
@@ -150,11 +154,14 @@ public class Game extends Canvas implements Runnable {
             }
         g2d.translate(cam.getX(), cam.getY());
 
+        playerStats(g);
+        
         } else if (state == STATE.MENU) {
-
             menu.render(g);
-
+        } else if (state == STATE.PAUSE) {
+            pmenu.render(g);
         }
+
 
         
 
@@ -211,5 +218,67 @@ public class Game extends Canvas implements Runnable {
 
     public void setState(STATE state) {
         this.state = state;
+    }
+
+    /*
+     * Draw's player stats or stats-based bars to top of the game screen
+     */
+
+    public void playerStats(Graphics g) {
+
+        int playerHP = 0;
+        int playerMaxHP = 0;
+        int playerMana = 0;
+        int playerMaxMana = 0;
+        int playerLevel = 0;
+        GuiPlayer gp = null;
+        for (int i=0;i<handler.objects.size();i++) {
+            if (handler.objects.get(i).getId() == ID.Player) {
+                gp = (GuiPlayer)handler.objects.get(i);
+                playerHP = gp.getHP();
+                playerMaxHP = gp.getMaxHP();
+                playerMana = gp.getMana();
+                playerMaxMana = gp.getMaxMana();
+                playerLevel = gp.getLevel();
+            }
+        }
+
+
+        FontLoader fl = new FontLoader(); 
+        Font font1 = fl.loadFont("/fonts/spaceranger.ttf", 14); 
+        Font font2 = fl.loadFont("/fonts/spaceranger.ttf", 18); 
+        g.setFont(font1);
+
+        /* HP bar */
+
+        g.setColor(Color.black);
+        g.fillRect(5, 6, 30, 13);
+        g.drawRect(30, 6, playerMaxHP*2, 12);
+        g.setColor(Color.green);
+        g.drawString("HP", 8, 16);
+        g.setColor(Color.gray);
+        g.fillRect(30, 6, playerMaxHP*2, 12);
+        g.setColor(Color.green);
+        g.fillRect(30, 6, playerHP*2, 12);
+
+        /* Mana bar */
+
+        g.setColor(Color.black);
+        g.fillRect(185, 6, 50, 13);
+        g.drawRect(235, 6, playerMaxMana*2, 12);
+        g.setColor(Color.cyan);
+        g.drawString("MANA", 188, 16);
+        g.setColor(Color.gray);
+        g.fillRect(235, 6, playerMaxMana*2, 12);
+        g.setColor(Color.cyan);
+        g.fillRect(235, 6, playerMana*2, 12);
+
+        /* Level indicator */
+
+        g.setFont(font2);
+        g.setColor(Color.black);
+        g.fillRect(540, 4, 80, 15);
+        g.setColor(Color.yellow);
+        g.drawString("LVL: " + playerLevel, 545, 16);
     }
 }

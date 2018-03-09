@@ -168,5 +168,24 @@ public class GuiPlayer extends GameObject {
 		int lvl = this.p.getLevel() + (r.nextInt(delta+1)-delta);
 		return lvl;
 	}
-	
+
+    /* 
+     * Getters for player statistics that is shown in game windows 
+     */
+
+    public int getHP() {
+        return this.p.getHP();
+    }
+    public int getMaxHP() {
+        return this.p.getMaxHP();
+    }
+    public int getLevel() {
+        return this.p.getLevel();
+    }
+    public int getMana() {
+        return this.p.getMana();
+    }
+    public int getMaxMana() {
+        return this.p.getMaxMana();
+    }
 }
