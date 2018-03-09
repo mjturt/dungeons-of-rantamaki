@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
+import javax.swing.JDialog;
+
 import combat.MonsterGenerator;
 import combat.Player;
 import combat.*;
@@ -39,6 +42,8 @@ public class GuiPlayer extends GameObject {
 		playerimgB = ss.grabImage(2, 1, 16, 16);
 
 		p = new Player(25, "Kaitsu", 10, 10, 20);
+		this.p.addExp(10000);
+		this.p.CheckLevelUp();
 		this.p.addItem(new Consumable("Testi", 1, 1, 1));
 		AttackIDList aid = new AttackIDList();
 		SpellIDList sid = new SpellIDList();
@@ -126,7 +131,7 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
-				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
+				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), generateMonLevel()), this.handler.getFrame());
 				combat.createMain();
 				while (combat.isRunning()) {
 					try {
@@ -135,12 +140,33 @@ public class GuiPlayer extends GameObject {
 						e.printStackTrace();
 					}
 				}
+				if (combat.isGameOver()) {
+					System.out.println("Game was over");
+					JDialog test = new GameOver(this.handler.getFrame());
+					GameOver go = (GameOver)test;
+					while (go.isRunning()) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
 				handler.removeObject(handler.objects.get(i));
 			}
 		}
 		y = tempY;
 		x = tempX;
+	}
+	//quick bit of code that generates monster level by using
+	//pseudo-random numbers. uses math to generate level that varies
+	//0.9*playerlevel - 1.1*playerlevel
+	private int generateMonLevel() {
+		Random r = new Random();
+		int delta = (int) Math.floor(this.p.getLevel()/10);
+		int lvl = this.p.getLevel() + (r.nextInt(delta+1)-delta);
+		return lvl;
 	}
 	
 }
