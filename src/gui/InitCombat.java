@@ -60,6 +60,7 @@ public class InitCombat implements ActionListener, Runnable {
 		this.p = p;
 		this.jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.loot = generateLoot();
+		this.jd.setModal(true);
 	}
 
 	/**
@@ -103,6 +104,7 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.setSize(640, 480);
 		jd.setLayout(new FlowLayout());
 		this.jd.pack();
+		this.jd.setLocationRelativeTo(this.jf);
 		this.jd.setEnabled(true);
 		this.jd.setVisible(true);
 		this.jd.repaint();
@@ -133,6 +135,7 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
+		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
@@ -163,6 +166,7 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
+		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
@@ -187,6 +191,8 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
+		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
+
 	}
 
 	/**
@@ -211,6 +217,8 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
+		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
+
 	}
 
 	/**
@@ -235,6 +243,7 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
+		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
