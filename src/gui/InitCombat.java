@@ -5,6 +5,12 @@ package gui;
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,7 +20,7 @@ import combat.*;
 /**
  * Class for initiating a new combat window
  */
-public class InitCombat implements ActionListener {
+public class InitCombat implements ActionListener, Runnable {
 	private Monster m;
 	private Player p;
 	private JDialog jd;
@@ -59,6 +65,7 @@ public class InitCombat implements ActionListener {
 	/**
 	 * Creates the main combat window with basic selections. Adds swing elements.
 	 * Invoked by action listener
+	 * @throws IOException 
 	 */
 	/*
 	 * Could use some restructuring and helper methods for more general purpose use.
@@ -90,14 +97,16 @@ public class InitCombat implements ActionListener {
 		selectAction.setSize(640, 480 / 2);
 		this.jd.add(selectAction);
 		this.jd.add(information);
+		JScrollPane sp = new JScrollPane();
+		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		this.jd.setSize(640, 480);
 		jd.setLayout(new FlowLayout());
 		this.jd.pack();
 		this.jd.setEnabled(true);
 		this.jd.setVisible(true);
 		this.jd.repaint();
-		System.out.println(this.jd.getIgnoreRepaint());
-		System.out.println("Created Main!");
+		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
@@ -495,6 +504,11 @@ public class InitCombat implements ActionListener {
 		} else if ("PHYSICAL".equals(e.getActionCommand())) {
 			createPhysicalsMenu();
 		}
+	}
+
+	@Override
+	public void run() {
+		createMain();
 	}
 }
 

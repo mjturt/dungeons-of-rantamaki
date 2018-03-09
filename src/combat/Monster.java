@@ -50,7 +50,7 @@ public class Monster extends Creature {
 			}
 		}
 		else {
-			int attack = r.nextInt(this.moveList.size()+1);
+			int attack = r.nextInt(this.moveList.size());
 			return this.moveList.get(attack);
 		}
 	}

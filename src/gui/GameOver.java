@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class GameOver extends JDialog implements ActionListener {
+public class GameOver extends JDialog implements ActionListener, Runnable {
 	JButton newGame = new JButton("New Game");
 	JButton exit = new JButton("Exit");
 	JPanel panel = new JPanel();
@@ -20,6 +20,9 @@ public class GameOver extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.frame = frame;
 		this.running = true;
+		}
+
+	public void createAndShow() {
 		this.frame.setEnabled(false);
 		this.frame.setVisible(false);
 		this.setAlwaysOnTop(true);
@@ -39,11 +42,7 @@ public class GameOver extends JDialog implements ActionListener {
 		this.setVisible(true);
 		this.validate();
 		this.repaint();
-
-		System.out.println("Constructed GameOver");
-	}
-
-	public void createAndShow() {
+		System.out.println("Constructed GameOver, is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	public boolean isRunning() {
@@ -66,5 +65,10 @@ public class GameOver extends JDialog implements ActionListener {
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
 		}
+	}
+
+	@Override
+	public void run() {
+		createAndShow();
 	}
 }
