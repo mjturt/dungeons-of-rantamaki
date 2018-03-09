@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -34,12 +33,19 @@ public class Game extends Canvas implements Runnable {
 
     private BufferedImage road = null;
 
+    private STATE state;
+    private Menu menu;
+
     public Game(int x, int y) {
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
         handler = new Handler(w.getFrame());
-        this.addKeyListener(new KeyInput(handler));
+        this.addKeyListener(new KeyInput(handler, this));
+        this.addMouseListener(new MouseInput(this));
+
+        state = STATE.MENU;
+        menu = new Menu();
 
         ImageLoader loader = new ImageLoader();
         blocksheetImg = loader.loadImage("/blocksheet.png");
@@ -102,12 +108,15 @@ public class Game extends Canvas implements Runnable {
     /* Updating stuff to game */
 
     public void tick() {
-        handler.tick();
-        this.requestFocus();
-        for (int i=0;i<handler.objects.size();i++) {
-        	if (handler.objects.get(i).getId() == ID.Player) {
-        		cam.tick(handler.objects.get(i));
-        	}
+        if (state == STATE.GAME) {
+            handler.tick();
+            this.requestFocus();
+            for (int i=0;i<handler.objects.size();i++) {
+                if (handler.objects.get(i).getId() == ID.Player) {
+                    cam.tick(handler.objects.get(i));
+                }
+            }
+        } else if (state == STATE.MENU) {
         }
     }
 
@@ -126,23 +135,30 @@ public class Game extends Canvas implements Runnable {
          *Draw here 
          *////////////////////////////////////
         
+        if (state == STATE.GAME) {
         g2d.translate(-cam.getX(), -cam.getY());
 
-        for (int x = 0; x < 41 * 64; x += 64) {
-            for (int y = 0; y < 41 * 64; y+=64) {
-                g.drawImage(road, x, y, null);
+            for (int x = 0; x < 41 * 64; x += 64) {
+                for (int y = 0; y < 41 * 64; y+=64) {
+                    g.drawImage(road, x, y, null);
+                }
             }
+            try {
+                handler.render(g);
+            } catch (NullPointerException npe) {
+                throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
+            }
+        g2d.translate(cam.getX(), cam.getY());
+
+        } else if (state == STATE.MENU) {
+
+            menu.render(g);
+
         }
-        try {
-        	handler.render(g);
-        } catch (NullPointerException npe) {
-        	throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
-        }
+
         
 
         //////////////////////////////////////
-        g2d.translate(cam.getX(), cam.getY());
-
         g.dispose();
         bs.show();
     }
@@ -175,7 +191,7 @@ public class Game extends Canvas implements Runnable {
                     handler.addObject(new Goal(x*64, y*64, ID.Goal));
                 }
                 if (world.getTile(y, x).hasMonster()) {
-                	handler.addObject(new GuiMonster(x*64, y*64, ID.Enemy));
+                    handler.addObject(new GuiMonster(x*64, y*64, ID.Enemy));
                 }
             }
         }
@@ -185,5 +201,15 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args) {
         new Game(640, 480);
+    }
+
+    /* Getters and setters for state */
+
+    public STATE getState() {
+        return state;
+    }
+
+    public void setState(STATE state) {
+        this.state = state;
     }
 }

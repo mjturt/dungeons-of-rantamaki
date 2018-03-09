@@ -8,9 +8,11 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter {
 
     Handler handler;
-    
-    public KeyInput(Handler handler) {
+    Game game;
+
+    public KeyInput(Handler handler, Game game) {
         this.handler = handler;
+        this.game = game;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -34,6 +36,9 @@ public class KeyInput extends KeyAdapter {
                     handler.setRight(true);
                 }
             }
+        }
+        if (key == KeyEvent.VK_ESCAPE) {
+            game.setState(STATE.MENU);
         }
     }
 
