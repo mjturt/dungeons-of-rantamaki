@@ -32,7 +32,10 @@ public class Creature {
 		this.spellBook = new ArrayList<>();
 		this.inventory = new ArrayList<>();
 	}
-
+	/**
+	 * Increment creatures maxHP
+	 * @param hp amount to increment
+	 */
 	public void incrementMaxHP(int hp) {
 		this.maxHP += hp;
 	}
@@ -129,11 +132,17 @@ public class Creature {
 		}
 		System.out.println(i + ": Return");
 	}
-	
+	/**
+	 * Returns the Creatures spellbook
+	 * @return Creature spellbook
+	 */
 	public ArrayList<Attack> getSpellbook() {
 		return this.spellBook;
 	}
-	
+	/**
+	 * Returns the Creatures movelist
+	 * @return Creature movelist
+	 */
 	public ArrayList<Attack> getMovelist() {
 		return this.moveList;
 	}
@@ -141,7 +150,10 @@ public class Creature {
 	public int getSpellbookLength() {
 		return this.spellBook.size();
 	}
-
+	/**
+	 * Adds attack to Creature.movelist.
+	 * @param a Attack to add.
+	 */
 	public void addAttack(Attack a) {
 		if (a.getType() == AttackType.PHYSICAL) {
 			this.moveList.add(a);
@@ -149,7 +161,9 @@ public class Creature {
 			System.out.println("Can't add " + a.getType() + " to movelist");
 		}
 	}
-
+	/**
+	 * Deprecated method, used only in text-only environments
+	 */
 	public void listMoveList() {
 		int i = 0;
 		for (Attack a : this.moveList) {
@@ -166,11 +180,16 @@ public class Creature {
 	public Attack getMove(int a) {
 		return this.moveList.get(a);
 	}
-	
+	/**
+	 * Adds a Consumable() to Creature.inventory
+	 * @param cons Consumable() to add
+	 */
 	public void addItem(Consumable cons) {
 		this.inventory.add(cons);
 	}
-
+	/**
+	 * Deprecated method, used in text-only environments
+	 */
 	public void listInventory() {
 		int i = 0;
 		for (Consumable cons : this.inventory) {
@@ -191,7 +210,10 @@ public class Creature {
 	public Consumable getItem(int a) {
 		return this.inventory.get(a);
 	}
-	
+	/**
+	 * Uses item in given index from Creature.inventory
+	 * @param index index from which the Consumable is retrieved
+	 */
 	public void useItem(int index) {
 		Consumable tmp = this.inventory.get(index);
 		this.setHP(this.getHP() + tmp.getRestoreHp());
@@ -206,7 +228,10 @@ public class Creature {
 			inventory.remove(index);
 		}
 	}
-	
+	/**
+	 * Deprecated, unsafe to use due to risk of using multiple items per invocation.
+	 * @param c Consumable to use
+	 */
 	public void useItem(Consumable c) {
 		
 		this.setHP(this.getHP() + c.getRestoreHp());
@@ -267,7 +292,11 @@ public class Creature {
 		dmg += 2;
 		return dmg;
 	}
-	
+	/**
+	 * Checks if the player has the sufficient mana to cast Spell.
+	 * @param a Attack to check against
+	 * @return True, if the player has the sufficient mana to use spell given as parameter.
+	 */
 	public boolean ManaCheck(Attack a) {
 		if(this.mana>=a.getMana()) {
 			return true;
@@ -276,7 +305,7 @@ public class Creature {
 	}
 
 
-	/*
+	/**
 	 * Levelup function, just increments stats by using formula of: 10 + level / 10, rounded downward
 	 * also sets new maximum HP and mana and restores stats
 	 */
@@ -292,8 +321,8 @@ public class Creature {
 		this.defense += up;
 	}
 	
-	/*
-	 * checks if there's enough XP for levelup, prints out stats and calls itself again
+	/**
+	 * Checks if there's enough XP for levelup, prints out stats and calls itself again
 	 */
 	public void CheckLevelUp() {
 		int nxtLvl = (int) Math.pow(this.level+1, 3);
@@ -305,7 +334,7 @@ public class Creature {
 			this.CheckLevelUp();
 		}
 	}
-	/*
+	/**
 	 * nuthin' fancy, just dump the stats on console
 	 */
 	public void dumpStats() {
