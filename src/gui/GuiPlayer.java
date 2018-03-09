@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
+import javax.swing.JDialog;
+
 import combat.MonsterGenerator;
 import combat.Player;
 import combat.*;
@@ -133,6 +136,18 @@ public class GuiPlayer extends GameObject {
 						Thread.sleep(100);
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+				}
+				if (combat.isGameOver()) {
+					System.out.println("Game was over");
+					JDialog test = new GameOver(this.handler.getFrame());
+					GameOver go = (GameOver)test;
+					while (go.isRunning()) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.

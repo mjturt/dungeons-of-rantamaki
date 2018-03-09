@@ -1,4 +1,5 @@
 package gui;
+
 /*
  * TODO: Restructure createMain() to a more readable form!
  */
@@ -17,6 +18,7 @@ public class InitCombat implements ActionListener {
 	private Monster m;
 	private Player p;
 	private JDialog jd;
+	private boolean gameOver = false;
 	/**
 	 * True, if InitCombat is still running.
 	 */
@@ -278,11 +280,19 @@ public class InitCombat implements ActionListener {
 	public void stillAlive() {
 		if (this.p.getHP() > 0 && this.m.getHP() > 0) {
 			this.m.DealDamage(this.p, this.m.selectAttack(this.p));
-			createMain();
+			if (this.p.getHP() > 0) {
+				createMain();
+			} else {
+				this.gameOver = true;
+				kill();
+			}
 		} else if (this.p.getHP() > 0 && this.m.getHP() <= 0 && this.loot.size() > 0) {
 			this.p.addExp(this.m.getHP());
 			this.p.CheckLevelUp();
 			createLootMenu();
+		} else if (this.p.getHP() <= 0) {
+			this.gameOver = true;
+			kill();
 		} else {
 			this.p.addExp(this.m.getHP());
 			this.p.CheckLevelUp();
@@ -454,13 +464,23 @@ public class InitCombat implements ActionListener {
 		this.loot = loot;
 	}
 
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+
 	/*
 	 * GETTERS AND SETTERS END
 	 */
-/**
- * Acts on action events in the main menu
- * @param e ActionEvent to act on
- */
+	/**
+	 * Acts on action events in the main menu
+	 * 
+	 * @param e
+	 *            ActionEvent to act on
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("CONSUMABLES".equals(e.getActionCommand())) {
@@ -494,16 +514,16 @@ class Loot implements ActionListener {
 		this.ic = ic;
 		this.player = ic.getP();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("DISCARD ALL") || this.ic.getLoot().size() == 0) {
 			this.ic.kill();
 		} else {
-			for (Consumable c : this.ic.getLoot()) {
-				if (e.getActionCommand().equals(c.getConsumableName())) {
-					this.player.addItem(c);
-					this.ic.getLoot().remove(c);
+			for (int i = 0; i < this.ic.getLoot().size(); i++) {
+				if (e.getActionCommand().equals(this.ic.getLoot().get(i).getConsumableName())) {
+					this.player.addItem(this.ic.getLoot().get(i));
+					this.ic.getLoot().remove(i);
 					this.ic.getJd().getContentPane().removeAll();
 					this.ic.stillAlive();
 				}
@@ -511,8 +531,9 @@ class Loot implements ActionListener {
 		}
 	}
 }
+
 /**
- * Listens for spell related button actions and acts accordingly. 
+ * Listens for spell related button actions and acts accordingly.
  *
  */
 class Spells implements ActionListener {
@@ -529,20 +550,25 @@ class Spells implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (Attack a : this.ic.getP().getSpellbook()) {
-			if (e.getActionCommand().equals(a.getName())) {
-				if (this.player.ManaCheck(a)) {
-					this.ic.getJd().getContentPane().removeAll();
-					this.player.DealDamage(this.monster, a);
-					this.ic.stillAlive();
-				} else {
-					System.out.println("Not enough mana! Spell cast unsuccesfull");
-					this.ic.createMagicalsMenu();
+		if (e.getActionCommand().equals("RETURN")) {
+			this.ic.createMain();
+		} else {
+			for (Attack a : this.ic.getP().getSpellbook()) {
+				if (e.getActionCommand().equals(a.getName())) {
+					if (this.player.ManaCheck(a)) {
+						this.ic.getJd().getContentPane().removeAll();
+						this.player.DealDamage(this.monster, a);
+						this.ic.stillAlive();
+					} else {
+						System.out.println("Not enough mana! Spell cast unsuccesfull");
+						this.ic.createMagicalsMenu();
+					}
 				}
 			}
 		}
 	}
 }
+
 /**
  * Listens for Physical attack related button actions and acts accordingly.
  *
@@ -561,15 +587,20 @@ class Physicals implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (Attack a : this.player.getMovelist()) {
-			if (e.getActionCommand().equals(a.getName())) {
-				this.ic.getJd().getContentPane().removeAll();
-				this.player.DealDamage(this.monster, a);
-				this.ic.stillAlive();
+		if (e.getActionCommand().equals("RETURN")) {
+			this.ic.createMain();
+		} else {
+			for (Attack a : this.player.getMovelist()) {
+				if (e.getActionCommand().equals(a.getName())) {
+					this.ic.getJd().getContentPane().removeAll();
+					this.player.DealDamage(this.monster, a);
+					this.ic.stillAlive();
+				}
 			}
 		}
 	}
 }
+
 /**
  * Listens to Consumable use actions and acts accordingly
  *
@@ -588,13 +619,17 @@ class UseItem implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < this.player.getInventory().size(); i++) {
-			Component comp = (Component) e.getSource();
-			JButton b = (JButton) comp;
-			if (b.getMnemonic() == i) {
-				this.ic.getJd().getContentPane().removeAll();
-				this.player.useItem(this.player.getItem(i));
-				this.ic.stillAlive();
+		if (e.getActionCommand().equals("RETURN")) {
+			this.ic.createMain();
+		} else {
+			for (int i = 0; i < this.player.getInventory().size(); i++) {
+				Component comp = (Component) e.getSource();
+				JButton b = (JButton) comp;
+				if (b.getMnemonic() == i) {
+					this.ic.getJd().getContentPane().removeAll();
+					this.player.useItem(this.player.getItem(i));
+					this.ic.stillAlive();
+				}
 			}
 		}
 	}
