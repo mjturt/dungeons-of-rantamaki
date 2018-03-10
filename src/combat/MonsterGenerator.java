@@ -32,7 +32,6 @@ public class MonsterGenerator {
 				is.close();
 				int i=-1;
 				for(String s: monsters) {
-					System.out.println(s.indexOf(";"));
 					if (s.indexOf(";")==-1) { //check if it's monster statline
 						monsterList.add(parseLine(s));
 						i++;
