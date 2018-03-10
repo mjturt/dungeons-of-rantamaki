@@ -97,7 +97,12 @@ public class Game extends Canvas implements Runnable {
                 tick();
                 delta--;
             }
-            render();
+            try {
+            	render();
+            } catch (NullPointerException e) {
+            	throw new IllegalStateException("Something went terribly wrong", e);
+            }
+ 
             frames++;
 
             if (System.currentTimeMillis() - timer > 1000) {
