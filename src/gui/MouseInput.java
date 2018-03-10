@@ -14,45 +14,74 @@ public class MouseInput implements MouseListener {
         this.game = game;
     }
 
-    @Override
     public void mouseClicked(MouseEvent arg0) {
 
     }
 
-    @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
-    @Override
     public void mouseExited(MouseEvent e) {
 
     }
 
-    @Override
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        
-        /* "New Game" button */
 
-        if (mx >= 70 && mx <= 200 ) {
-            if (my >= 220 && my <= 250) {
-                game.setState(STATE.GAME);
+        /* Taking mouse input only in menus */
+
+        if (game.getState() == STATE.MENU || game.getState() == STATE.PAUSE) {
+
+
+            if (game.getState() == STATE.MENU) {
+
+                /* "New Game" button, only in main menu */
+
+                if (mx >= 70 && mx <= 200 ) {
+                    if (my >= 220 && my <= 250) {
+                        game.setState(STATE.GAME);
+                    }
+                }
+            } else if (game.getState() == STATE.PAUSE) {
+
+                /* "Continue" button, only in pause menu */
+
+                if (mx >= 70 && mx <= 170 ) {
+                    if (my >= 220 && my <= 250) {
+                        game.setState(STATE.GAME);
+                    }
+                }
+            }
+
+            /* "Load" button */
+
+            if (mx >= 290 && mx <= 350 ) {
+                if (my >= 220 && my <= 250) {
+                    game.setState(STATE.GAME);
+                }
+            }        
+
+            /* "Save" button */
+
+            if (mx >= 470 && mx <= 530 ) {
+                if (my >= 220 && my <= 250) {
+                    game.setState(STATE.GAME);
+                }
+            }
+
+
+            /* "Exit" button */
+
+            if (mx >= 290 && mx <= 340 ) {
+                if (my >= 320 && my <= 350) {
+                    System.exit(1);
+                }
             }
         }
-
-        /* "Exit" button */
-
-        if (mx >= 290 && mx <= 340 ) {
-            if (my >= 320 && my <= 350) {
-                System.exit(1);
-            }
-        }
-
     }
 
-    @Override
     public void mouseReleased(MouseEvent e) {
 
     }

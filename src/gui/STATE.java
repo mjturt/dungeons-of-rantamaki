@@ -7,5 +7,5 @@ package gui;
 public enum STATE {
     MENU(),
     PAUSE(),
-    GAME();
+    GAME(),
 }

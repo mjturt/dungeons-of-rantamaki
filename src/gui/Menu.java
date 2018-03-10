@@ -21,19 +21,19 @@ public class Menu {
         menubg = il.loadImage("/menubg.png");
         g.drawImage(menubg, 0, 0, null);
 
-        /*
-        g.setColor(Color.darkGray);
-        g.fillRect(0, 0, 640, 480);
-*/
-
         Font font1 = fl.loadFont("/fonts/viking.ttf", 90); 
         Font font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
         Font font3 = fl.loadFont("/fonts/morris.ttf", 30);
+
+        /* Title */
+
         g.setFont(font1);
         g.setColor(Color.red);
         g.drawString("Dungeons of", 90, 70);
         g.setFont(font2);
         g.drawString("Räntämäki", 150, 140);
+
+        /* Buttons */
 
         g.setFont(font3);
         g.setColor(Color.yellow);
