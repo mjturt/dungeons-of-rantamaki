@@ -13,7 +13,6 @@ public class GameOver extends JDialog implements ActionListener, Runnable {
 	JButton exit = new JButton("Exit");
 	JPanel panel = new JPanel();
 	private boolean running = false;
-	private boolean exitGame = false;
 	JFrame frame;
 
 	public GameOver(JFrame frame) {
@@ -38,6 +37,7 @@ public class GameOver extends JDialog implements ActionListener, Runnable {
 		this.setSize(320, 240);
 		this.setBackground(Color.DARK_GRAY);
 		this.pack();
+		this.setLocationRelativeTo(this.frame);
 		this.setEnabled(true);
 		this.setVisible(true);
 		this.validate();
@@ -58,9 +58,10 @@ public class GameOver extends JDialog implements ActionListener, Runnable {
 		System.out.println(e.getActionCommand());
 		if (e.getActionCommand().equals("NEW GAME")) {
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+			System.out.println(Thread.currentThread());
+			this.frame.dispose();
+			System.out.println("Closed the window");
 			Game.main(null);
-			this.frame.setEnabled(true);
-			this.running = false;
 		} else if (e.getActionCommand().equals("EXIT")) {
 			this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 			this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
