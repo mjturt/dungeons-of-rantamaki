@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /* GameObject interface, all objects extends it
@@ -27,7 +27,7 @@ public abstract class GameObject {
      * Calls the GameObject to repaint itself. 
      * @param g Graphics (usually BufferedImage) that contains the graphics used to render the object.
      */
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
     /**
      * Used for collision detection
      * 

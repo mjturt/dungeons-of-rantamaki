@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class GuiMonster extends GameObject {
@@ -18,9 +18,9 @@ public class GuiMonster extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 		g.setColor(Color.cyan);
-		g.fillRect(x, y, 64, 64);
+		g.fillRect(this.x, this.y, 64, 64);
 	}
 
 	@Override

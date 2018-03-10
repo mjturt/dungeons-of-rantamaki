@@ -3,20 +3,29 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /* 
  * Pause menu class
  */
 
+
 public class PauseMenu {
+	
+	private ImageLoader il;	
+	private FontLoader fl;
+	private BufferedImage menubg = null;
+	
+	public PauseMenu() {
+		this.il = new ImageLoader();
+		this.fl = new FontLoader();
+	}
 
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
-        FontLoader fl = new FontLoader(); 
-        ImageLoader il = new ImageLoader();
-        BufferedImage menubg = null;
+        
 
         menubg = il.loadImage("/menubg.png");
         g.drawImage(menubg, 0, 0, null);

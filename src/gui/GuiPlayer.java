@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -26,6 +26,7 @@ public class GuiPlayer extends GameObject {
 	int tempX;
 	int tempY;
 	Player p;
+	private Rectangle bounds;
 	/**
 	 * @param x position in the x-axis
 	 * @param y position in the y-axis
@@ -41,7 +42,8 @@ public class GuiPlayer extends GameObject {
 		playerimgL = ss.grabImage(4, 1, 16, 16);
 		playerimgR = ss.grabImage(3, 1, 16, 16);
 		playerimgB = ss.grabImage(2, 1, 16, 16);
-
+		this.bounds = new Rectangle();
+		this.bounds.setBounds(x, y, 16, 16);
 		p = new Player(25, "Kaitsu", 10, 10, 20);
 		this.p.addItem(new Consumable("Testi", 1, 1, 1));
 		AttackIDList aid = new AttackIDList();
@@ -90,18 +92,18 @@ public class GuiPlayer extends GameObject {
 	/*
 	 * Draws picture of the player depending on direction of its movement.
 	 */
-	public void render(Graphics g) {
+	public void render(Graphics2D g) {
 
         /* Player character direction */
 
         if ( velX > 0 ) {
-		    g.drawImage(playerimgR, x, y, null);
+		    g.drawImage(this.playerimgR, x, y, null);
         } else if ( velX < 0 ) {
-		    g.drawImage(playerimgL, x, y, null);
+		    g.drawImage(this.playerimgL, x, y, null);
         } else if ( velY < 0 && velX == 0 ) {
-            g.drawImage(playerimgB, x, y, null);
+            g.drawImage(this.playerimgB, x, y, null);
         } else {
-            g.drawImage(playerimg, x, y, null);
+            g.drawImage(this.playerimg, x, y, null);
         }
 
 	}
@@ -109,7 +111,8 @@ public class GuiPlayer extends GameObject {
 	 * Returns Rectangle of player dimension, used for collision checking
 	 */
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, 16, 16);
+		this.bounds.setBounds(x, y, 16, 16);
+		return this.bounds;
 	}
 	/**
 	 * 
@@ -139,6 +142,7 @@ public class GuiPlayer extends GameObject {
 						e.printStackTrace();
 					}
 				}
+				mg = null;
 				if (combat.isGameOver()) {
 					System.out.println("Game was over");
 					JDialog test = new GameOver(this.handler.getFrame());

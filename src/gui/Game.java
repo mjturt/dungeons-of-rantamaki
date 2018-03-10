@@ -22,7 +22,9 @@ import world.World;
 public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
-
+    
+    
+    private FontLoader fl;
     private boolean isRunning = false;
     private Thread thread;
     private Handler handler;
@@ -38,8 +40,15 @@ public class Game extends Canvas implements Runnable {
     private STATE state;
     private Menu menu;
     private PauseMenu pmenu;
+    Font font1;
+    Font font2;
 
     public Game(int x, int y) {
+    	System.setProperty("sun.java2d.opengl", "true");
+    	state = STATE.MENU;
+        menu = new Menu();
+        pmenu = new PauseMenu();
+    	this.fl = new FontLoader();
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
         start();
@@ -47,9 +56,7 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(new KeyInput(handler, this));
         this.addMouseListener(new MouseInput(this));
 
-        state = STATE.MENU;
-        menu = new Menu();
-        pmenu = new PauseMenu();
+        
 
         ImageLoader loader = new ImageLoader();
         blocksheetImg = loader.loadImage("/blocksheet.png");
@@ -59,6 +66,8 @@ public class Game extends Canvas implements Runnable {
 
         road = blocksheet.grabImage(2, 2, 64, 64);
         loadLevel();
+        this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
+        this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
     }
 
     private void start(){
@@ -149,29 +158,29 @@ public class Game extends Canvas implements Runnable {
 
             for (int x = 0; x < 41 * 64; x += 64) {
                 for (int y = 0; y < 41 * 64; y+=64) {
-                    g.drawImage(road, x, y, null);
+                    g2d.drawImage(road, x, y, null);
                 }
             }
             try {
-                handler.render(g);
+                handler.render(g2d);
             } catch (NullPointerException npe) {
                 throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
             }
         g2d.translate(cam.getX(), cam.getY());
 
-        playerStats(g);
+        playerStats(g2d);
         
         } else if (state == STATE.MENU) {
-            menu.render(g);
+            menu.render(g2d);
         } else if (state == STATE.PAUSE) {
-            pmenu.render(g);
+            pmenu.render(g2d);
         }
 
 
         
 
         //////////////////////////////////////
-        g.dispose();
+        g2d.dispose();
         bs.show();
     }
 
@@ -229,7 +238,7 @@ public class Game extends Canvas implements Runnable {
      * Draw's player stats or stats-based bars to top of the game screen
      */
 
-    public void playerStats(Graphics g) {
+    public void playerStats(Graphics2D g) {
 
         int playerHP = 0;
         int playerMaxHP = 0;
@@ -247,11 +256,8 @@ public class Game extends Canvas implements Runnable {
                 playerLevel = gp.getLevel();
             }
         }
-
-
-        FontLoader fl = new FontLoader(); 
-        Font font1 = fl.loadFont("/fonts/spaceranger.ttf", 14); 
-        Font font2 = fl.loadFont("/fonts/spaceranger.ttf", 18); 
+        
+        
         g.setFont(font1);
 
         /* HP bar */

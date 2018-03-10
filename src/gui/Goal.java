@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 /* This is example class for all GameObjects */
@@ -19,7 +19,7 @@ public class Goal extends GameObject {
 
     /* Render method, all GameObjects must have their own render method */
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.setColor(Color.red);
         g.fillRect(x, y, 64, 64);
 

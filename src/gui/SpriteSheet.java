@@ -11,6 +11,7 @@ public class SpriteSheet {
     private BufferedImage img;
 
     public SpriteSheet(BufferedImage img) {
+    	System.out.println("created spritesheet with image " + img.toString());
         this.img = img;
     }
 
@@ -19,6 +20,7 @@ public class SpriteSheet {
      */
 
     public BufferedImage grabImage(int col, int row, int width, int height) {
+    	System.out.println("Grabbed an image");
         return img.getSubimage((col * width) - width, (row * height) - height, width, height);
     }
 }
