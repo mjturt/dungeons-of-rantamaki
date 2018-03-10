@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="world.Tile" project="dungeons-of-rantamaki" 
     file="/dungeons-of-rantamaki/src/world/Tile.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="261" width="157" x="106" y="465"/>    
+    <position height="-1" width="-1" x="474" y="118"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <enumeration id="3" language="java" name="world.Tile.Maasto" project="dungeons-of-rantamaki" 
     file="/dungeons-of-rantamaki/src/world/Tile.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="153" width="144" x="106" y="766"/>    
+    <position height="-1" width="-1" x="474" y="370"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,8 +30,12 @@
   </enumeration>  
   <association id="4">    
     <end type="SOURCE" refId="1" navigable="false" variant="ASSOCIATION">      
-      <attribute id="5" name="maasto"/>      
-      <multiplicity id="6" minimum="0" maximum="1"/>    
+      <attribute id="5" name="maasto">        
+        <position height="0" width="0" x="296" y="-472"/>      
+      </attribute>      
+      <multiplicity id="6" minimum="0" maximum="1">        
+        <position height="0" width="0" x="296" y="-472"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
@@ -42,8 +46,12 @@
   </nesting>  
   <association id="8">    
     <end type="SOURCE" refId="2" navigable="false" variant="ASSOCIATION">      
-      <attribute id="9" name="world"/>      
-      <multiplicity id="10" minimum="0" maximum="2147483647"/>    
+      <attribute id="9" name="world">        
+        <position height="0" width="0" x="290" y="-477"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="290" y="-477"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true" variant="ASSOCIATION"/>    
     <display labels="true" multiplicity="true"/>  
