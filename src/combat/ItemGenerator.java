@@ -35,6 +35,8 @@ public class ItemGenerator {
 			else {
 				throw new FileNotFoundException();
 			}
+			br.close();
+			is.close();
 			for(String s: items) {
 				Itemlist.add(parseLine(s));
 			}

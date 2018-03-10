@@ -37,6 +37,8 @@ public class SpellIDList {
 			else {
 				throw new FileNotFoundException();
 			}
+			br.close();
+			is.close();
 			for(String s: spells) {
 				IDList.add(parseLine(s));
 			}
