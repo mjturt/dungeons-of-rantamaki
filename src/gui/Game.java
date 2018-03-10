@@ -45,6 +45,9 @@ public class Game extends Canvas implements Runnable {
 
     public Game(int x, int y) {
     	System.setProperty("sun.java2d.opengl", "true");
+    	state = STATE.MENU;
+        menu = new Menu();
+        pmenu = new PauseMenu();
     	this.fl = new FontLoader();
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
@@ -53,9 +56,7 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(new KeyInput(handler, this));
         this.addMouseListener(new MouseInput(this));
 
-        state = STATE.MENU;
-        menu = new Menu();
-        pmenu = new PauseMenu();
+        
 
         ImageLoader loader = new ImageLoader();
         blocksheetImg = loader.loadImage("/blocksheet.png");

@@ -20,7 +20,7 @@ public class GuiMonster extends GameObject {
 	@Override
 	public void render(Graphics2D g) {
 		g.setColor(Color.cyan);
-		g.fillRect(x, y, 64, 64);
+		g.fillRect(this.x, this.y, 64, 64);
 	}
 
 	@Override

@@ -13,33 +13,36 @@ public class Menu {
 	FontLoader fl;
 	ImageLoader il;
 	BufferedImage menubg;
-	
+	Font font1;
+    Font font2;
+    Font font3;
+
 	public Menu() {
 		this.fl = new FontLoader();
 		this.il = new ImageLoader();
+		this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
+		this.font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
+		this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
+		this.menubg = il.loadImage("/menubg.png");
 	}
 
 
     public void render(Graphics2D g) {
     	
-    	menubg = il.loadImage("/menubg.png");
-        g.drawImage(menubg, 0, 0, null);
-
-        Font font1 = fl.loadFont("/fonts/viking.ttf", 90); 
-        Font font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
-        Font font3 = fl.loadFont("/fonts/morris.ttf", 30);
+    	
+        g.drawImage(this.menubg, 0, 0, null);
 
         /* Title */
 
-        g.setFont(font1);
+        g.setFont(this.font1);
         g.setColor(Color.red);
         g.drawString("Dungeons of", 90, 70);
-        g.setFont(font2);
+        g.setFont(this.font2);
         g.drawString("Räntämäki", 150, 140);
 
         /* Buttons */
 
-        g.setFont(font3);
+        g.setFont(this.font3);
         g.setColor(Color.yellow);
         g.drawString("New Game", 70, 250);
         g.drawString("Load", 290, 250);
@@ -51,7 +54,7 @@ public class Menu {
 
 
 	public FontLoader getFl() {
-		return fl;
+		return this.fl;
 	}
 
 
@@ -61,7 +64,7 @@ public class Menu {
 
 
 	public ImageLoader getIl() {
-		return il;
+		return this.il;
 	}
 
 
@@ -71,7 +74,7 @@ public class Menu {
 
 
 	public BufferedImage getMenubg() {
-		return menubg;
+		return this.menubg;
 	}
 
 

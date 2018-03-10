@@ -97,13 +97,13 @@ public class GuiPlayer extends GameObject {
         /* Player character direction */
 
         if ( velX > 0 ) {
-		    g.drawImage(playerimgR, x, y, null);
+		    g.drawImage(this.playerimgR, x, y, null);
         } else if ( velX < 0 ) {
-		    g.drawImage(playerimgL, x, y, null);
+		    g.drawImage(this.playerimgL, x, y, null);
         } else if ( velY < 0 && velX == 0 ) {
-            g.drawImage(playerimgB, x, y, null);
+            g.drawImage(this.playerimgB, x, y, null);
         } else {
-            g.drawImage(playerimg, x, y, null);
+            g.drawImage(this.playerimg, x, y, null);
         }
 
 	}
