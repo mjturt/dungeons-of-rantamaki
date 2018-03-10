@@ -38,6 +38,8 @@ public class AttackIDList {
 			else {
 				throw new FileNotFoundException();
 			}
+			br.close();
+			is.close();
 			for(String s: attacks) {
 				IDList.add(parseLine(s));
 			}

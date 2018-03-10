@@ -28,6 +28,8 @@ public class MonsterGenerator {
 				while((str = br.readLine()) != null) {
 					monsters.add(str);
 				}
+				br.close();
+				is.close();
 				int i=-1;
 				for(String s: monsters) {
 					System.out.println(s.indexOf(";"));
@@ -70,14 +72,7 @@ public class MonsterGenerator {
 	private Monster parseLine(String line) {
 		line = line.trim();
 		String[] monsterArray = line.split(",");
-		try {
-			return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
-		}
-		catch(ArrayIndexOutOfBoundsException oob) {
-			System.out.println(line);
-			oob.printStackTrace();
-			return null;
-			}
+		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
 		}
 	/**
 	 * 

@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 import world.World;
 /* 
@@ -41,8 +40,6 @@ public class Game extends Canvas implements Runnable {
     private Menu menu;
     private PauseMenu pmenu;
 
-    private HashMap<String, AudioPlayer> playlist;
-
     public Game(int x, int y) {
     	System.setProperty("sun.java2d.opengl", "true");
     	this.fl = new FontLoader();
@@ -56,15 +53,6 @@ public class Game extends Canvas implements Runnable {
         state = STATE.MENU;
         menu = new Menu();
         pmenu = new PauseMenu();
-
-        playlist = new HashMap<String, AudioPlayer>();
-        playlist.put("fantasy", new AudioPlayer("/sounds/fantasy.wav"));
-        playlist.put("detective", new AudioPlayer("/sounds/detective.wav"));
-        try {
-            playlist.get("detective").play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         ImageLoader loader = new ImageLoader();
         blocksheetImg = loader.loadImage("/blocksheet.png");
