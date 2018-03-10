@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -21,6 +21,7 @@ import javax.swing.JFrame;
  * Handler is a class used for updating and storing game related events. Like it's name states,
  * it handles everything.
  */
+@SuppressWarnings("serial")
 public class Handler implements java.io.Serializable  {
 
     ArrayList<GameObject> objects = new ArrayList<GameObject>();
@@ -50,7 +51,7 @@ public class Handler implements java.io.Serializable  {
      * Calls all GameObjects to render(using the GameObjects own render method)
      * @param g Graphics object.
      */
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         for (int i = 0; i < objects.size(); i++) {
             GameObject temp = objects.get(i);
             temp.render(g);

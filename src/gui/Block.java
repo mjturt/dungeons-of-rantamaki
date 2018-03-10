@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -18,10 +18,13 @@ public class Block extends GameObject {
     private Random rand = new Random(); 
     private int r;
     private SpriteSheet ss;
+    private Rectangle bounds;
 
     public Block(int x, int y, ID id, SpriteSheet ss) {
         super(x, y, id);
         this.ss = ss;
+        this.bounds = new Rectangle();
+        this.bounds.setBounds(x, y, 64, 64);
 		bushimg = ss.grabImage(1, 1, 64, 64);
 		bushtreeimg = ss.grabImage(2, 1, 64, 64);
 		houseimg = ss.grabImage(3, 1, 64, 64);
@@ -40,7 +43,7 @@ public class Block extends GameObject {
 
     /* Render method, all GameObjects must have their own render method */
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         if (r <= 4) {
             g.drawImage(houseimg, x, y, null);
         } else if (r > 4 && r < 10) {
@@ -60,7 +63,8 @@ public class Block extends GameObject {
     /* This is for collision detection */
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 64, 64);
+    	this.bounds.setBounds(x, y, 64, 64);
+        return this.bounds;
     }
 
 }

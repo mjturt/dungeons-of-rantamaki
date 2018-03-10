@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /* 
@@ -10,15 +10,19 @@ import java.awt.image.BufferedImage;
  */
 
 public class Menu {
+	FontLoader fl;
+	ImageLoader il;
+	BufferedImage menubg;
+	
+	public Menu() {
+		this.fl = new FontLoader();
+		this.il = new ImageLoader();
+	}
 
 
-    public void render(Graphics g) {
-
-        FontLoader fl = new FontLoader(); 
-        ImageLoader il = new ImageLoader();
-        BufferedImage menubg = null;
-
-        menubg = il.loadImage("/menubg.png");
+    public void render(Graphics2D g) {
+    	
+    	menubg = il.loadImage("/menubg.png");
         g.drawImage(menubg, 0, 0, null);
 
         Font font1 = fl.loadFont("/fonts/viking.ttf", 90); 
@@ -44,4 +48,34 @@ public class Menu {
         g.drawString("Exit", 290, 350);
         
     }
+
+
+	public FontLoader getFl() {
+		return fl;
+	}
+
+
+	public void setFl(FontLoader fl) {
+		this.fl = fl;
+	}
+
+
+	public ImageLoader getIl() {
+		return il;
+	}
+
+
+	public void setIl(ImageLoader il) {
+		this.il = il;
+	}
+
+
+	public BufferedImage getMenubg() {
+		return menubg;
+	}
+
+
+	public void setMenubg(BufferedImage menubg) {
+		this.menubg = menubg;
+	}
 }
