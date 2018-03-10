@@ -1,31 +1,52 @@
 package combat;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MonsterGenerator {
 	private ArrayList<Monster> monsterList;
-	
+	private ArrayList<String> monsters;
+
+	/**
+	 * reads monsters from monsterlist as resource, for packing it to the JAR. Then uses BufferedReader to read the binary inputstream
+	 * as string values, that are passed to appropriate parser to initialize the Monster object. Assumes UTF-8 encoding for files.
+	 * Uses current thread's context to get classloader for fetching the resourceStream.
+	 */
 	public MonsterGenerator() {
 		monsterList = new ArrayList<Monster>();
-		//Path mPath = Paths.get(System.getProperty("user.dir")+"/src/combat/monsterlist");
-		Path mPath = FileSystems.getDefault().getPath("./src/combat/monsterlist");
+		monsters = new ArrayList<String>();
+		String str;
 		try {
-			List<String> monsters = Files.readAllLines(mPath); //monsterlist is read line by line as String as utf-8 and autoclosed
-			int i=-1;
-			for(String s: monsters) {
-				if (s.indexOf(";")==-1) { //check if it's monster statline
-					monsterList.add(parseLine(s));
-					i++;
+			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			InputStream is = classloader.getResourceAsStream("combat/monsterlist");
+			BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
+			if(is!=null) {
+				while((str = br.readLine()) != null) {
+					monsters.add(str);
 				}
-				else {
-					addSkills(monsterList.get(i), s);
+				int i=-1;
+				for(String s: monsters) {
+					System.out.println(s.indexOf(";"));
+					if (s.indexOf(";")==-1) { //check if it's monster statline
+						monsterList.add(parseLine(s));
+						i++;
+					}
+					else {
+						addSkills(monsterList.get(i), s);
+					}
 				}
-				
 			}
+			else {
+				throw new FileNotFoundException();
+			}
+		}
+		catch(NullPointerException npe) {
+			System.out.println("Something went wrong :(");
+			npe.printStackTrace();
 		}
 		catch(IOException ioe) {
 			System.out.println("Something went wrong :(");
@@ -49,7 +70,14 @@ public class MonsterGenerator {
 	private Monster parseLine(String line) {
 		line = line.trim();
 		String[] monsterArray = line.split(",");
-		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
+		try {
+			return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
+		}
+		catch(ArrayIndexOutOfBoundsException oob) {
+			System.out.println(line);
+			oob.printStackTrace();
+			return null;
+			}
 		}
 	/**
 	 * 
