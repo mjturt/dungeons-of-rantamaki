@@ -23,6 +23,7 @@ public class Game extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
     
+    
     private FontLoader fl;
     private boolean isRunning = false;
     private Thread thread;
@@ -39,6 +40,8 @@ public class Game extends Canvas implements Runnable {
     private STATE state;
     private Menu menu;
     private PauseMenu pmenu;
+    Font font1;
+    Font font2;
 
     public Game(int x, int y) {
     	System.setProperty("sun.java2d.opengl", "true");
@@ -62,6 +65,8 @@ public class Game extends Canvas implements Runnable {
 
         road = blocksheet.grabImage(2, 2, 64, 64);
         loadLevel();
+        this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
+        this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
     }
 
     private void start(){
@@ -250,11 +255,8 @@ public class Game extends Canvas implements Runnable {
                 playerLevel = gp.getLevel();
             }
         }
-
-
-         
-        Font font1 = fl.loadFont("/fonts/spaceranger.ttf", 14); 
-        Font font2 = fl.loadFont("/fonts/spaceranger.ttf", 18); 
+        
+        
         g.setFont(font1);
 
         /* HP bar */
