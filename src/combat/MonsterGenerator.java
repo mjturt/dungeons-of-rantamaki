@@ -61,7 +61,7 @@ public class MonsterGenerator {
 		Random r = new Random();
 		Monster prototype = monsterList.get(i);
 		int delta = (int)Math.floor(lvl/10.0);
-		delta = (r.nextInt(delta+1)-delta);
+		delta = (r.nextInt(delta+1-delta)+delta);
 		for(int j=1;j<delta;j++) {
 			prototype.LevelUp();
 		}
