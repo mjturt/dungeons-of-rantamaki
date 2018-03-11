@@ -36,6 +36,7 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage playersheetImg = null;
 
     private BufferedImage road = null;
+    private BufferedImage bus = null;
 
     private STATE state;
     private Menu menu;
@@ -74,6 +75,7 @@ public class Game extends Canvas implements Runnable {
         blocksheet = new SpriteSheet(blocksheetImg);
         playersheetImg = loader.loadImage("/images/playersheet.png");
         playersheet = new SpriteSheet(playersheetImg);
+        bus = loader.loadImage("/images/bus.png");
 
         road = blocksheet.grabImage(2, 2, 64, 64);
         loadLevel();
@@ -224,7 +226,7 @@ public class Game extends Canvas implements Runnable {
                     handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler, playersheet));
                 }
                 if(goal[0] == y && goal[1] == x) {
-                    handler.addObject(new Goal(x*64, y*64, ID.Goal));
+                    handler.addObject(new Goal(x*64, y*64, ID.Goal, bus));
                 }
                 if (world.getTile(y, x).hasMonster()) {
                     handler.addObject(new GuiMonster(x*64, y*64, ID.Enemy));

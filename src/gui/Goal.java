@@ -1,27 +1,30 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
-/* This is example class for all GameObjects */
+/*
+ *  Goal class 
+ */
 
 public class Goal extends GameObject {
+    
+    private BufferedImage bus;
 
-    public Goal(int x, int y, ID id) {
+    public Goal(int x, int y, ID id, BufferedImage bus) {
         super(x, y, id);
+        this.bus = bus;
     }
 
-    /* Tick method, all GameObjects must have their own tick method */
 
     public void tick() {
     }
 
-    /* Render method, all GameObjects must have their own render method */
+    /* Drawing bus-image */
 
     public void render(Graphics2D g) {
-        g.setColor(Color.red);
-        g.fillRect(x, y, 64, 64);
+        g.drawImage(bus, x, y, null);
 
     }
 
