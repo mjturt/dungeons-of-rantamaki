@@ -23,6 +23,7 @@ public class GuiPlayer extends GameObject {
 	private BufferedImage playerimgL = null;
 	private BufferedImage playerimgR = null;
 	private BufferedImage playerimgB = null;
+    private Game game;
 	int tempX;
 	int tempY;
 	Player p;
@@ -33,11 +34,12 @@ public class GuiPlayer extends GameObject {
 	 * @param id Enum.ID
 	 * @param handler game event handler
 	 */
-	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss) {
+	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss, Game game) {
 		super(x, y, id);
 		Random r = new Random();
 		this.handler = handler;
         this.ss = ss;
+        this.game = game;
 		playerimg = ss.grabImage(1, 1, 16, 16);
 		playerimgL = ss.grabImage(4, 1, 16, 16);
 		playerimgR = ss.grabImage(3, 1, 16, 16);
@@ -159,7 +161,10 @@ public class GuiPlayer extends GameObject {
 				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
 				handler.removeObject(handler.objects.get(i));
 			}
-		}
+			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Goal.class) {
+                game.setState(STATE.GOAL);
+		    }
+        }
 		y = tempY;
 		x = tempX;
 	}
