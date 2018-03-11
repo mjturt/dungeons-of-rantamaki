@@ -41,9 +41,18 @@ public class MouseInput implements MouseListener {
 
                 if (mx >= 70 && mx <= 200 ) {
                     if (my >= 220 && my <= 250) {
-                        game.setState(STATE.GAME);
+                        game.setState(STATE.START);
                     }
                 }
+
+                /* "About" button, only in main menu */
+
+                if (mx >= 530 && mx <= 600 ) {
+                    if (my >= 420 && my <= 450) {
+                        game.setState(STATE.ABOUT);
+                    }
+                }
+
             } else if (game.getState() == STATE.PAUSE) {
 
                 /* "Continue" button, only in pause menu */
@@ -71,12 +80,21 @@ public class MouseInput implements MouseListener {
                 }
             }
 
-
             /* "Exit" button */
 
             if (mx >= 290 && mx <= 340 ) {
                 if (my >= 320 && my <= 350) {
                     System.exit(1);
+                }
+            }
+
+        } else if (game.getState() == STATE.ABOUT) {
+
+            /* Back button in about screen */
+
+            if (mx >= 290 && mx <= 340 ) {
+                if (my >= 400 && my <= 430) {
+                    game.setState(STATE.MENU);
                 }
             }
         }

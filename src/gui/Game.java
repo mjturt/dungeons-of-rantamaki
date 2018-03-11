@@ -40,6 +40,8 @@ public class Game extends Canvas implements Runnable {
     private STATE state;
     private Menu menu;
     private PauseMenu pmenu;
+    private AboutMenu amenu;
+    private StartScreen startscreen;
     Font font1;
     Font font2;
 
@@ -56,6 +58,8 @@ public class Game extends Canvas implements Runnable {
         }
         menu = new Menu();
         pmenu = new PauseMenu();
+        amenu = new AboutMenu();
+        startscreen = new StartScreen();
     	this.fl = new FontLoader();
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
@@ -141,7 +145,7 @@ public class Game extends Canvas implements Runnable {
                     cam.tick(handler.objects.get(i));
                 }
             }
-        } else if (state == STATE.MENU || state == STATE.PAUSE) {
+        } else if (state == STATE.MENU || state == STATE.PAUSE || state == STATE.START || state == STATE.ABOUT) {
         }
     }
 
@@ -181,6 +185,10 @@ public class Game extends Canvas implements Runnable {
             menu.render(g2d);
         } else if (state == STATE.PAUSE) {
             pmenu.render(g2d);
+        } else if (state == STATE.ABOUT) {
+            amenu.render(g2d);
+        } else if (state == STATE.START) {
+            startscreen.render(g2d);
         }
 
 

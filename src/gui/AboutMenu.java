@@ -6,23 +6,25 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /* 
- * Main menu class
+ * About menu class
  */
 
-public class Menu {
+public class AboutMenu {
 	FontLoader fl;
 	ImageLoader il;
 	BufferedImage menubg;
 	Font font1;
     Font font2;
     Font font3;
+    Font font4;
 
-	public Menu() {
+	public AboutMenu() {
 		this.fl = new FontLoader();
 		this.il = new ImageLoader();
 		this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
 		this.font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
 		this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
+		this.font4 = fl.loadFont("/fonts/droidsansmono.ttf", 15);
 		this.menubg = il.loadImage("/images/menubg.png");
 	}
 
@@ -39,19 +41,24 @@ public class Menu {
         g.drawString("Dungeons of", 90, 70);
         g.setFont(this.font2);
         g.drawString("Räntämäki", 150, 140);
+        g.setFont(font3);
+        g.setColor(Color.blue);
+        g.drawString("About", 270, 200);
 
-        /* Buttons */
+        /* Authors */
 
-        g.setFont(this.font3);
+        g.setColor(Color.white);
+        g.drawString("Authors", 70, 250);
+        g.setFont(this.font4);
+        g.drawString("Maks Turtiainen", 70, 300);
+        g.drawString("Vili Ahava", 270, 300);
+        g.drawString("Mikko Malkavaara", 450, 300);
+
+        /* Back button */
+
         g.setColor(Color.yellow);
-
-        g.drawString("New Game", 70, 250);
-        g.drawString("Load", 290, 250);
-        g.drawString("Save", 470, 250);
-
-        g.drawString("Exit", 290, 350);
-
-        g.drawString("About", 530, 450);
+        g.setFont(this.font3);
+        g.drawString("Back", 290, 430);
         
     }
 
@@ -76,12 +83,12 @@ public class Menu {
 	}
 
 
-	public BufferedImage getMenubg() {
+	public BufferedImage getAboutMenubg() {
 		return this.menubg;
 	}
 
 
-	public void setMenubg(BufferedImage menubg) {
+	public void setAboutMenubg(BufferedImage menubg) {
 		this.menubg = menubg;
 	}
 }

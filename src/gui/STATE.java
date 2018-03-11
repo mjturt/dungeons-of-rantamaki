@@ -8,4 +8,6 @@ public enum STATE {
     MENU(),
     PAUSE(),
     GAME(),
+    START(),
+    ABOUT(),
 }

@@ -3,7 +3,9 @@ package gui;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/* Basic keyinput stuff */
+/*
+ * Basic keyinput stuff
+ */
 
 public class KeyInput extends KeyAdapter {
 
@@ -18,7 +20,10 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        /* Loops through Handlers objects list until Player object is found */
+        /*
+         * Player character movement
+         * Loops through Handlers objects list until Player object is found 
+         */
 
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject temp= handler.objects.get(i);
@@ -37,14 +42,31 @@ public class KeyInput extends KeyAdapter {
                 }
             }
         }
+
+        /*
+         * Keyboard input for menus
+         */
+
         if (key == KeyEvent.VK_ESCAPE) {
             if (game.getState() == STATE.GAME) {
                 game.setState(STATE.PAUSE);
             } else if (game.getState() == STATE.PAUSE) {
                 game.setState(STATE.GAME);
+            } else if (game.getState() == STATE.ABOUT) {
+                game.setState(STATE.MENU);
+            }
+        }
+
+        if (key == KeyEvent.VK_ENTER) {
+            if (game.getState() == STATE.START) {
+                game.setState(STATE.GAME);
             }
         }
     }
+
+    /*
+     * Key release events, only for character movement
+     */
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
