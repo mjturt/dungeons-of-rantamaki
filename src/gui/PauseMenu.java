@@ -24,7 +24,7 @@ public class PauseMenu {
 		this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
 		this.font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
 		this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
-		this.menubg = il.loadImage("/menubg.png");
+		this.menubg = il.loadImage("/images/menubg.png");
 	}
 
 

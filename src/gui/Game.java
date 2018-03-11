@@ -66,9 +66,9 @@ public class Game extends Canvas implements Runnable {
         
 
         ImageLoader loader = new ImageLoader();
-        blocksheetImg = loader.loadImage("/blocksheet.png");
+        blocksheetImg = loader.loadImage("/images/blocksheet.png");
         blocksheet = new SpriteSheet(blocksheetImg);
-        playersheetImg = loader.loadImage("/playersheet.png");
+        playersheetImg = loader.loadImage("/images/playersheet.png");
         playersheet = new SpriteSheet(playersheetImg);
 
         road = blocksheet.grabImage(2, 2, 64, 64);
