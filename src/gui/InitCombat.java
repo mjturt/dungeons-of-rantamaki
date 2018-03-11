@@ -2,15 +2,14 @@ package gui;
 
 /*
  * TODO: Restructure createMain() to a more readable form!
+ * 
+ * This class is large, mostly due to the large amount of setup and defining required by swing components. If all position and width setting
+ * is discarded, this class is relatively simple. Mostly ActionListeners reacting on pressed buttons and combat related method calls.
  */
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -54,7 +53,6 @@ public class InitCombat implements ActionListener, Runnable {
 	private JButton mag = new JButton("MAGICAL");
 	private JButton phy = new JButton("PHYSICAL");
 	private FlowLayout layout = new FlowLayout();
-	private Dimension textbox = new Dimension(240, 120);
 	private DefaultCaret caret = (DefaultCaret)this.jt.getCaret();
 	/**
 	 * Initiates a new combat event
@@ -78,13 +76,13 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.loot = generateLoot();
 		this.jd.setModal(true);
-		this.jt.setSize(this.textbox);
-		this.jt.setMaximumSize(this.textbox);
 		this.jt.setEditable(false);
 		this.jd.add(this.scrollBox);
+		this.jd.setLayout(this.layout);
+		this.jd.setMaximumSize(new Dimension(640, 240));
+		this.jd.setPreferredSize(new Dimension(640, 240));
 		this.caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		this.scrollBox.add(this.jsp);
-		System.out.println("test");
 	}
 
 	/**
@@ -105,10 +103,6 @@ public class InitCombat implements ActionListener, Runnable {
 		JButton att = new JButton("ATTACK");
 		att.setActionCommand("ATTACK");
 		att.addActionListener(this);
-		att.setSize(64, 32);
-		information.setSize(128, 64);
-		this.playerText.setSize(64, 64);
-		this.enemyText.setSize(64, 64);
 		this.playerText.setText(this.p.getName() + " Lvl: " + this.p.getLevel() + "\n HP: " + this.p.getHP() + "/"
 				+ this.p.getMaxHP() + "\n Mana: " + this.p.getMana() + "/" + this.p.getMaxMana());
 		this.enemyText.setText(this.m.getName() + " Lvl: " + this.m.getLevel() + "\n HP:" + this.m.getHP() + "/"
@@ -117,18 +111,15 @@ public class InitCombat implements ActionListener, Runnable {
 		this.selectAction.add(att);
 		this.information.add(this.playerText);
 		this.information.add(this.enemyText);
-		this.selectAction.setSize(640, 480 / 2);
 		this.jd.add(selectAction);
 		this.jd.add(information);
-		this.jd.setSize(640, 480);
-		
-		this.jd.setLayout(this.layout);
+		this.jd.setMaximumSize(new Dimension(640, 240));
+		this.jd.setPreferredSize(new Dimension(640, 240));
 		this.jd.pack();
 		this.jd.setLocationRelativeTo(this.jf);
 		this.jd.setEnabled(true);
 		this.jd.setVisible(true);
 		this.jd.repaint();
-		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 	
 	/**
@@ -164,7 +155,6 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
-		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
@@ -189,7 +179,6 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
-		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
@@ -211,8 +200,6 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
-		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
-
 	}
 
 	/**
@@ -233,8 +220,6 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
-		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
-
 	}
 
 	/**
@@ -258,7 +243,6 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
-		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
 
 	/**
@@ -320,14 +304,14 @@ public class InitCombat implements ActionListener, Runnable {
 				kill();
 			}
 		} else if (this.p.getHP() > 0 && this.m.getHP() <= 0 && this.loot.size() > 0) {
-			this.p.addExp(this.m.getHP());
+			this.p.addExp(this.m.getMaxHP());
 			this.p.CheckLevelUp();
 			createLootMenu();
 		} else if (this.p.getHP() <= 0) {
 			this.gameOver = true;
 			kill();
 		} else {
-			this.p.addExp(this.m.getHP());
+			this.p.addExp(this.m.getMaxHP());
 			this.p.CheckLevelUp();
 			kill();
 		}
@@ -605,7 +589,8 @@ class Spells implements ActionListener {
 						this.ic.stillAlive();
 					} else {
 						System.out.println("Not enough mana! Spell cast unsuccesfull");
-						this.ic.createMagicalsMenu();
+						this.ic.refresh();
+						this.ic.createMain();
 					}
 				}
 			}
@@ -680,18 +665,21 @@ class UseItem implements ActionListener {
 		}
 	}
 }
-
+/**
+ *OutputStream for redirecting System.out calls to a JTextArea, used in gui.InitCombat
+ */
 class CombatOutputStream extends OutputStream {
-	private JTextArea jsp;
-	
-	public CombatOutputStream(JTextArea scrollpane) {
-		this.jsp = scrollpane;
+	private JTextArea tArea;
+	/**
+	 * Constructs a new CombatOutputStream
+	 * @param textarea JTextArea which is used to display System.out
+	 */
+	public CombatOutputStream(JTextArea textarea) {
+		this.tArea = textarea;
 	}
-	@Override
+	@Override 
 	public void write(int i) throws IOException {
-		jsp.append(String.valueOf((char)i));
-		jsp.setSize(new Dimension (240, 80));
-		jsp.setMaximumSize(new Dimension(240, 80));
+		tArea.append(String.valueOf((char)i));
 	}
 	
 }
