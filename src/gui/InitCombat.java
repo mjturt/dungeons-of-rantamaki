@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
@@ -15,10 +16,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
+
 import combat.*;
 
 /**
- * Class for initiating a new combat window
+ * Monstrously huge class for dynamically creating combat related menus and
+ * viewing combat related information.
  */
 public class InitCombat implements ActionListener, Runnable {
 	private Monster m;
@@ -39,7 +43,19 @@ public class InitCombat implements ActionListener, Runnable {
 	 */
 	private JTextArea enemyText = new JTextArea();
 	private ArrayList<Consumable> loot;
-
+	private JTextArea jt = new JTextArea(5, 50);
+	private PrintStream ps = new PrintStream(new CombatOutputStream(jt));
+	private JScrollPane jsp = new JScrollPane(this.jt);
+	private JPanel selectAction = new JPanel();
+	private JPanel information = new JPanel();
+	private JPanel selectConsumable = new JPanel();
+	private JPanel selectAttackType = new JPanel();
+	private JPanel scrollBox = new JPanel();
+	private JButton mag = new JButton("MAGICAL");
+	private JButton phy = new JButton("PHYSICAL");
+	private FlowLayout layout = new FlowLayout();
+	private Dimension textbox = new Dimension(240, 120);
+	private DefaultCaret caret = (DefaultCaret)this.jt.getCaret();
 	/**
 	 * Initiates a new combat event
 	 * 
@@ -52,15 +68,23 @@ public class InitCombat implements ActionListener, Runnable {
 	 *            Swing objects
 	 */
 	public InitCombat(Player p, Monster m, JFrame jf) {
+		System.setOut(this.ps);
 		this.running = true;
 		this.jf = jf;
-		jf.setEnabled(false);
+		this.jf.setEnabled(false);
 		this.jd = new JDialog(jf);
 		this.m = m;
 		this.p = p;
 		this.jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.loot = generateLoot();
 		this.jd.setModal(true);
+		this.jt.setSize(this.textbox);
+		this.jt.setMaximumSize(this.textbox);
+		this.jt.setEditable(false);
+		this.jd.add(this.scrollBox);
+		this.caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		this.scrollBox.add(this.jsp);
+		System.out.println("test");
 	}
 
 	/**
@@ -82,8 +106,6 @@ public class InitCombat implements ActionListener, Runnable {
 		att.setActionCommand("ATTACK");
 		att.addActionListener(this);
 		att.setSize(64, 32);
-		JPanel selectAction = new JPanel();
-		JPanel information = new JPanel();
 		information.setSize(128, 64);
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
@@ -91,18 +113,16 @@ public class InitCombat implements ActionListener, Runnable {
 				+ this.p.getMaxHP() + "\n Mana: " + this.p.getMana() + "/" + this.p.getMaxMana());
 		this.enemyText.setText(this.m.getName() + " Lvl: " + this.m.getLevel() + "\n HP:" + this.m.getHP() + "/"
 				+ this.m.getMaxHP() + "\n Mana: " + this.m.getMana() + "/" + this.m.getMaxMana());
-		selectAction.add(cons);
-		selectAction.add(att);
-		information.add(this.playerText);
-		information.add(this.enemyText);
-		selectAction.setSize(640, 480 / 2);
+		this.selectAction.add(cons);
+		this.selectAction.add(att);
+		this.information.add(this.playerText);
+		this.information.add(this.enemyText);
+		this.selectAction.setSize(640, 480 / 2);
 		this.jd.add(selectAction);
 		this.jd.add(information);
-		JScrollPane sp = new JScrollPane();
-		sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		this.jd.setSize(640, 480);
-		jd.setLayout(new FlowLayout());
+		
+		this.jd.setLayout(this.layout);
 		this.jd.pack();
 		this.jd.setLocationRelativeTo(this.jf);
 		this.jd.setEnabled(true);
@@ -110,28 +130,37 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd.repaint();
 		System.out.println("Is this a event dispatch thread: " + SwingUtilities.isEventDispatchThread());
 	}
-
+	
+	/**
+	 * Removes all containers and buttons except combat log.
+	 */
+	protected void refresh() {
+		this.jd.remove(this.information);
+		this.jd.remove(this.enemyText);
+		this.selectAction.removeAll();
+		this.selectAttackType.removeAll();
+		this.selectConsumable.removeAll();
+		this.jd.remove(this.selectAction);
+		this.jd.remove(this.selectAttackType);
+		this.jd.remove(this.selectConsumable);
+		this.jd.revalidate();
+	}
 	/**
 	 * Auto-generates the usable consumables menu and its buttons based on the
 	 * players inventory. Invoked by action listener
 	 */
 	private void createConsumablesMenu() {
-		this.jd.getContentPane().removeAll();
-		this.jd.setVisible(true);
-		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getInventoryItemNames(), new UseItem(this));
 		for (int i = 0; i < buttons.size(); i++) {
-
-			selectConsumable.add(buttons.get(i));
+			this.selectConsumable.add(buttons.get(i));
 		}
-		JPanel information = new JPanel();
-		information.add(this.playerText);
-		information.add(this.enemyText);
+		this.information.add(this.playerText);
+		this.information.add(this.enemyText);
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
 		this.jd.getContentPane().add(selectConsumable);
 		this.jd.getContentPane().add(information);
-		this.jd.setLayout(new FlowLayout());
+		this.jd.setLayout(this.layout);
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
@@ -142,27 +171,21 @@ public class InitCombat implements ActionListener, Runnable {
 	 * Creates the attack type selection menu, invoked by ActionListener
 	 */
 	private void createAttacksMenu() {
-		this.jd.getContentPane().removeAll();
-		this.jd.setVisible(true);
-		JPanel selectAttackType = new JPanel();
-		JPanel information = new JPanel();
-		JButton mag = new JButton("MAGICAL");
-		mag.setActionCommand("MAGICAL");
-		mag.setSize(64, 32);
-		mag.addActionListener(this);
-		JButton phy = new JButton("PHYSICAL");
-		phy.setActionCommand("PHYSICAL");
-		phy.setSize(64, 32);
-		phy.addActionListener(this);
-		information.add(this.playerText);
-		information.add(this.enemyText);
-		selectAttackType.add(mag);
-		selectAttackType.add(phy);
+		this.mag.setActionCommand("MAGICAL");
+		this.mag.setSize(64, 32);
+		this.mag.addActionListener(this);
+		this.phy.setActionCommand("PHYSICAL");
+		this.phy.setSize(64, 32);
+		this.phy.addActionListener(this);
+		this.information.add(this.playerText);
+		this.information.add(this.enemyText);
+		this.selectAttackType.add(mag);
+		this.selectAttackType.add(phy);
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
 		this.jd.getContentPane().add(selectAttackType);
 		this.jd.getContentPane().add(information);
-		this.jd.setLayout(new FlowLayout());
+		this.jd.setLayout(this.layout);
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
@@ -173,21 +196,18 @@ public class InitCombat implements ActionListener, Runnable {
 	 * Auto-generates buttons for physical attacks, invoked by ActionListener
 	 */
 	protected void createPhysicalsMenu() {
-		this.jd.getContentPane().removeAll();
-		this.jd.setVisible(true);
-		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getAttackNames(), new Physicals(this));
 		for (int i = 0; i < buttons.size(); i++) {
-			selectConsumable.add(buttons.get(i));
+			this.selectConsumable.add(buttons.get(i));
 		}
-		JPanel information = new JPanel();
-		information.add(this.playerText);
-		information.add(this.enemyText);
+		this.information.add(this.playerText);
+		this.information.add(this.enemyText);
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
 		this.jd.getContentPane().add(selectConsumable);
 		this.jd.getContentPane().add(information);
-		this.jd.setLayout(new FlowLayout());
+		
+		this.jd.setLayout(this.layout);
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
@@ -199,21 +219,17 @@ public class InitCombat implements ActionListener, Runnable {
 	 * Auto-generates buttons for magical attacks, invoked by ActionListener
 	 */
 	protected void createMagicalsMenu() {
-		this.jd.getContentPane().removeAll();
-		this.jd.setVisible(true);
-		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getSpellNames(), new Spells(this));
 		for (int i = 0; i < buttons.size(); i++) {
-			selectConsumable.add(buttons.get(i));
+			this.selectConsumable.add(buttons.get(i));
 		}
-		JPanel information = new JPanel();
-		information.add(this.playerText);
-		information.add(this.enemyText);
+		this.information.add(this.playerText);
+		this.information.add(this.enemyText);
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
 		this.jd.getContentPane().add(selectConsumable);
 		this.jd.getContentPane().add(information);
-		this.jd.setLayout(new FlowLayout());
+		this.jd.setLayout(this.layout);
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
@@ -231,15 +247,14 @@ public class InitCombat implements ActionListener, Runnable {
 		}
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
-		JPanel selectConsumable = new JPanel();
 		ArrayList<JButton> buttons = createButtons(getLootNames(), new Loot(this));
 		for (int i = 0; i < buttons.size(); i++) {
-			selectConsumable.add(buttons.get(i));
+			this.selectConsumable.add(buttons.get(i));
 		}
 		this.playerText.setSize(64, 64);
 		this.enemyText.setSize(64, 64);
 		this.jd.getContentPane().add(selectConsumable);
-		this.jd.setLayout(new FlowLayout());
+		this.jd.setLayout(this.layout);
 		this.jd.revalidate();
 		this.jd.repaint();
 		this.jd.setVisible(true);
@@ -502,21 +517,26 @@ public class InitCombat implements ActionListener, Runnable {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("CONSUMABLES".equals(e.getActionCommand())) {
+			refresh();
 			createConsumablesMenu();
 		} else if ("ATTACK".equals(e.getActionCommand())) {
+			refresh();
 			createAttacksMenu();
 		} else if ("RETURN".equals(e.getActionCommand())) {
-			jd.getContentPane().removeAll();
+			refresh();
 			createMain();
 		} else if ("MAGICAL".equals(e.getActionCommand())) {
+			refresh();
 			createMagicalsMenu();
 		} else if ("PHYSICAL".equals(e.getActionCommand())) {
+			refresh();
 			createPhysicalsMenu();
 		}
 	}
 
 	@Override
 	public void run() {
+		refresh();
 		createMain();
 	}
 }
@@ -547,7 +567,7 @@ class Loot implements ActionListener {
 				if (e.getActionCommand().equals(this.ic.getLoot().get(i).getConsumableName())) {
 					this.player.addItem(this.ic.getLoot().get(i));
 					this.ic.getLoot().remove(i);
-					this.ic.getJd().getContentPane().removeAll();
+					this.ic.refresh();
 					this.ic.stillAlive();
 				}
 			}
@@ -574,13 +594,13 @@ class Spells implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("RETURN")) {
-			this.ic.getJd().getContentPane().removeAll();
+			this.ic.refresh();
 			this.ic.createMain();
 		} else {
 			for (Attack a : this.ic.getP().getSpellbook()) {
 				if (e.getActionCommand().equals(a.getName())) {
 					if (this.player.ManaCheck(a)) {
-						this.ic.getJd().getContentPane().removeAll();
+						this.ic.refresh();
 						this.player.DealDamage(this.monster, a);
 						this.ic.stillAlive();
 					} else {
@@ -612,12 +632,12 @@ class Physicals implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("RETURN")) {
-			this.ic.getJd().getContentPane().removeAll();
+			this.ic.refresh();
 			this.ic.createMain();
 		} else {
 			for (Attack a : this.player.getMovelist()) {
 				if (e.getActionCommand().equals(a.getName())) {
-					this.ic.getJd().getContentPane().removeAll();
+					this.ic.refresh();
 					this.player.DealDamage(this.monster, a);
 					this.ic.stillAlive();
 				}
@@ -645,18 +665,33 @@ class UseItem implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("RETURN")) {
-			this.ic.getJd().getContentPane().removeAll();
+			this.ic.refresh();
 			this.ic.createMain();
 		} else {
 			for (int i = 0; i < this.player.getInventory().size(); i++) {
 				Component comp = (Component) e.getSource();
 				JButton b = (JButton) comp;
 				if (b.getMnemonic() == i) {
-					this.ic.getJd().getContentPane().removeAll();
+					this.ic.refresh();
 					this.player.useItem(this.player.getItem(i));
 					this.ic.stillAlive();
 				}
 			}
 		}
 	}
+}
+
+class CombatOutputStream extends OutputStream {
+	private JTextArea jsp;
+	
+	public CombatOutputStream(JTextArea scrollpane) {
+		this.jsp = scrollpane;
+	}
+	@Override
+	public void write(int i) throws IOException {
+		jsp.append(String.valueOf((char)i));
+		jsp.setSize(new Dimension (240, 80));
+		jsp.setMaximumSize(new Dimension(240, 80));
+	}
+	
 }

@@ -3,6 +3,7 @@ package gui;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.PrintStream;
 import java.util.Random;
 
 import javax.swing.JDialog;
@@ -23,6 +24,8 @@ public class GuiPlayer extends GameObject {
 	private BufferedImage playerimgL = null;
 	private BufferedImage playerimgR = null;
 	private BufferedImage playerimgB = null;
+	private PrintStream stdout = System.out;
+    private Game game;
 	int tempX;
 	int tempY;
 	Player p;
@@ -33,15 +36,16 @@ public class GuiPlayer extends GameObject {
 	 * @param id Enum.ID
 	 * @param handler game event handler
 	 */
-	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss) {
+	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss, Game game) {
 		super(x, y, id);
 		Random r = new Random();
 		this.handler = handler;
         this.ss = ss;
-		playerimg = ss.grabImage(1, 1, 16, 16);
-		playerimgL = ss.grabImage(4, 1, 16, 16);
-		playerimgR = ss.grabImage(3, 1, 16, 16);
-		playerimgB = ss.grabImage(2, 1, 16, 16);
+		playerimg = this.ss.grabImage(1, 1, 16, 16);
+		playerimgL = this.ss.grabImage(4, 1, 16, 16);
+		playerimgR = this.ss.grabImage(3, 1, 16, 16);
+		playerimgB = this.ss.grabImage(2, 1, 16, 16);
+        this.game = game;
 		this.bounds = new Rectangle();
 		this.bounds.setBounds(x, y, 16, 16);
 		p = new Player(25, "Kaitsu", 10, 10, 20);
@@ -142,6 +146,7 @@ public class GuiPlayer extends GameObject {
 						e.printStackTrace();
 					}
 				}
+				// garbage collection had trouble understanding that this object has been derefered, so it's done manually here to save memory.
 				mg = null;
 				if (combat.isGameOver()) {
 					System.out.println("Game was over");
@@ -157,9 +162,13 @@ public class GuiPlayer extends GameObject {
 					}
 				}
 				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
+				System.setOut(this.stdout);
 				handler.removeObject(handler.objects.get(i));
 			}
-		}
+			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Goal.class) {
+                game.setState(STATE.GOAL);
+		    }
+        }
 		y = tempY;
 		x = tempX;
 	}

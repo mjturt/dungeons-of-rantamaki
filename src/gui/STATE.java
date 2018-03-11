@@ -10,4 +10,5 @@ public enum STATE {
     GAME(),
     START(),
     ABOUT(),
+    GOAL(),
 }

@@ -90,14 +90,25 @@ public class MouseInput implements MouseListener {
 
         } else if (game.getState() == STATE.ABOUT) {
 
-            /* Back button in about screen */
+            /* "Back" button in about screen */
 
             if (mx >= 290 && mx <= 340 ) {
                 if (my >= 400 && my <= 430) {
                     game.setState(STATE.MENU);
                 }
             }
+        } else if (game.getState() == STATE.GOAL) {
+
+            /* "Exit" button in goal screen */
+
+            if (mx >= 385 && mx <= 505 ) {
+                if (my >= 350 && my <= 410) {
+                    System.exit(1);
+                }
+            }
+        
         }
+        
     }
 
     public void mouseReleased(MouseEvent e) {
