@@ -43,6 +43,7 @@ public class Game extends Canvas implements Runnable {
     private PauseMenu pmenu;
     private AboutMenu amenu;
     private StartScreen startscreen;
+    private GoalScreen goalscreen;
     Font font1;
     Font font2;
 
@@ -61,6 +62,7 @@ public class Game extends Canvas implements Runnable {
         pmenu = new PauseMenu();
         amenu = new AboutMenu();
         startscreen = new StartScreen();
+        goalscreen = new GoalScreen();
     	this.fl = new FontLoader();
         Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
         cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
@@ -191,6 +193,8 @@ public class Game extends Canvas implements Runnable {
             amenu.render(g2d);
         } else if (state == STATE.START) {
             startscreen.render(g2d);
+        } else if (state == STATE.GOAL) {
+            goalscreen.render(g2d);
         }
 
 
@@ -219,11 +223,11 @@ public class Game extends Canvas implements Runnable {
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-                if (!world.getTile(y, x).getPassable()) {
+                if (!world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
                     handler.addObject(new Block(x*64, y*64, ID.Block, blocksheet));
                 }
                 if(start[0] == y && start[1] == x) {
-                    handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler, playersheet));
+                    handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler, playersheet, this));
                 }
                 if(goal[0] == y && goal[1] == x) {
                     handler.addObject(new Goal(x*64, y*64, ID.Goal, bus));

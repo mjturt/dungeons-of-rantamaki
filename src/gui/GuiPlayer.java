@@ -25,6 +25,7 @@ public class GuiPlayer extends GameObject {
 	private BufferedImage playerimgR = null;
 	private BufferedImage playerimgB = null;
 	private PrintStream stdout = System.out;
+    private Game game;
 	int tempX;
 	int tempY;
 	Player p;
@@ -35,7 +36,7 @@ public class GuiPlayer extends GameObject {
 	 * @param id Enum.ID
 	 * @param handler game event handler
 	 */
-	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss) {
+	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss, Game game) {
 		super(x, y, id);
 		Random r = new Random();
 		this.handler = handler;
@@ -44,6 +45,7 @@ public class GuiPlayer extends GameObject {
 		playerimgL = this.ss.grabImage(4, 1, 16, 16);
 		playerimgR = this.ss.grabImage(3, 1, 16, 16);
 		playerimgB = this.ss.grabImage(2, 1, 16, 16);
+        this.game = game;
 		this.bounds = new Rectangle();
 		this.bounds.setBounds(x, y, 16, 16);
 		p = new Player(25, "Kaitsu", 10, 10, 20);
@@ -135,7 +137,7 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
-				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
+				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), this.p.getLevel()), this.handler.getFrame());
 				SwingUtilities.invokeLater(combat);
 				while (combat.isRunning()) {
 					try {
@@ -163,7 +165,10 @@ public class GuiPlayer extends GameObject {
 				System.setOut(this.stdout);
 				handler.removeObject(handler.objects.get(i));
 			}
-		}
+			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Goal.class) {
+                game.setState(STATE.GOAL);
+		    }
+        }
 		y = tempY;
 		x = tempX;
 	}
