@@ -102,7 +102,7 @@ public class MouseInput implements MouseListener {
             /* "Exit" button in goal screen */
 
             if (mx >= 385 && mx <= 505 ) {
-                if (my >= 350 && my <= 410) {
+                if (my >= 300 && my <= 360) {
                     System.exit(1);
                 }
             }
