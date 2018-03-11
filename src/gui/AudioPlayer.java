@@ -1,5 +1,7 @@
 package gui;
 
+import java.net.URL;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -15,10 +17,12 @@ import javax.sound.sampled.FloatControl;
 public class AudioPlayer {
 
     private Clip clip;
+    private URL url;
 
     public AudioPlayer(String path) {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(path));
+            url = getClass().getResource(path);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
             AudioFormat format = ais.getFormat();
             AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format.getSampleRate(), 16, format.getChannels(), format.getChannels() * 2, format.getSampleRate(), false);
             AudioInputStream dais = AudioSystem.getAudioInputStream(decodeFormat, ais);
