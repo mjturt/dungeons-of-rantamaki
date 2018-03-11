@@ -20,7 +20,7 @@ public class SpriteSheet {
      */
 
     public BufferedImage grabImage(int col, int row, int width, int height) {
-    	System.out.println("Grabbed an image");
+    	System.out.println("Grabbed an image" + col + row + width + height);
         return img.getSubimage((col * width) - width, (row * height) - height, width, height);
     }
 }

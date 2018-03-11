@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -12,27 +11,26 @@ import java.awt.image.BufferedImage;
 
 
 public class PauseMenu {
-	
-	private ImageLoader il;	
-	private FontLoader fl;
-	private BufferedImage menubg = null;
+	FontLoader fl;
+	ImageLoader il;
+	BufferedImage menubg;
+	Font font1;
+    Font font2;
+    Font font3;
 	
 	public PauseMenu() {
 		this.il = new ImageLoader();
 		this.fl = new FontLoader();
+		this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
+		this.font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
+		this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
+		this.menubg = il.loadImage("/menubg.png");
 	}
 
 
     public void render(Graphics2D g) {
 
-        
-
-        menubg = il.loadImage("/menubg.png");
-        g.drawImage(menubg, 0, 0, null);
-
-        Font font1 = fl.loadFont("/fonts/viking.ttf", 90); 
-        Font font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
-        Font font3 = fl.loadFont("/fonts/morris.ttf", 30);
+        g.drawImage(this.menubg, 0, 0, null);
 
         /* Title */
 
@@ -55,4 +53,33 @@ public class PauseMenu {
         g.drawString("Exit", 290, 350);
         
     }
+
+	public FontLoader getFl() {
+		return this.fl;
+	}
+
+
+	public void setFl(FontLoader fl) {
+		this.fl = fl;
+	}
+
+
+	public ImageLoader getIl() {
+		return this.il;
+	}
+
+
+	public void setIl(ImageLoader il) {
+		this.il = il;
+	}
+
+
+	public BufferedImage getMenubg() {
+		return this.menubg;
+	}
+
+
+	public void setMenubg(BufferedImage menubg) {
+		this.menubg = menubg;
+	}
 }

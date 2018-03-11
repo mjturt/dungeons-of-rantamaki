@@ -43,9 +43,17 @@ public class Game extends Canvas implements Runnable {
     Font font1;
     Font font2;
 
+    private AudioPlayer bgmusic;
+
     public Game(int x, int y) {
     	System.setProperty("sun.java2d.opengl", "true");
     	state = STATE.MENU;
+        bgmusic = new AudioPlayer("/sounds/detective.wav");
+        try {
+            bgmusic.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         menu = new Menu();
         pmenu = new PauseMenu();
     	this.fl = new FontLoader();
@@ -55,7 +63,6 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler(w.getFrame());
         this.addKeyListener(new KeyInput(handler, this));
         this.addMouseListener(new MouseInput(this));
-
         
 
         ImageLoader loader = new ImageLoader();
