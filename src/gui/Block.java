@@ -25,13 +25,13 @@ public class Block extends GameObject {
         this.ss = ss;
         this.bounds = new Rectangle();
         this.bounds.setBounds(x, y, 64, 64);
-		bushimg = ss.grabImage(1, 1, 64, 64);
-		bushtreeimg = ss.grabImage(2, 1, 64, 64);
-		houseimg = ss.grabImage(3, 1, 64, 64);
-		house2img = ss.grabImage(4, 1, 64, 64);
-		parklotimg = ss.grabImage(5, 1, 64, 64);
-		studentsimg = ss.grabImage(4, 2, 64, 64);
-        r = rand.nextInt(20); 
+		this.bushimg = ss.grabImage(1, 1, 64, 64);
+		this.bushtreeimg = ss.grabImage(2, 1, 64, 64);
+		this.houseimg = ss.grabImage(3, 1, 64, 64);
+		this.house2img = ss.grabImage(4, 1, 64, 64);
+		this.parklotimg = ss.grabImage(5, 1, 64, 64);
+		this.studentsimg = ss.grabImage(4, 2, 64, 64);
+        this.r = rand.nextInt(20); 
     }
 
     /* Tick method, all GameObjects must have their own tick method */
@@ -45,17 +45,17 @@ public class Block extends GameObject {
 
     public void render(Graphics2D g) {
         if (r <= 4) {
-            g.drawImage(houseimg, x, y, null);
-        } else if (r > 4 && r < 10) {
-            g.drawImage(house2img, x, y, null);
-        } else if (r >= 10 && r < 11) {
-            g.drawImage(studentsimg, x, y, null);
-        } else if (r >= 11 && r < 14) {
-            g.drawImage(bushimg, x, y, null);
-        } else if (r >= 14 && r < 18) {
-            g.drawImage(bushtreeimg, x, y, null);
+            g.drawImage(this.houseimg, x, y, null);
+        } else if (this.r > 4 && r < 10) {
+            g.drawImage(this.house2img, x, y, null);
+        } else if (this.r >= 10 && r < 11) {
+            g.drawImage(this.studentsimg, x, y, null);
+        } else if (this.r >= 11 && r < 14) {
+            g.drawImage(this.bushimg, x, y, null);
+        } else if (this.r >= 14 && r < 18) {
+            g.drawImage(this.bushtreeimg, x, y, null);
         } else {
-            g.drawImage(parklotimg, x, y, null);
+            g.drawImage(this.parklotimg, x, y, null);
         }
 
     }

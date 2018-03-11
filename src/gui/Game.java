@@ -83,6 +83,7 @@ public class Game extends Canvas implements Runnable {
         loadLevel();
         this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
         this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
+        this.requestFocus();
     }
 
     private void start(){
@@ -186,15 +187,15 @@ public class Game extends Canvas implements Runnable {
         playerStats(g2d);
         
         } else if (state == STATE.MENU) {
-            menu.render(g2d);
+            this.menu.render(g2d);
         } else if (state == STATE.PAUSE) {
-            pmenu.render(g2d);
+            this.pmenu.render(g2d);
         } else if (state == STATE.ABOUT) {
-            amenu.render(g2d);
+            this.amenu.render(g2d);
         } else if (state == STATE.START) {
-            startscreen.render(g2d);
+            this.startscreen.render(g2d);
         } else if (state == STATE.GOAL) {
-            goalscreen.render(g2d);
+            this.goalscreen.render(g2d);
         }
 
 

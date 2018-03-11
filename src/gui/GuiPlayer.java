@@ -41,19 +41,19 @@ public class GuiPlayer extends GameObject {
 		Random r = new Random();
 		this.handler = handler;
         this.ss = ss;
-		playerimg = this.ss.grabImage(1, 1, 16, 16);
-		playerimgL = this.ss.grabImage(4, 1, 16, 16);
-		playerimgR = this.ss.grabImage(3, 1, 16, 16);
-		playerimgB = this.ss.grabImage(2, 1, 16, 16);
+		this.playerimg = this.ss.grabImage(1, 1, 16, 16);
+		this.playerimgL = this.ss.grabImage(4, 1, 16, 16);
+		this.playerimgR = this.ss.grabImage(3, 1, 16, 16);
+		this.playerimgB = this.ss.grabImage(2, 1, 16, 16);
         this.game = game;
 		this.bounds = new Rectangle();
 		this.bounds.setBounds(x, y, 16, 16);
-		p = new Player(25, "Kaitsu", 10, 10, 20);
+		this.p = new Player(25, "Kaitsu", 10, 10, 20);
 		this.p.addItem(new Consumable("Testi", 1, 1, 1));
 		AttackIDList aid = new AttackIDList();
 		SpellIDList sid = new SpellIDList();
-		p.addAttack(aid.getAttack(r.nextInt(1)));
-		p.addSpell(sid.getSpell(r.nextInt(1)));
+		this.p.addAttack(aid.getAttack(r.nextInt(1)));
+		this.p.addSpell(sid.getSpell(r.nextInt(1)));
 	}
 
 	/**
@@ -137,8 +137,9 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
+				//Generates a random opponent.
 				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), this.p.getLevel()), this.handler.getFrame());
-				SwingUtilities.invokeLater(combat);
+				SwingUtilities.invokeLater(combat);//thread safe way to invoke swing.
 				while (combat.isRunning()) {
 					try {
 						Thread.sleep(100);
@@ -146,13 +147,15 @@ public class GuiPlayer extends GameObject {
 						e.printStackTrace();
 					}
 				}
-				// garbage collection had trouble understanding that this object has been derefered, so it's done manually here to save memory.
 				mg = null;
 				if (combat.isGameOver()) {
 					System.out.println("Game was over");
 					JDialog test = new GameOver(this.handler.getFrame());
 					GameOver go = (GameOver) test;
-					SwingUtilities.invokeLater(go);
+					SwingUtilities.invokeLater(go); //thread safe way to run swing. Not really necessary, but just to avoid thread racing issues. 
+					/*
+					 * Sleeps the thread for 100 millisecs until the combat event has been finished.
+					 */
 					while (go.isRunning()) {
 						try {
 							Thread.sleep(100);
@@ -162,9 +165,15 @@ public class GuiPlayer extends GameObject {
 					}
 				}
 				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
+				/*
+				 * resets sysout to default
+				 */
 				System.setOut(this.stdout);
 				handler.removeObject(handler.objects.get(i));
 			}
+			/*
+			 * Checking if player has reached Goal. 
+			 */
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Goal.class) {
                 game.setState(STATE.GOAL);
 		    }
