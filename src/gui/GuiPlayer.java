@@ -133,7 +133,7 @@ public class GuiPlayer extends GameObject {
 			}
 			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
-				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), r.nextInt(4) + this.p.getLevel()), this.handler.getFrame());
+				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), this.p.getLevel()), this.handler.getFrame());
 				SwingUtilities.invokeLater(combat);
 				while (combat.isRunning()) {
 					try {

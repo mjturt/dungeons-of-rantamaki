@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MonsterGenerator {
 	private ArrayList<Monster> monsterList;
@@ -55,10 +56,13 @@ public class MonsterGenerator {
 		}
 	}
 	//returns the monster by it's line number in a file
-	//with level that ifs inputted, could use randomization?
+	//monster level will be player.level+-0.1player.level
 	public Monster getMonster(int i, int lvl) { 
+		Random r = new Random();
 		Monster prototype = monsterList.get(i);
-		for(int j=1;j<lvl;j++) {
+		int delta = (int)Math.floor(lvl/10.0);
+		delta = (r.nextInt(delta+1)-delta);
+		for(int j=1;j<delta;j++) {
 			prototype.LevelUp();
 		}
 		return prototype;
