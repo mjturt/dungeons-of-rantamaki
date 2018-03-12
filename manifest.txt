@@ -1,3 +1,0 @@
-Main-Class: gui.Game
-SplashScreen-Image: images/loader.gif
-
