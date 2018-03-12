@@ -37,6 +37,10 @@ public class Goal extends GameObject {
     public Rectangle getBounds() {
         return new Rectangle(x, y, 64, 64);
     }
+    
+    public void setBus(BufferedImage bimg) {
+    	this.bus = bimg;
+    }
 
 
 	

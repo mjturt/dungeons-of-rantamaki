@@ -227,6 +227,8 @@ public class Game extends Canvas implements Runnable {
 				this.in.setHandler(this.handler);
 				temp.reloadAssets(this.playersheet);
 			} else if (temp.id.equals(ID.Goal)) {
+				Goal g = (Goal) temp;
+				g.setBus(this.bus);
 			}
 		}
 	}
