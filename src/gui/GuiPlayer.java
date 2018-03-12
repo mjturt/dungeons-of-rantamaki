@@ -22,7 +22,7 @@ public class GuiPlayer extends GameObject  {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	transient Handler handler;
+	Handler handler;
 	transient private SpriteSheet ss;
 	transient private BufferedImage playerimg = null;
 	transient private BufferedImage playerimgL = null;

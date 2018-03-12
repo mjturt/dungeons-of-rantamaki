@@ -46,7 +46,7 @@ public class Game extends Canvas implements Runnable {
 	private GoalScreen goalscreen;
 	Font font1;
 	Font font2;
-
+	private Window w;
 	private AudioPlayer bgmusic;
 
 	public Game(int x, int y) {
@@ -64,7 +64,7 @@ public class Game extends Canvas implements Runnable {
 		startscreen = new StartScreen();
 		goalscreen = new GoalScreen();
 		this.fl = new FontLoader();
-		Window w = new Window(x, y, "Dungeons of Räntämäki", this);
+		this.w = new Window(x, y, "Dungeons of Räntämäki", this);
 		cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
 		start();
 		handler = new Handler(w.getFrame());
@@ -288,8 +288,9 @@ public class Game extends Canvas implements Runnable {
 		new Game(640, 480);
 	}
 
-	public static void loadedGame(ArrayList<GameObject> objects) {
-		new Game(640, 480, objects);
+	public static void loadedGame(Game game) {
+		Game g = game;
+		g.start();
 	}
 	/* Getters and setters for state */
 
@@ -304,10 +305,22 @@ public class Game extends Canvas implements Runnable {
 	public Handler getHandler() {
 		return this.handler;
 	}
+	
+	public Window getWindow () {
+		return this.w;
+	}
 
 	/*
 	 * Draw's player stats or stats-based bars to top of the game screen
 	 */
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
 
 	public void playerStats(Graphics2D g) {
 
