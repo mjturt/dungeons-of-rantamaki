@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -73,11 +72,12 @@ public class MouseInput implements MouseListener {
                 if (my >= 220 && my <= 250) {
                     try {
                     	ArrayList<GameObject> objects = HandlerIO.readHandler();
-                    	this.game.getHandler().setObjects(objects);
-                    	this.game.setState(STATE.GAME);
+                    	System.out.println("Read the file (or atleast tried)");
+						Game.loadedGame(objects);
 					} catch (ClassNotFoundException | IOException e1) {
 						e1.printStackTrace();
 					}
+                    
                 }
             }        
 
