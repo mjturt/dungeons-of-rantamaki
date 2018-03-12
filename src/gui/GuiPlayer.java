@@ -52,7 +52,7 @@ public class GuiPlayer extends GameObject  {
         this.game = game;
 		this.bounds = new Rectangle();
 		this.bounds.setBounds(x, y, 16, 16);
-		this.p = new Player(35, "Kaitsu", 20, 20, 40);
+		this.p = new Player(25, "Kaitsu", 15, 15, 20);
 		//this.p.addItem(new Consumable("Testi", 1, 1, 1));
 		AttackIDList aid = new AttackIDList();
 		SpellIDList sid = new SpellIDList();
