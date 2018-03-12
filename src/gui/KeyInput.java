@@ -25,8 +25,20 @@ public class KeyInput extends KeyAdapter {
          * Loops through Handlers objects list until Player object is found 
          */
 
+        if (key == KeyEvent.VK_ESCAPE) {
+        	if (game.getState() == STATE.GAME) {
+        		game.setState(STATE.PAUSE);
+        	} else if (game.getState() == STATE.PAUSE) {
+        		game.setState(STATE.GAME);
+        	} else if (game.getState() == STATE.ABOUT) {
+        		game.setState(STATE.MENU);
+        	}
+        }
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject temp= handler.objects.get(i);
+            /*
+             * Keyboard input for menus
+             */
             if (temp.getId() == ID.Player) {
                 if (key == KeyEvent.VK_UP) {
                     this.handler.setUp(true);
@@ -41,20 +53,7 @@ public class KeyInput extends KeyAdapter {
                 	this.handler.setRight(true);
                 }
             }
-        }
-
-        /*
-         * Keyboard input for menus
-         */
-
-        if (key == KeyEvent.VK_ESCAPE) {
-            if (game.getState() == STATE.GAME) {
-                game.setState(STATE.PAUSE);
-            } else if (game.getState() == STATE.PAUSE) {
-                game.setState(STATE.GAME);
-            } else if (game.getState() == STATE.ABOUT) {
-                game.setState(STATE.MENU);
-            }
+     
         }
 
         if (key == KeyEvent.VK_ENTER) {

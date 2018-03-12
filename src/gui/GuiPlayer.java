@@ -135,11 +135,11 @@ public class GuiPlayer extends GameObject  {
 	public void updatePos(int newY, int newX) {
 		Random r = new Random();
 		Rectangle newPos = new Rectangle(newX, newY, 16, 16);
-		for (int i = 0; i < handler.objects.size(); i++) {
-			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == Block.class) {
+		for (int i = 0; i < this.handler.objects.size(); i++) {
+			if (newPos.intersects(this.handler.objects.get(i).getBounds()) && this.handler.objects.get(i).getClass() == Block.class) {
 				return;
 			}
-			if (newPos.intersects(handler.objects.get(i).getBounds()) && handler.objects.get(i).getClass() == GuiMonster.class) {
+			if (newPos.intersects(this.handler.objects.get(i).getBounds()) && this.handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
 				//Generates a random opponent.
 				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), this.p.getLevel()), this.handler.getFrame());
@@ -168,12 +168,12 @@ public class GuiPlayer extends GameObject  {
 						}
 					}
 				}
-				handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
+				this.handler.releaseKeys(); //stops all player movement, so the player wont start moving to the direction last moved after returning from combat.
 				/*
 				 * resets sysout to default
 				 */
 				System.setOut(this.stdout);
-				handler.removeObject(handler.objects.get(i));
+				this.handler.removeObject(this.handler.objects.get(i));
 			}
 			/*
 			 * Checking if player has reached Goal. 
