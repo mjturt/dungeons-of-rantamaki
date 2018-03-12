@@ -5,7 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -14,16 +19,17 @@ import javax.swing.*;
  */
 @SuppressWarnings("serial")
 public class GameOver extends JDialog implements ActionListener, Runnable {
-    JButton newGame = new JButton("New Game");
     JButton exit = new JButton("Exit");
     JPanel panel = new JPanel();
     private boolean running = false;
     JFrame frame;
-    public GameOver(JFrame frame) {
+    Game game;
+    public GameOver(JFrame frame, Game game) {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.frame = frame;
         this.running = true;
-        }
+        this.game = game;
+    }
 
     public void createAndShow() {
         this.frame.setEnabled(false);
@@ -33,10 +39,6 @@ public class GameOver extends JDialog implements ActionListener, Runnable {
         this.exit.setSize(64, 32);
         this.exit.setActionCommand("EXIT");
         this.exit.addActionListener(this);
-        this.newGame.setSize(64, 32);
-        this.newGame.setActionCommand("NEW GAME");
-        this.newGame.addActionListener(this);
-        this.panel.add(this.newGame);
         this.panel.add(this.exit);
         this.setSize(320, 240);
         this.setBackground(Color.DARK_GRAY);
@@ -60,14 +62,8 @@ public class GameOver extends JDialog implements ActionListener, Runnable {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
-        if (e.getActionCommand().equals("NEW GAME")) {
-            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            System.out.println(Thread.currentThread());
-            this.frame.dispose();
-            System.out.println("Closed the window");
-            Game.main(null);
-        } else if (e.getActionCommand().equals("EXIT")) {
-            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        if (e.getActionCommand().equals("EXIT")) {
+        	this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
         }
     }

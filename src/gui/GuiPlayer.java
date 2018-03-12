@@ -9,9 +9,10 @@ import java.util.Random;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
+import combat.AttackIDList;
 import combat.MonsterGenerator;
 import combat.Player;
-import combat.*;
+import combat.SpellIDList;
 
 /**
  * Class for GUI aspects of the player.
@@ -158,7 +159,7 @@ public class GuiPlayer extends GameObject  {
                 mg = null;
                 if (combat.isGameOver()) {
                     System.out.println("Game was over");
-                    final JDialog test = new GameOver(this.handler.getFrame());
+                    final JDialog test = new GameOver(this.handler.getFrame(), this.game);
                     final GameOver go = (GameOver) test;
                     SwingUtilities.invokeLater(go); //thread safe way to run swing. Not really necessary, but just to avoid thread racing issues. 
                     /*

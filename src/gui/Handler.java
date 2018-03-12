@@ -160,4 +160,8 @@ public class Handler implements java.io.Serializable  {
     public void setObjects (ArrayList<GameObject> obj) {
         this.objects = obj;
     }
+    
+    public void setFrame(JFrame frame) {
+    	this.frame = frame;
+    }
 }

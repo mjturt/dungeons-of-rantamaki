@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+
 import world.World;
 
 /* 
@@ -47,6 +48,7 @@ public class Game extends Canvas implements Runnable {
     private final AboutMenu amenu;
     private final StartScreen startscreen;
     private final GoalScreen goalscreen;
+    private final Window w;
     Font font1;
     Font font2;
 
@@ -67,28 +69,28 @@ public class Game extends Canvas implements Runnable {
         } catch (final Exception e) {
             e.printStackTrace();
         }
-        menu = new Menu();
-        pmenu = new PauseMenu();
-        amenu = new AboutMenu();
-        startscreen = new StartScreen();
-        goalscreen = new GoalScreen();
+        this.menu = new Menu();
+        this.pmenu = new PauseMenu();
+        this.amenu = new AboutMenu();
+        this.startscreen = new StartScreen();
+        this.goalscreen = new GoalScreen();
         this.fl = new FontLoader();
-        final Window w = new Window(x, y, "Dungeons of Räntämäki", this);
-        cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
-        start();
-        handler = new Handler(w.getFrame());
+        this.w = new Window(x, y, "Dungeons of Räntämäki", this);
+        this.cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
+        this.start();
+        this.handler = new Handler(w.getFrame());
         this.in = new KeyInput(this.handler, this);
         this.addKeyListener(in);
         this.addMouseListener(new MouseInput(this));
 
         final ImageLoader loader = new ImageLoader();
-        blocksheetImg = loader.loadImage("/images/blocksheet.png");
-        blocksheet = new SpriteSheet(blocksheetImg);
-        playersheetImg = loader.loadImage("/images/playersheet.png");
-        playersheet = new SpriteSheet(playersheetImg);
-        bus = loader.loadImage("/images/bus.png");
+        this.blocksheetImg = loader.loadImage("/images/blocksheet.png");
+        this.blocksheet = new SpriteSheet(blocksheetImg);
+        this.playersheetImg = loader.loadImage("/images/playersheet.png");
+        this.playersheet = new SpriteSheet(playersheetImg);
+        this.bus = loader.loadImage("/images/bus.png");
 
-        road = blocksheet.grabImage(2, 2, 64, 64);
+        this.road = blocksheet.grabImage(2, 2, 64, 64);
         loadLevel();
         this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
         this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
@@ -239,6 +241,7 @@ public class Game extends Canvas implements Runnable {
                 temp.reloadAssets(this.playersheet);
                 final GuiPlayer p = (GuiPlayer) temp;
                 this.handler = p.getHandler();
+                this.handler.setFrame(this.w.getFrame());
                 this.in.setHandler(this.handler);
                 temp.reloadAssets(this.playersheet);
             } else if (temp.id.equals(ID.Goal)) {
@@ -294,7 +297,6 @@ public class Game extends Canvas implements Runnable {
     public static void main(String[] args) {
         new Game(640, 480);
     }
-
 
     /* Getters and setters */
 
