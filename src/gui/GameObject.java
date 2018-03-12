@@ -2,13 +2,16 @@ package gui;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 /* GameObject interface, all objects extends it
  * Look for Block.java for example
  * */
 
-public abstract class GameObject {
-    protected int x;
+public abstract class GameObject implements java.io.Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	protected int x;
     protected int y;
     protected float velX = 0;
     protected float velY = 0;

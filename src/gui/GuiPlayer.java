@@ -16,19 +16,23 @@ import combat.*;
 /**
  * Class for GUI aspects of the player.
  */
-public class GuiPlayer extends GameObject {
+public class GuiPlayer extends GameObject  {
 	
-	Handler handler;
-    private SpriteSheet ss;
-	private BufferedImage playerimg = null;
-	private BufferedImage playerimgL = null;
-	private BufferedImage playerimgR = null;
-	private BufferedImage playerimgB = null;
-	private PrintStream stdout = System.out;
-    private Game game;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	transient Handler handler;
+	transient private SpriteSheet ss;
+	transient private BufferedImage playerimg = null;
+	transient private BufferedImage playerimgL = null;
+	transient private BufferedImage playerimgR = null;
+	transient private BufferedImage playerimgB = null;
+	transient private PrintStream stdout = System.out;
+	transient private Game game;
 	int tempX;
 	int tempY;
-	Player p;
+	private Player p;
 	private Rectangle bounds;
 	/**
 	 * @param x position in the x-axis

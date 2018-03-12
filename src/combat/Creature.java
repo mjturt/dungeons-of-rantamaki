@@ -2,7 +2,11 @@ package combat;
 
 import java.util.ArrayList;
 
-public class Creature {
+public class Creature implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int maxHP;
 	protected int hp;
 	protected String name;

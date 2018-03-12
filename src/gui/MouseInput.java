@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /*
  * Mouse input, used only in menus
@@ -68,7 +70,14 @@ public class MouseInput implements MouseListener {
 
             if (mx >= 290 && mx <= 350 ) {
                 if (my >= 220 && my <= 250) {
-                    game.setState(STATE.GAME);
+                    try {
+                    	ArrayList<GameObject> objects = HandlerIO.readHandler();
+                    	System.out.println("Read the file (or atleast tried)");
+						Game.loadedGame(objects);
+					} catch (ClassNotFoundException | IOException e1) {
+						e1.printStackTrace();
+					}
+                    
                 }
             }        
 
@@ -76,7 +85,12 @@ public class MouseInput implements MouseListener {
 
             if (mx >= 470 && mx <= 530 ) {
                 if (my >= 220 && my <= 250) {
-                    game.setState(STATE.GAME);
+                	try {
+						HandlerIO.writeHandler(game.getHandler().getObjects());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+                	game.setState(STATE.GAME);
                 }
             }
 

@@ -10,7 +10,11 @@ import java.awt.image.BufferedImage;
 
 public class Goal extends GameObject {
     
-    private BufferedImage bus;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	transient private BufferedImage bus;
 
     public Goal(int x, int y, ID id, BufferedImage bus) {
         super(x, y, id);

@@ -5,7 +5,11 @@ package combat;
 
 import world.World;
 
-public class Player extends Creature {
+public class Player extends Creature implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int experience;
 	private int posX;
 	private int posY;
@@ -13,6 +17,10 @@ public class Player extends Creature {
 	public Player(int hp, String name, int strength, int defense, int magic) {
 		super(hp, name, strength, defense, magic);
 		this.experience = 0;
+	}
+	
+	public Player() {
+		super(1, "kaitsu", 10, 10, 10);
 	}
 
 	public int getExp() {

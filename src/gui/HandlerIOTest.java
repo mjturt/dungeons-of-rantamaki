@@ -1,16 +1,12 @@
 package gui;
 
 import java.io.IOException;
-
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 public class HandlerIOTest {
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		System.out.println(frame);
-		Handler h = new Handler(frame);
 		try {
-			HandlerIO.writeHandler(h);
+			HandlerIO.writeHandler(new ArrayList<GameObject>());
 		}
 		catch(IOException ioe) {
 			System.out.println("Something went wrong :(");
@@ -18,8 +14,8 @@ public class HandlerIOTest {
 		}
 		
 		try {
-			Handler readHandler = HandlerIO.readHandler();
-			System.out.println(readHandler == h);
+			ArrayList<GameObject> readHandler = HandlerIO.readHandler();
+			System.out.println(readHandler);
 			System.out.println(readHandler.toString());
 		}
 		catch(IOException ioe) {

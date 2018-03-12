@@ -9,15 +9,19 @@ import java.util.Random;
 
 public class Block extends GameObject {
 
-	private BufferedImage bushimg = null;
-	private BufferedImage bushtreeimg = null;
-	private BufferedImage houseimg = null;
-	private BufferedImage house2img = null;
-	private BufferedImage parklotimg = null;
-	private BufferedImage studentsimg = null;
-    private Random rand = new Random(); 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	transient private BufferedImage bushimg = null;
+	transient private BufferedImage bushtreeimg = null;
+	transient private BufferedImage houseimg = null;
+	transient private BufferedImage house2img = null;
+	transient private BufferedImage parklotimg = null;
+	transient private BufferedImage studentsimg = null;
+	transient private Random rand = new Random(); 
     private int r;
-    private SpriteSheet ss;
+    transient private SpriteSheet ss;
     private Rectangle bounds;
 
     public Block(int x, int y, ID id, SpriteSheet ss) {

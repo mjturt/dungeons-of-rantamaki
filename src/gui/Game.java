@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import world.World;
 /* 
@@ -21,297 +22,344 @@ import world.World;
 
 public class Game extends Canvas implements Runnable {
 
-    private static final long serialVersionUID = 1L;
-    
-    
-    private FontLoader fl;
-    private boolean isRunning = false;
-    private Thread thread;
-    private Handler handler;
-    private GameCamera cam;
+	private static final long serialVersionUID = 1L;
 
-    private SpriteSheet blocksheet;
-    private BufferedImage blocksheetImg = null;
-    private SpriteSheet playersheet;
-    private BufferedImage playersheetImg = null;
+	private FontLoader fl;
+	private boolean isRunning = false;
+	private Thread thread;
+	private Handler handler;
+	private GameCamera cam;
 
-    private BufferedImage road = null;
-    private BufferedImage bus = null;
+	private SpriteSheet blocksheet;
+	transient private BufferedImage blocksheetImg = null;
+	transient private SpriteSheet playersheet;
+	transient private BufferedImage playersheetImg = null;
 
-    private STATE state;
-    private Menu menu;
-    private PauseMenu pmenu;
-    private AboutMenu amenu;
-    private StartScreen startscreen;
-    private GoalScreen goalscreen;
-    Font font1;
-    Font font2;
+	transient private BufferedImage road = null;
+	transient private BufferedImage bus = null;
 
-    private AudioPlayer bgmusic;
+	private STATE state;
+	private Menu menu;
+	private PauseMenu pmenu;
+	private AboutMenu amenu;
+	private StartScreen startscreen;
+	private GoalScreen goalscreen;
+	Font font1;
+	Font font2;
 
-    public Game(int x, int y) {
-    	System.setProperty("sun.java2d.opengl", "true");
-    	state = STATE.MENU;
-        bgmusic = new AudioPlayer("/sounds/detective.wav");
-        try {
-            bgmusic.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        menu = new Menu();
-        pmenu = new PauseMenu();
-        amenu = new AboutMenu();
-        startscreen = new StartScreen();
-        goalscreen = new GoalScreen();
-    	this.fl = new FontLoader();
-        Window w = new Window(x, y, "Dungeons of Räntämäki", this); 
-        cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
-        start();
-        handler = new Handler(w.getFrame());
-        this.addKeyListener(new KeyInput(handler, this));
-        this.addMouseListener(new MouseInput(this));
-        
+	private AudioPlayer bgmusic;
 
-        ImageLoader loader = new ImageLoader();
-        blocksheetImg = loader.loadImage("/images/blocksheet.png");
-        blocksheet = new SpriteSheet(blocksheetImg);
-        playersheetImg = loader.loadImage("/images/playersheet.png");
-        playersheet = new SpriteSheet(playersheetImg);
-        bus = loader.loadImage("/images/bus.png");
+	public Game(int x, int y) {
+		System.setProperty("sun.java2d.opengl", "true");
+		state = STATE.MENU;
+		bgmusic = new AudioPlayer("/sounds/detective.wav");
+		try {
+			bgmusic.play();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		menu = new Menu();
+		pmenu = new PauseMenu();
+		amenu = new AboutMenu();
+		startscreen = new StartScreen();
+		goalscreen = new GoalScreen();
+		this.fl = new FontLoader();
+		Window w = new Window(x, y, "Dungeons of Räntämäki", this);
+		cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
+		start();
+		handler = new Handler(w.getFrame());
+		this.addKeyListener(new KeyInput(handler, this));
+		this.addMouseListener(new MouseInput(this));
 
-        road = blocksheet.grabImage(2, 2, 64, 64);
-        loadLevel();
-        this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
-        this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
-        this.requestFocus();
-    }
+		ImageLoader loader = new ImageLoader();
+		blocksheetImg = loader.loadImage("/images/blocksheet.png");
+		blocksheet = new SpriteSheet(blocksheetImg);
+		playersheetImg = loader.loadImage("/images/playersheet.png");
+		playersheet = new SpriteSheet(playersheetImg);
+		bus = loader.loadImage("/images/bus.png");
 
-    private void start(){
-        isRunning = true;
-        thread = new Thread(this);
-        thread.start();
-    }
+		road = blocksheet.grabImage(2, 2, 64, 64);
+		loadLevel();
+		this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
+		this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
+		this.requestFocus();
+	}
 
-    private void stop() {
-        isRunning = false;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	public Game(int x, int y, ArrayList<GameObject> objects) {
+		System.setProperty("sun.java2d.opengl", "true");
+		state = STATE.START;
+		bgmusic = new AudioPlayer("/sounds/detective.wav");
+		try {
+			bgmusic.play();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		menu = new Menu();
+		pmenu = new PauseMenu();
+		amenu = new AboutMenu();
+		startscreen = new StartScreen();
+		goalscreen = new GoalScreen();
+		this.fl = new FontLoader();
+		Window w = new Window(x, y, "Dungeons of Räntämäki", this);
+		cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
+		start();
+		this.handler = new Handler(w.getFrame());
+		this.handler.setObjects(objects);
+		this.addKeyListener(new KeyInput(handler, this));
+		this.addMouseListener(new MouseInput(this));
 
-    /*
-     * Main game loop
-     */
+		ImageLoader loader = new ImageLoader();
+		blocksheetImg = loader.loadImage("/images/blocksheet.png");
+		blocksheet = new SpriteSheet(blocksheetImg);
+		playersheetImg = loader.loadImage("/images/playersheet.png");
+		playersheet = new SpriteSheet(playersheetImg);
+		bus = loader.loadImage("/images/bus.png");
 
-    public void run(){
-        this.requestFocus();
+		road = blocksheet.grabImage(2, 2, 64, 64);
+		this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
+		this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
+		this.requestFocus();
+	}
 
-        long lastTime = System.nanoTime();
-        double ticks = 60.0;
-        double ns = 1000000000 / ticks;
-        double delta = 0;
-        long timer = System.currentTimeMillis();
-        int frames = 0;
-        while(isRunning) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-            while (delta >= 1) {
-                tick();
-                delta--;
-            }
-            try {
-            	render();
-            } catch (NullPointerException e) {
-            	throw new IllegalStateException("Something went terribly wrong", e);
-            }
- 
-            frames++;
+	protected void start() {
+		isRunning = true;
+		thread = new Thread(this);
+		thread.start();
+	}
 
-            if (System.currentTimeMillis() - timer > 1000) {
-                timer += 1000;
-                System.out.println("FPS: " + frames + " TICKS: " + ticks);
-                frames = 0;
-            }
-        }
-        stop();
-    }
+	protected void stop() {
+		isRunning = false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /* Updating stuff to game */
+	/*
+	 * Main game loop
+	 */
 
-    public void tick() {
-        if (state == STATE.GAME) {
-            handler.tick();
-            this.requestFocus();
-            for (int i=0;i<handler.objects.size();i++) {
-                if (handler.objects.get(i).getId() == ID.Player) {
-                    cam.tick(handler.objects.get(i));
-                }
-            }
-        } else if (state == STATE.MENU || state == STATE.PAUSE || state == STATE.START || state == STATE.ABOUT) {
-        }
-    }
+	public void run() {
+		this.requestFocus();
 
-    /* Render method */
+		long lastTime = System.nanoTime();
+		double ticks = 60.0;
+		double ns = 1000000000 / ticks;
+		double delta = 0;
+		long timer = System.currentTimeMillis();
+		int frames = 0;
+		while (isRunning) {
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime = now;
+			while (delta >= 1) {
+				tick();
+				delta--;
+			}
+			try {
+				render();
+			} catch (NullPointerException e) {
+				throw new IllegalStateException("Something went terribly wrong", e);
+			}
 
-    public void render() {
-        BufferStrategy bs = this.getBufferStrategy(); 
-        Toolkit.getDefaultToolkit().sync(); 
-        if (bs == null) {
-            this.createBufferStrategy(3);
-            return;
-        }
-        Graphics g = bs.getDrawGraphics();
-        Graphics2D g2d = (Graphics2D) g;
-        /*////////////////////////////////////
-         *Draw here 
-         *////////////////////////////////////
-        
-        if (state == STATE.GAME) {
-        g2d.translate(-cam.getX(), -cam.getY());
+			frames++;
 
-            for (int x = 0; x < 41 * 64; x += 64) {
-                for (int y = 0; y < 41 * 64; y+=64) {
-                    g2d.drawImage(road, x, y, null);
-                }
-            }
-            try {
-                handler.render(g2d);
-            } catch (NullPointerException npe) {
-                throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
-            }
-        g2d.translate(cam.getX(), cam.getY());
+			if (System.currentTimeMillis() - timer > 1000) {
+				timer += 1000;
+				System.out.println("FPS: " + frames + " TICKS: " + ticks);
+				frames = 0;
+			}
+		}
+		stop();
+	}
 
-        playerStats(g2d);
-        
-        } else if (state == STATE.MENU) {
-            this.menu.render(g2d);
-        } else if (state == STATE.PAUSE) {
-            this.pmenu.render(g2d);
-        } else if (state == STATE.ABOUT) {
-            this.amenu.render(g2d);
-        } else if (state == STATE.START) {
-            this.startscreen.render(g2d);
-        } else if (state == STATE.GOAL) {
-            this.goalscreen.render(g2d);
-        }
+	/* Updating stuff to game */
 
+	public void tick() {
+		if (state == STATE.GAME) {
+			handler.tick();
+			this.requestFocus();
+			for (int i = 0; i < handler.objects.size(); i++) {
+				if (handler.objects.get(i).getId() == ID.Player) {
+					cam.tick(handler.objects.get(i));
+				}
+			}
+		} else if (state == STATE.MENU || state == STATE.PAUSE || state == STATE.START || state == STATE.ABOUT) {
+			while (this.state == STATE.PAUSE) {
+				try {
+					Thread.sleep(100);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
-        
+	/* Render method */
 
-        //////////////////////////////////////
-        g2d.dispose();
-        bs.show();
-    }
+	public void render() {
+		BufferStrategy bs = this.getBufferStrategy();
+		Toolkit.getDefaultToolkit().sync();
+		if (bs == null) {
+			this.createBufferStrategy(3);
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+		/*
+		 * //////////////////////////////////// Draw here
+		 *////////////////////////////////////
 
-    /**
-     * Generates the level based on a recursive back-track maze generator in world.World.
-     */
+		if (state == STATE.GAME) {
+			g2d.translate(-cam.getX(), -cam.getY());
 
-    public void loadLevel() {
+			for (int x = 0; x < 41 * 64; x += 64) {
+				for (int y = 0; y < 41 * 64; y += 64) {
+					g2d.drawImage(road, x, y, null);
+				}
+			}
+			try {
+				handler.render(g2d);
+			} catch (NullPointerException npe) {
+				throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
+			}
+			g2d.translate(cam.getX(), cam.getY());
 
-        World world = new World(41, 41);
-        int w = world.getHeight();
-        int h = world.getWidth();
-        int[] start = world.getStart();
-        int[] goal = world.getGoal();
-        
-        /*
-         * Creates new objects depending on the state of the Tile object in the World array.
-         */
+			playerStats(g2d);
 
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                if (!world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x) ) {
-                    handler.addObject(new Block(x*64, y*64, ID.Block, blocksheet));
-                }
-                if(start[0] == y && start[1] == x) {
-                    handler.addObject(new GuiPlayer(x*64, y*64, ID.Player, handler, playersheet, this));
-                }
-                if(goal[0] == y && goal[1] == x) {
-                    handler.addObject(new Goal(x*64, y*64, ID.Goal, bus));
-                }
-                if (world.getTile(y, x).hasMonster()) {
-                    handler.addObject(new GuiMonster(x*64, y*64, ID.Enemy));
-                }
-            }
-        }
-    }
+		} else if (state == STATE.MENU) {
+			this.menu.render(g2d);
+		} else if (state == STATE.PAUSE) {
+			this.pmenu.render(g2d);
+		} else if (state == STATE.ABOUT) {
+			this.amenu.render(g2d);
+		} else if (state == STATE.START) {
+			this.startscreen.render(g2d);
+		} else if (state == STATE.GOAL) {
+			this.goalscreen.render(g2d);
+		}
 
-    /* Main method */
+		//////////////////////////////////////
+		g2d.dispose();
+		bs.show();
+	}
 
-    public static void main(String[] args) {
-        new Game(640, 480);
-    }
+	/**
+	 * Generates the level based on a recursive back-track maze generator in
+	 * world.World.
+	 */
 
-    /* Getters and setters for state */
+	public void loadLevel() {
 
-    public STATE getState() {
-        return state;
-    }
+		World world = new World(41, 41);
+		int w = world.getHeight();
+		int h = world.getWidth();
+		int[] start = world.getStart();
+		int[] goal = world.getGoal();
 
-    public void setState(STATE state) {
-        this.state = state;
-    }
+		/*
+		 * Creates new objects depending on the state of the Tile object in the World
+		 * array.
+		 */
 
-    /*
-     * Draw's player stats or stats-based bars to top of the game screen
-     */
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				if (!world.getTile(y, x).getPassable() && !(goal[0] == y && goal[1] == x)) {
+					handler.addObject(new Block(x * 64, y * 64, ID.Block, blocksheet));
+				}
+				if (start[0] == y && start[1] == x) {
+					handler.addObject(new GuiPlayer(x * 64, y * 64, ID.Player, handler, playersheet, this));
+				}
+				if (goal[0] == y && goal[1] == x) {
+					handler.addObject(new Goal(x * 64, y * 64, ID.Goal, bus));
+				}
+				if (world.getTile(y, x).hasMonster()) {
+					handler.addObject(new GuiMonster(x * 64, y * 64, ID.Enemy));
+				}
+			}
+		}
+	}
 
-    public void playerStats(Graphics2D g) {
+	/* Main method */
 
-        int playerHP = 0;
-        int playerMaxHP = 0;
-        int playerMana = 0;
-        int playerMaxMana = 0;
-        int playerLevel = 0;
-        GuiPlayer gp = null;
-        for (int i=0;i<handler.objects.size();i++) {
-            if (handler.objects.get(i).getId() == ID.Player) {
-                gp = (GuiPlayer)handler.objects.get(i);
-                playerHP = gp.getHP();
-                playerMaxHP = gp.getMaxHP();
-                playerMana = gp.getMana();
-                playerMaxMana = gp.getMaxMana();
-                playerLevel = gp.getLevel();
-            }
-        }
-        
-        
-        g.setFont(font1);
+	public static void main(String[] args) {
+		new Game(640, 480);
+	}
 
-        /* HP bar */
+	public static void loadedGame(ArrayList<GameObject> objects) {
+		new Game(640, 480, objects);
+	}
+	/* Getters and setters for state */
 
-        g.setColor(Color.black);
-        g.fillRect(5, 6, 30, 13);
-        g.drawRect(30, 6, playerMaxHP*2, 12);
-        g.setColor(Color.green);
-        g.drawString("HP", 8, 16);
-        g.setColor(Color.gray);
-        g.fillRect(30, 6, playerMaxHP*2, 12);
-        g.setColor(Color.green);
-        g.fillRect(30, 6, playerHP*2, 12);
+	public STATE getState() {
+		return state;
+	}
 
-        /* Mana bar */
+	public void setState(STATE state) {
+		this.state = state;
+	}
 
-        g.setColor(Color.black);
-        g.fillRect(185, 6, 50, 13);
-        g.drawRect(235, 6, playerMaxMana*2, 12);
-        g.setColor(Color.cyan);
-        g.drawString("MANA", 188, 16);
-        g.setColor(Color.gray);
-        g.fillRect(235, 6, playerMaxMana*2, 12);
-        g.setColor(Color.cyan);
-        g.fillRect(235, 6, playerMana*2, 12);
+	public Handler getHandler() {
+		return this.handler;
+	}
 
-        /* Level indicator */
+	/*
+	 * Draw's player stats or stats-based bars to top of the game screen
+	 */
 
-        g.setFont(font2);
-        g.setColor(Color.black);
-        g.fillRect(540, 4, 80, 15);
-        g.setColor(Color.yellow);
-        g.drawString("LVL: " + playerLevel, 545, 16);
-    }
+	public void playerStats(Graphics2D g) {
+
+		int playerHP = 0;
+		int playerMaxHP = 0;
+		int playerMana = 0;
+		int playerMaxMana = 0;
+		int playerLevel = 0;
+		GuiPlayer gp = null;
+		for (int i = 0; i < handler.objects.size(); i++) {
+			if (handler.objects.get(i).getId() == ID.Player) {
+				gp = (GuiPlayer) handler.objects.get(i);
+				playerHP = gp.getHP();
+				playerMaxHP = gp.getMaxHP();
+				playerMana = gp.getMana();
+				playerMaxMana = gp.getMaxMana();
+				playerLevel = gp.getLevel();
+			}
+		}
+
+		g.setFont(font1);
+
+		/* HP bar */
+
+		g.setColor(Color.black);
+		g.fillRect(5, 6, 30, 13);
+		g.drawRect(30, 6, playerMaxHP * 2, 12);
+		g.setColor(Color.green);
+		g.drawString("HP", 8, 16);
+		g.setColor(Color.gray);
+		g.fillRect(30, 6, playerMaxHP * 2, 12);
+		g.setColor(Color.green);
+		g.fillRect(30, 6, playerHP * 2, 12);
+
+		/* Mana bar */
+
+		g.setColor(Color.black);
+		g.fillRect(185, 6, 50, 13);
+		g.drawRect(235, 6, playerMaxMana * 2, 12);
+		g.setColor(Color.cyan);
+		g.drawString("MANA", 188, 16);
+		g.setColor(Color.gray);
+		g.fillRect(235, 6, playerMaxMana * 2, 12);
+		g.setColor(Color.cyan);
+		g.fillRect(235, 6, playerMana * 2, 12);
+
+		/* Level indicator */
+
+		g.setFont(font2);
+		g.setColor(Color.black);
+		g.fillRect(540, 4, 80, 15);
+		g.setColor(Color.yellow);
+		g.drawString("LVL: " + playerLevel, 545, 16);
+	}
 }

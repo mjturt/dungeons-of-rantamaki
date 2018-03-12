@@ -1,5 +1,5 @@
 package combat;
 
-public enum AttackType {
+public enum AttackType implements java.io.Serializable {
 	PHYSICAL, MAGICAL
 }

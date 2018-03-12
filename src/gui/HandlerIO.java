@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * This class requests the home directory of the user from the system, and checks if the save directory
@@ -29,7 +30,7 @@ public class HandlerIO {
 	 * @param h the serializable handler we want to write for saving and loading the game's state
 	 * @throws IOException if there's any issue with output streams
 	 */
-	public static void writeHandler(Handler h) throws IOException{
+	public static void writeHandler(ArrayList<GameObject> objects) throws IOException{
 		if(!Files.isDirectory(savePath)) {
 			System.out.println("Creating savegame directory");
 			System.out.println(savedir.toString());
@@ -37,7 +38,7 @@ public class HandlerIO {
 		}
 		FileOutputStream outStream = new FileOutputStream(savedir.toString() + "/game.sav");//this bit of code
 		ObjectOutputStream oos = new ObjectOutputStream(outStream);							//creates the file
-		oos.writeObject(h);																	//if it isn't found
+		oos.writeObject(objects);																	//if it isn't found
 		oos.close();
 		outStream.close();
 	}
@@ -49,13 +50,16 @@ public class HandlerIO {
 	 * @throws ClassNotFoundException if the object can't be read
 	 * @throws FileNotFoundException  if the savedirectory is not found
 	 */
-	public static Handler readHandler() throws IOException, ClassNotFoundException, FileNotFoundException{
+	public static ArrayList<GameObject> readHandler() throws IOException, ClassNotFoundException, FileNotFoundException{
 		if(!Files.isDirectory(savePath)) {
 			throw new FileNotFoundException(); //throw exception if the save folder is not found on the system
 		}
 		FileInputStream inStream = new FileInputStream(savedir.toString() + "/game.sav");
 		ObjectInputStream in = new ObjectInputStream(inStream);
-		Handler readHandler = (Handler) in.readObject();
+		ArrayList<GameObject> readHandler = (ArrayList<GameObject>) in.readObject();
+		for (GameObject o : readHandler) {
+			System.out.println("read object: " + o.toString());
+		}
 		in.close();
 		inStream.close();
 		return readHandler;

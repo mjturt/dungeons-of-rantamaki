@@ -5,7 +5,7 @@
  */
 package combat;
 
-public class Attack {
+public class Attack implements java.io.Serializable{
 	final private AttackType type;
 	final private int power;
 	final private String name;

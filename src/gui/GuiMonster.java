@@ -6,6 +6,10 @@ import java.awt.Rectangle;
 
 public class GuiMonster extends GameObject {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Rectangle bounds = new Rectangle();
 	
 	public GuiMonster(int x, int y, ID id) {

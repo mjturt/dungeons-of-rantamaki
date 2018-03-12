@@ -21,10 +21,14 @@ import javax.swing.JFrame;
  * Handler is a class used for updating and storing game related events. Like it's name states,
  * it handles everything.
  */
-@SuppressWarnings("serial")
 public class Handler implements java.io.Serializable  {
 
-    ArrayList<GameObject> objects = new ArrayList<GameObject>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	ArrayList<GameObject> objects = new ArrayList<GameObject>();
 
     private boolean up = false;
     private boolean down = false;
@@ -116,5 +120,13 @@ public class Handler implements java.io.Serializable  {
     	setRight(false);
     	setUp(false);
     	setDown(false);
+    }
+    
+    public ArrayList<GameObject> getObjects() {
+    	return this.objects;
+    }
+    
+    public void setObjects (ArrayList<GameObject> obj) {
+    	this.objects = obj;
     }
 }
