@@ -42,8 +42,6 @@ public class Goal extends GameObject {
     	this.bus = bimg;
     }
 
-
-	
 	public void reloadAssets(BufferedImage img) {
 		this.bus = img;
 	}
