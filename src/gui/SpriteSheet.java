@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class SpriteSheet {
 
-    private BufferedImage img;
+    private final BufferedImage img;
 
     public SpriteSheet(BufferedImage img) {
     	System.out.println("created spritesheet with image " + img.toString());

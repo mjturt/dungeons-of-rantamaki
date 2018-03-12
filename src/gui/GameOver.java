@@ -15,7 +15,7 @@ public class GameOver extends JDialog implements ActionListener, Runnable {
 	private boolean running = false;
 	JFrame frame;
 	public GameOver(JFrame frame) {
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.frame = frame;
 		this.running = true;
 		}

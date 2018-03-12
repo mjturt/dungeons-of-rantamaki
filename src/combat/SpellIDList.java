@@ -13,8 +13,8 @@ import java.nio.charset.StandardCharsets;
  */
 
 public class SpellIDList {
-	private ArrayList<Attack> IDList;
-	private ArrayList<String> spells;
+	private final ArrayList<Attack> IDList;
+	private final ArrayList<String> spells;
 
 	/**
 	 * reads spells from spellist as resource, for packing it to the JAR. Then uses BufferedReader to read the binary inputstream
@@ -26,9 +26,9 @@ public class SpellIDList {
 		spells = new ArrayList<String>();
 		String str;
 		try {
-			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("combat/spellist");
-			BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
+			final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			final InputStream is = classloader.getResourceAsStream("combat/spellist");
+			final BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
 			if(is!=null) {
 				while((str = br.readLine()) != null) {
 					spells.add(str);
@@ -39,15 +39,15 @@ public class SpellIDList {
 			}
 			br.close();
 			is.close();
-			for(String s: spells) {
+			for(final String s: spells) {
 				IDList.add(parseLine(s));
 			}
 		}
-		catch(NullPointerException npe) {
+		catch(final NullPointerException npe) {
 			System.out.println("Something went wrong :(");
 			npe.printStackTrace();
 		}
-		catch(IOException ioe) {
+		catch(final IOException ioe) {
 			System.out.println("Something went wrong :(");
 			ioe.printStackTrace();
 		}
@@ -64,7 +64,7 @@ public class SpellIDList {
 	 */
 	private Attack parseLine(String line) {
 		line = line.trim();
-		String[] lineArray = line.split(",");
+		final String[] lineArray = line.split(",");
 		return new Attack(lineArray[0], AttackType.valueOf(lineArray[1]), Integer.parseInt(lineArray[2]), Integer.parseInt(lineArray[3]));
 	}
 }

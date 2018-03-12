@@ -10,27 +10,31 @@ import java.util.ArrayList;
  */
 
 public class MouseInput implements MouseListener {
-    private Game game;
+    private final Game game;
 
     public MouseInput(Game game) {
         this.game = game;
     }
 
-    public void mouseClicked(MouseEvent arg0) {
+    @Override
+	public void mouseClicked(MouseEvent arg0) {
 
     }
 
-    public void mouseEntered(MouseEvent e) {
+    @Override
+	public void mouseEntered(MouseEvent e) {
 
     }
 
-    public void mouseExited(MouseEvent e) {
+    @Override
+	public void mouseExited(MouseEvent e) {
 
     }
 
-    public void mousePressed(MouseEvent e) {
-        int mx = e.getX();
-        int my = e.getY();
+    @Override
+	public void mousePressed(MouseEvent e) {
+        final int mx = e.getX();
+        final int my = e.getY();
 
         /* Taking mouse input only in menus */
 
@@ -71,7 +75,7 @@ public class MouseInput implements MouseListener {
             if (mx >= 290 && mx <= 350 ) {
                 if (my >= 220 && my <= 250) {
                     try {
-                    	ArrayList<GameObject> objects = HandlerIO.readHandler();
+                    	final ArrayList<GameObject> objects = HandlerIO.readHandler();
                     	System.out.println("Read the file (or atleast tried)");
 						this.game.getHandler().setObjects(objects);
 						this.game.setState(STATE.START);
@@ -92,7 +96,7 @@ public class MouseInput implements MouseListener {
                 if (my >= 220 && my <= 250) {
                 	try {
 						HandlerIO.writeHandler(game.getHandler().getObjects());
-					} catch (IOException e1) {
+					} catch (final IOException e1) {
 						e1.printStackTrace();
 					}
                 	game.setState(STATE.GAME);
@@ -130,7 +134,8 @@ public class MouseInput implements MouseListener {
         
     }
 
-    public void mouseReleased(MouseEvent e) {
+    @Override
+	public void mouseReleased(MouseEvent e) {
 
     }
 

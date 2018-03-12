@@ -10,14 +10,14 @@ import java.util.Random;
 public class Engine {
 
 	public static void main (String[] args) {
-		Random r = new Random();
-		World testi = new World(150, 150);
-		Player p = new Player(25, "Kaitsu", 10, 10, 20);
+		final Random r = new Random();
+		final World testi = new World(150, 150);
+		final Player p = new Player(25, "Kaitsu", 10, 10, 20);
 		p.setLocation(testi.getStart()[0], testi.getStart()[1]);
 		Scanner s = new Scanner(System.in);
-		MonsterGenerator mg = new MonsterGenerator();
-		SpellIDList tome = new SpellIDList();
-		AttackIDList atk = new AttackIDList();
+		final MonsterGenerator mg = new MonsterGenerator();
+		final SpellIDList tome = new SpellIDList();
+		final AttackIDList atk = new AttackIDList();
 		p.addAttack(atk.getAttack(r.nextInt(2)));
 		p.addSpell(tome.getSpell(r.nextInt(2)));
 		
@@ -29,7 +29,7 @@ public class Engine {
 				s = new Scanner(System.in);
 			}
 			try {
-				String key = s.nextLine();
+				final String key = s.nextLine();
 				if (key.equals("s")) {
 					p.moveDown(testi);
 				} else if (key.equals("w")) {
@@ -42,14 +42,14 @@ public class Engine {
 					System.out.println("Invalid selection!");
 					continue;
 				}
-			} catch (NoSuchElementException e) {
+			} catch (final NoSuchElementException e) {
 				System.out.println(e.getMessage());
 				System.out.println(e.getCause());
 				continue;
 			}
 
 			if (testi.getTile(p.getY(), p.getX()).hasMonster()) {
-					Monster m = mg.getMonster(0, r.nextInt(p.getLevel() + 3) + 1);
+					final Monster m = mg.getMonster(0, r.nextInt(p.getLevel() + 3) + 1);
 					CombatEngine.combat(p, m);
 					continue;
 				}

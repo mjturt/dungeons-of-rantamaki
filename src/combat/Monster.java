@@ -15,27 +15,27 @@ public class Monster extends Creature {
 	 * 
 	 */
 	public Attack selectAttack(Creature target) {
-		Random r = new Random();
-		int decide = r.nextInt(101);
+		final Random r = new Random();
+		final int decide = r.nextInt(101);
 		if(decide<=75) {
 			Attack maxPhys = null;
 			Attack maxMagic = null;
 			double maxPhysDamage = 0.0;
 			double maxMagicDamage = 0.0;
 			for(int i=0;i<this.moveList.size();i++) {
-				Attack a = this.moveList.get(i);
-				double aDmg = this.calculateDamage(target, a);
+				final Attack a = this.moveList.get(i);
+				final double aDmg = this.calculateDamage(target, a);
 				if(aDmg > maxPhysDamage) {
 					maxPhys = a;
 					maxPhysDamage = aDmg;
 				}
 			}
 			for(int j=0;j<this.spellBook.size();j++) {
-				Attack m = this.spellBook.get(j);
+				final Attack m = this.spellBook.get(j);
 				if(m.getMana()>this.mana) {
 					continue;
 				}
-				double mDmg = this.calculateDamage(target, m);
+				final double mDmg = this.calculateDamage(target, m);
 				if(mDmg > maxMagicDamage) {
 					maxMagic = m;
 					maxMagicDamage = mDmg;				
@@ -50,7 +50,7 @@ public class Monster extends Creature {
 			}
 		}
 		else {
-			int attack = r.nextInt(this.moveList.size());
+			final int attack = r.nextInt(this.moveList.size());
 			return this.moveList.get(attack);
 		}
 	}

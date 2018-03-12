@@ -17,8 +17,9 @@ public class KeyInput extends KeyAdapter {
         this.game = game;
     }
 
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
+    @Override
+	public void keyPressed(KeyEvent e) {
+        final int key = e.getKeyCode();
 
         /*
          * Player character movement
@@ -35,7 +36,7 @@ public class KeyInput extends KeyAdapter {
         	}
         }
         for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject temp= handler.objects.get(i);
+            final GameObject temp= handler.objects.get(i);
             /*
              * Keyboard input for menus
              */
@@ -67,11 +68,12 @@ public class KeyInput extends KeyAdapter {
      * Key release events, only for character movement
      */
 
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
+    @Override
+	public void keyReleased(KeyEvent e) {
+        final int key = e.getKeyCode();
 
         for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject temp= handler.objects.get(i);
+            final GameObject temp= handler.objects.get(i);
             if (temp.getId() == ID.Player) {
                 if (key == KeyEvent.VK_UP) {
                     handler.setUp(false);

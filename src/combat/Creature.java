@@ -130,7 +130,7 @@ public class Creature implements java.io.Serializable {
 
 	public void listSpellbook() {
 		int i = 0;
-		for (Attack a : this.spellBook) {
+		for (final Attack a : this.spellBook) {
 			System.out.println(i + ": " + a.getName());
 			i++;
 		}
@@ -170,7 +170,7 @@ public class Creature implements java.io.Serializable {
 	 */
 	public void listMoveList() {
 		int i = 0;
-		for (Attack a : this.moveList) {
+		for (final Attack a : this.moveList) {
 			System.out.println(i + ": " + a.getName());
 		}
 		i++;
@@ -196,7 +196,7 @@ public class Creature implements java.io.Serializable {
 	 */
 	public void listInventory() {
 		int i = 0;
-		for (Consumable cons : this.inventory) {
+		for (final Consumable cons : this.inventory) {
 			System.out.println(i + ": " + cons.getConsumableName());
 			i++;
 		}
@@ -219,7 +219,7 @@ public class Creature implements java.io.Serializable {
 	 * @param index index from which the Consumable is retrieved
 	 */
 	public void useItem(int index) {
-		Consumable tmp = this.inventory.get(index);
+		final Consumable tmp = this.inventory.get(index);
 		this.setHP(this.getHP() + tmp.getRestoreHp());
 		System.out.print("You restore " + tmp.getRestoreHp() + " HP and ");
 		this.setMana(this.getMana() + tmp.getRestoreMana());
@@ -261,7 +261,7 @@ public class Creature implements java.io.Serializable {
 	 * @return: nothing
 	 */
 	public void DealDamage(Creature defender, Attack a) {
-			double dmg = calculateDamage(defender, a);
+			final double dmg = calculateDamage(defender, a);
 			System.out.println(this.name + " used " + a.getName() + ", it deals " + dmg + " damage!");
 			defender.setHP((int)(defender.getHP()-Math.round(dmg)));
 			this.mana-=a.getMana();
@@ -277,7 +277,7 @@ public class Creature implements java.io.Serializable {
 	 *to specified target
 	 */
 	public double calculateDamage(Creature defender, Attack a) {
-		AttackType type = a.getType();
+		final AttackType type = a.getType();
 		int pwr;
 		double AD, dmg, lvl;
 		switch (type) {
@@ -315,7 +315,7 @@ public class Creature implements java.io.Serializable {
 	 */
 	public void LevelUp() {
 		this.level++;
-		int up = (int) Math.floor((10.0+this.level)/10);
+		final int up = (int) Math.floor((10.0+this.level)/10);
 		this.maxHP += up;
 		this.hp = this.maxHP;
 		this.maxMana += up;

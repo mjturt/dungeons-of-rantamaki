@@ -10,7 +10,7 @@ public class GuiMonster extends GameObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Rectangle bounds = new Rectangle();
+	private final Rectangle bounds = new Rectangle();
 	
 	public GuiMonster(int x, int y, ID id) {
 		super(x, y, id);
@@ -18,18 +18,21 @@ public class GuiMonster extends GameObject {
 	}
 
 	
+	@Override
 	public void tick() {
 		x += velX;
 		y += velY;
 		
 	}
 
+	@Override
 	public void render(Graphics2D g) {
 		g.setColor(Color.cyan);
 		//g.fillRect(this.x, this.y, 64, 64);
 	}
 
 	
+	@Override
 	public Rectangle getBounds() {
 		this.bounds.setBounds(this.x, this.y, 64, 64);
 		return this.bounds;

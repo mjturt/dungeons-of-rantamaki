@@ -42,18 +42,18 @@ public class InitCombat implements ActionListener, Runnable {
 	 */
 	private JTextArea enemyText = new JTextArea();
 	private ArrayList<Consumable> loot;
-	private JTextArea jt = new JTextArea(5, 50);
-	private PrintStream ps = new PrintStream(new CombatOutputStream(jt));
-	private JScrollPane jsp = new JScrollPane(this.jt);
-	private JPanel selectAction = new JPanel();
-	private JPanel information = new JPanel();
-	private JPanel selectConsumable = new JPanel();
-	private JPanel selectAttackType = new JPanel();
-	private JPanel scrollBox = new JPanel();
-	private JButton mag = new JButton("MAGICAL");
-	private JButton phy = new JButton("PHYSICAL");
-	private FlowLayout layout = new FlowLayout();
-	private DefaultCaret caret = (DefaultCaret)this.jt.getCaret();
+	private final JTextArea jt = new JTextArea(5, 50);
+	private final PrintStream ps = new PrintStream(new CombatOutputStream(jt));
+	private final JScrollPane jsp = new JScrollPane(this.jt);
+	private final JPanel selectAction = new JPanel();
+	private final JPanel information = new JPanel();
+	private final JPanel selectConsumable = new JPanel();
+	private final JPanel selectAttackType = new JPanel();
+	private final JPanel scrollBox = new JPanel();
+	private final JButton mag = new JButton("MAGICAL");
+	private final JButton phy = new JButton("PHYSICAL");
+	private final FlowLayout layout = new FlowLayout();
+	private final DefaultCaret caret = (DefaultCaret)this.jt.getCaret();
 	/**
 	 * Initiates a new combat event
 	 * 
@@ -73,7 +73,7 @@ public class InitCombat implements ActionListener, Runnable {
 		this.jd = new JDialog(jf);
 		this.m = m;
 		this.p = p;
-		this.jd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.jd.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.loot = generateLoot();
 		this.jd.setModal(true);
 		this.jt.setEditable(false);
@@ -96,11 +96,11 @@ public class InitCombat implements ActionListener, Runnable {
 	protected void createMain() {
 		this.jd.setSize(640, 480);
 		this.jd.setTitle("COMBAT");
-		JButton cons = new JButton("CONSUMABLES");
+		final JButton cons = new JButton("CONSUMABLES");
 		cons.setActionCommand("CONSUMABLES");
 		cons.addActionListener(this);
 		cons.setSize(64, 32);
-		JButton att = new JButton("ATTACK");
+		final JButton att = new JButton("ATTACK");
 		att.setActionCommand("ATTACK");
 		att.addActionListener(this);
 		this.playerText.setText(this.p.getName() + " Lvl: " + this.p.getLevel() + "\n HP: " + this.p.getHP() + "/"
@@ -141,7 +141,7 @@ public class InitCombat implements ActionListener, Runnable {
 	 * players inventory. Invoked by action listener
 	 */
 	private void createConsumablesMenu() {
-		ArrayList<JButton> buttons = createButtons(getInventoryItemNames(), new UseItem(this));
+		final ArrayList<JButton> buttons = createButtons(getInventoryItemNames(), new UseItem(this));
 		for (int i = 0; i < buttons.size(); i++) {
 			this.selectConsumable.add(buttons.get(i));
 		}
@@ -185,7 +185,7 @@ public class InitCombat implements ActionListener, Runnable {
 	 * Auto-generates buttons for physical attacks, invoked by ActionListener
 	 */
 	protected void createPhysicalsMenu() {
-		ArrayList<JButton> buttons = createButtons(getAttackNames(), new Physicals(this));
+		final ArrayList<JButton> buttons = createButtons(getAttackNames(), new Physicals(this));
 		for (int i = 0; i < buttons.size(); i++) {
 			this.selectConsumable.add(buttons.get(i));
 		}
@@ -206,7 +206,7 @@ public class InitCombat implements ActionListener, Runnable {
 	 * Auto-generates buttons for magical attacks, invoked by ActionListener
 	 */
 	protected void createMagicalsMenu() {
-		ArrayList<JButton> buttons = createButtons(getSpellNames(), new Spells(this));
+		final ArrayList<JButton> buttons = createButtons(getSpellNames(), new Spells(this));
 		for (int i = 0; i < buttons.size(); i++) {
 			this.selectConsumable.add(buttons.get(i));
 		}
@@ -232,7 +232,7 @@ public class InitCombat implements ActionListener, Runnable {
 		}
 		this.jd.getContentPane().removeAll();
 		this.jd.setVisible(true);
-		ArrayList<JButton> buttons = createButtons(getLootNames(), new Loot(this));
+		final ArrayList<JButton> buttons = createButtons(getLootNames(), new Loot(this));
 		for (int i = 0; i < buttons.size(); i++) {
 			this.selectConsumable.add(buttons.get(i));
 		}
@@ -256,10 +256,10 @@ public class InitCombat implements ActionListener, Runnable {
 	 * @return ArrayList of JButton objects to be used in menu generation.
 	 */
 	private ArrayList<JButton> createButtons(ArrayList<String> names, ActionListener al) {
-		ArrayList<JButton> buttons = new ArrayList<>();
+		final ArrayList<JButton> buttons = new ArrayList<>();
 		int n = 0;
 		for (int i = 0; i < names.size(); i++) {
-			JButton b = new JButton(names.get(i));
+			final JButton b = new JButton(names.get(i));
 			b.setName(names.get(i));
 			b.addActionListener(al);
 			b.setActionCommand(names.get(i));
@@ -269,7 +269,7 @@ public class InitCombat implements ActionListener, Runnable {
 			n = i;
 		}
 		if (al.getClass() == Loot.class) {
-			JButton disc = new JButton("DISCARD ALL");
+			final JButton disc = new JButton("DISCARD ALL");
 			disc.setName("DISCARD ALL");
 			disc.addActionListener(al);
 			disc.setActionCommand("DISCARD ALL");
@@ -278,7 +278,7 @@ public class InitCombat implements ActionListener, Runnable {
 			disc.setMnemonic(n);
 			buttons.add(disc);
 		} else {
-			JButton ret = new JButton("RETURN");
+			final JButton ret = new JButton("RETURN");
 			ret.setName("RETURN");
 			ret.addActionListener(al);
 			ret.setActionCommand("RETURN");
@@ -333,9 +333,9 @@ public class InitCombat implements ActionListener, Runnable {
 	 * @return ArrayList<Consumable> loot containing the items rewarded as loot.
 	 */
 	private ArrayList<Consumable> generateLoot() {
-		ArrayList<Consumable> loot = new ArrayList<>();
-		ItemGenerator lst = new ItemGenerator();
-		Random r = new Random();
+		final ArrayList<Consumable> loot = new ArrayList<>();
+		final ItemGenerator lst = new ItemGenerator();
+		final Random r = new Random();
 		int maxLoot = m.getLevel() / 10;
 		if (maxLoot < 1) {
 			maxLoot = r.nextInt(2);
@@ -359,8 +359,8 @@ public class InitCombat implements ActionListener, Runnable {
 	 * @return ArrayList of spell names
 	 */
 	private ArrayList<String> getSpellNames() {
-		ArrayList<String> spellnames = new ArrayList<>();
-		for (combat.Attack a : this.p.getSpellbook()) {
+		final ArrayList<String> spellnames = new ArrayList<>();
+		for (final combat.Attack a : this.p.getSpellbook()) {
 			spellnames.add(a.getName());
 		}
 		return spellnames;
@@ -371,8 +371,8 @@ public class InitCombat implements ActionListener, Runnable {
 	 *         auto-generation
 	 */
 	private ArrayList<String> getLootNames() {
-		ArrayList<String> itemNames = new ArrayList<>();
-		for (Consumable c : this.loot) {
+		final ArrayList<String> itemNames = new ArrayList<>();
+		for (final Consumable c : this.loot) {
 			itemNames.add(c.getConsumableName());
 		}
 		return itemNames;
@@ -385,8 +385,8 @@ public class InitCombat implements ActionListener, Runnable {
 	 * @return ArrayList of Attack names
 	 */
 	private ArrayList<String> getAttackNames() {
-		ArrayList<String> attacks = new ArrayList<>();
-		for (combat.Attack a : this.p.getMovelist()) {
+		final ArrayList<String> attacks = new ArrayList<>();
+		for (final combat.Attack a : this.p.getMovelist()) {
 			attacks.add(a.getName());
 		}
 		return attacks;
@@ -399,8 +399,8 @@ public class InitCombat implements ActionListener, Runnable {
 	 * @return ArrayList of consumable names
 	 */
 	private ArrayList<String> getInventoryItemNames() {
-		ArrayList<String> consumables = new ArrayList<>();
-		for (Consumable c : this.p.getInventory()) {
+		final ArrayList<String> consumables = new ArrayList<>();
+		for (final Consumable c : this.p.getInventory()) {
 			consumables.add(c.getConsumableName());
 		}
 		return consumables;
@@ -581,7 +581,7 @@ class Spells implements ActionListener {
 			this.ic.refresh();
 			this.ic.createMain();
 		} else {
-			for (Attack a : this.ic.getP().getSpellbook()) {
+			for (final Attack a : this.ic.getP().getSpellbook()) {
 				if (e.getActionCommand().equals(a.getName())) {
 					if (this.player.ManaCheck(a)) {
 						this.ic.refresh();
@@ -620,7 +620,7 @@ class Physicals implements ActionListener {
 			this.ic.refresh();
 			this.ic.createMain();
 		} else {
-			for (Attack a : this.player.getMovelist()) {
+			for (final Attack a : this.player.getMovelist()) {
 				if (e.getActionCommand().equals(a.getName())) {
 					this.ic.refresh();
 					this.player.DealDamage(this.monster, a);
@@ -654,8 +654,8 @@ class UseItem implements ActionListener {
 			this.ic.createMain();
 		} else {
 			for (int i = 0; i < this.player.getInventory().size(); i++) {
-				Component comp = (Component) e.getSource();
-				JButton b = (JButton) comp;
+				final Component comp = (Component) e.getSource();
+				final JButton b = (JButton) comp;
 				if (b.getMnemonic() == i) {
 					this.ic.refresh();
 					this.player.useItem(this.player.getItem(i));
@@ -669,7 +669,7 @@ class UseItem implements ActionListener {
  *OutputStream for redirecting System.out calls to a JTextArea, used in gui.InitCombat
  */
 class CombatOutputStream extends OutputStream {
-	private JTextArea tArea;
+	private final JTextArea tArea;
 	/**
 	 * Constructs a new CombatOutputStream
 	 * @param textarea JTextArea which is used to display System.out

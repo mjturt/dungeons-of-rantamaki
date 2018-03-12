@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -50,7 +49,7 @@ public class Handler implements java.io.Serializable  {
         for (int i=0;i<this.objects.size();i++) {
         	try {
         		this.objects.get(i).tick();
-        	} catch (NullPointerException e) {
+        	} catch (final NullPointerException e) {
         		throw new IllegalStateException(("Sumthins wrong: "), e);
         	}
             
@@ -62,7 +61,7 @@ public class Handler implements java.io.Serializable  {
      */
     public void render(Graphics2D g) {
         for (int i = 0; i < objects.size(); i++) {
-            GameObject temp = objects.get(i);
+            final GameObject temp = objects.get(i);
             temp.render(g);
         }
     }

@@ -23,10 +23,12 @@ public class Player extends Creature implements java.io.Serializable {
 		super(1, "kaitsu", 10, 10, 10);
 	}
 
+	@Override
 	public int getExp() {
 		return this.experience;
 	}
 
+	@Override
 	public void addExp(int exp) {
 		this.experience += exp;
 	}
@@ -47,7 +49,7 @@ public class Player extends Creature implements java.io.Serializable {
 
 	// temporary solution
 	public int[] getLocation() {
-		int[] pos = new int[2];
+		final int[] pos = new int[2];
 		pos[0] = this.posY;
 		pos[1] = this.posX;
 		return pos;

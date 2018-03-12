@@ -11,8 +11,8 @@ import java.nio.charset.StandardCharsets;
  * For getting items from pool of all items available in-game.
  */
 public class ItemGenerator {
-	private ArrayList<Consumable> Itemlist;
-	private ArrayList<String> items;
+	private final ArrayList<Consumable> Itemlist;
+	private final ArrayList<String> items;
 	
 	/**
 	 * reads Items from itemlist as resource, for packing it to the JAR. Then uses BufferedReader to read the binary inputstream
@@ -24,9 +24,9 @@ public class ItemGenerator {
 		items	 = new ArrayList<String>();
 		String str;
 		try {
-			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("combat/itemlist");
-			BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
+			final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			final InputStream is = classloader.getResourceAsStream("combat/itemlist");
+			final BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
 			if(is!=null) {
 				while((str = br.readLine()) != null) {
 					items.add(str);
@@ -37,15 +37,15 @@ public class ItemGenerator {
 			}
 			br.close();
 			is.close();
-			for(String s: items) {
+			for(final String s: items) {
 				Itemlist.add(parseLine(s));
 			}
 		}
-		catch(NullPointerException npe) {
+		catch(final NullPointerException npe) {
 			System.out.println("Something went wrong :(");
 			npe.printStackTrace();
 		}
-		catch(IOException ioe) {
+		catch(final IOException ioe) {
 			System.out.println("Something went wrong :(");
 			ioe.printStackTrace();
 		}
@@ -66,7 +66,7 @@ public class ItemGenerator {
 	 * @return Consumable
 	 */
 	private Consumable parseLine(String line) {
-		String[] lineArray = line.split(",");
+		final String[] lineArray = line.split(",");
 		return new Consumable(lineArray[0],Integer.parseInt(lineArray[1]), Integer.parseInt(lineArray[2]), Integer.parseInt(lineArray[3]));
 	}
 	/**

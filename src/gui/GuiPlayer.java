@@ -32,8 +32,8 @@ public class GuiPlayer extends GameObject  {
 	transient private Game game;
 	int tempX;
 	int tempY;
-	private Player p;
-	private Rectangle bounds;
+	private final Player p;
+	private final Rectangle bounds;
 	/**
 	 * @param x position in the x-axis
 	 * @param y position in the y-axis
@@ -42,7 +42,7 @@ public class GuiPlayer extends GameObject  {
 	 */
 	public GuiPlayer(int x, int y, ID id, Handler handler, SpriteSheet ss, Game game) {
 		super(x, y, id);
-		Random r = new Random();
+		final Random r = new Random();
 		this.handler = handler;
         this.ss = ss;
 		this.playerimg = this.ss.grabImage(1, 1, 16, 16);
@@ -54,8 +54,8 @@ public class GuiPlayer extends GameObject  {
 		this.bounds.setBounds(x, y, 16, 16);
 		this.p = new Player(25, "Kaitsu", 15, 15, 20);
 		//this.p.addItem(new Consumable("Testi", 1, 1, 1));
-		AttackIDList aid = new AttackIDList();
-		SpellIDList sid = new SpellIDList();
+		final AttackIDList aid = new AttackIDList();
+		final SpellIDList sid = new SpellIDList();
 		this.p.addAttack(aid.getAttack(r.nextInt(1)));
 		this.p.addSpell(sid.getSpell(r.nextInt(1)));
 	}
@@ -64,6 +64,7 @@ public class GuiPlayer extends GameObject  {
 	 * Updates the player velocity information based on key events, and calls updatePos() to check for collision and finally updating the player position.
 	 */
 
+	@Override
 	public void tick() {
 
 		/* Moving coordinates based on velocity */
@@ -100,6 +101,7 @@ public class GuiPlayer extends GameObject  {
 	/*
 	 * Draws picture of the player depending on direction of its movement.
 	 */
+	@Override
 	public void render(Graphics2D g) {
 
         /* Player character direction */
@@ -118,6 +120,7 @@ public class GuiPlayer extends GameObject  {
 	/**
 	 * Returns Rectangle of player dimension, used for collision checking
 	 */
+	@Override
 	public Rectangle getBounds() {
 		this.bounds.setBounds(x, y, 16, 16);
 		return this.bounds;
@@ -133,8 +136,8 @@ public class GuiPlayer extends GameObject  {
 	 * 
 	 */
 	public void updatePos(int newY, int newX) {
-		Random r = new Random();
-		Rectangle newPos = new Rectangle(newX, newY, 16, 16);
+		final Random r = new Random();
+		final Rectangle newPos = new Rectangle(newX, newY, 16, 16);
 		for (int i = 0; i < this.handler.objects.size(); i++) {
 			if (newPos.intersects(this.handler.objects.get(i).getBounds()) && this.handler.objects.get(i).getClass() == Block.class) {
 				return;
@@ -142,20 +145,20 @@ public class GuiPlayer extends GameObject  {
 			if (newPos.intersects(this.handler.objects.get(i).getBounds()) && this.handler.objects.get(i).getClass() == GuiMonster.class) {
 				MonsterGenerator mg = new MonsterGenerator();
 				//Generates a random opponent.
-				InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), this.p.getLevel()), this.handler.getFrame());
+				final InitCombat combat = new InitCombat(this.p, mg.getMonster(r.nextInt(mg.getMonsterListSize()), this.p.getLevel()), this.handler.getFrame());
 				SwingUtilities.invokeLater(combat);//thread safe way to invoke swing.
 				while (combat.isRunning()) {
 					try {
 						Thread.sleep(100);
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						e.printStackTrace();
 					}
 				}
 				mg = null;
 				if (combat.isGameOver()) {
 					System.out.println("Game was over");
-					JDialog test = new GameOver(this.handler.getFrame());
-					GameOver go = (GameOver) test;
+					final JDialog test = new GameOver(this.handler.getFrame());
+					final GameOver go = (GameOver) test;
 					SwingUtilities.invokeLater(go); //thread safe way to run swing. Not really necessary, but just to avoid thread racing issues. 
 					/*
 					 * Sleeps the thread for 100 millisecs until the combat event has been finished.
@@ -163,7 +166,7 @@ public class GuiPlayer extends GameObject  {
 					while (go.isRunning()) {
 						try {
 							Thread.sleep(100);
-						} catch (InterruptedException e) {
+						} catch (final InterruptedException e) {
 							e.printStackTrace();
 						}
 					}

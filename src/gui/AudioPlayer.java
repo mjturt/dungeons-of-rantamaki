@@ -22,15 +22,15 @@ public class AudioPlayer {
     public AudioPlayer(String path) {
         try {
             url = getClass().getResource(path);
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            AudioFormat format = ais.getFormat();
-            AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format.getSampleRate(), 16, format.getChannels(), format.getChannels() * 2, format.getSampleRate(), false);
-            AudioInputStream dais = AudioSystem.getAudioInputStream(decodeFormat, ais);
+            final AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+            final AudioFormat format = ais.getFormat();
+            final AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format.getSampleRate(), 16, format.getChannels(), format.getChannels() * 2, format.getSampleRate(), false);
+            final AudioInputStream dais = AudioSystem.getAudioInputStream(decodeFormat, ais);
             clip = AudioSystem.getClip();
             clip.open(dais);
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-10.0f);
-        } catch(Exception e) {
+        } catch(final Exception e) {
             e.printStackTrace();
         }
     }

@@ -20,9 +20,9 @@ public class Block extends GameObject {
 	transient private BufferedImage parklotimg;
 	transient private BufferedImage studentsimg;
 	transient private Random rand = new Random(); 
-    private int r;
+    private final int r;
     transient private SpriteSheet ss;
-    private Rectangle bounds;
+    private final Rectangle bounds;
 
     public Block(int x, int y, ID id, SpriteSheet ss) {
         super(x, y, id);
@@ -40,14 +40,16 @@ public class Block extends GameObject {
 
     /* Tick method, all GameObjects must have their own tick method */
 
-    public void tick() {
+    @Override
+	public void tick() {
         x += velX;
         y += velY;
     }
 
     /* Render method, all GameObjects must have their own render method */
 
-    public void render(Graphics2D g) {
+    @Override
+	public void render(Graphics2D g) {
         if (r <= 4) {
             g.drawImage(this.houseimg, x, y, null);
         } else if (this.r > 4 && r < 10) {
@@ -66,7 +68,8 @@ public class Block extends GameObject {
 
     /* This is for collision detection */
 
-    public Rectangle getBounds() {
+    @Override
+	public Rectangle getBounds() {
     	this.bounds.setBounds(x, y, 64, 64);
         return this.bounds;
     }

@@ -8,21 +8,21 @@ public class HandlerIOTest {
 		try {
 			HandlerIO.writeHandler(new ArrayList<GameObject>());
 		}
-		catch(IOException ioe) {
+		catch(final IOException ioe) {
 			System.out.println("Something went wrong :(");
 			ioe.printStackTrace();
 		}
 		
 		try {
-			ArrayList<GameObject> readHandler = HandlerIO.readHandler();
+			final ArrayList<GameObject> readHandler = HandlerIO.readHandler();
 			System.out.println(readHandler);
 			System.out.println(readHandler.toString());
 		}
-		catch(IOException ioe) {
+		catch(final IOException ioe) {
 			System.out.println("Something went wrong :(");
 			ioe.printStackTrace();
 		}
-		catch(ClassNotFoundException ioe) {
+		catch(final ClassNotFoundException ioe) {
 			System.out.println("Something went wrong in class :(");
 			ioe.printStackTrace();
 		}

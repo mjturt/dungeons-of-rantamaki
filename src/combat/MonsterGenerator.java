@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MonsterGenerator {
-	private ArrayList<Monster> monsterList;
-	private ArrayList<String> monsters;
+	private final ArrayList<Monster> monsterList;
+	private final ArrayList<String> monsters;
 
 	/**
 	 * reads monsters from monsterlist as resource, for packing it to the JAR. Then uses BufferedReader to read the binary inputstream
@@ -22,9 +22,9 @@ public class MonsterGenerator {
 		monsters = new ArrayList<String>();
 		String str;
 		try {
-			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("combat/monsterlist");
-			BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
+			final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			final InputStream is = classloader.getResourceAsStream("combat/monsterlist");
+			final BufferedReader br = new BufferedReader(new InputStreamReader(is,StandardCharsets.UTF_8));
 			if(is!=null) {
 				while((str = br.readLine()) != null) {
 					monsters.add(str);
@@ -32,7 +32,7 @@ public class MonsterGenerator {
 				br.close();
 				is.close();
 				int i=-1;
-				for(String s: monsters) {
+				for(final String s: monsters) {
 					if (s.indexOf(";")==-1) { //check if it's monster statline
 						monsterList.add(parseLine(s));
 						i++;
@@ -46,11 +46,11 @@ public class MonsterGenerator {
 				throw new FileNotFoundException();
 			}
 		}
-		catch(NullPointerException npe) {
+		catch(final NullPointerException npe) {
 			System.out.println("Something went wrong :(");
 			npe.printStackTrace();
 		}
-		catch(IOException ioe) {
+		catch(final IOException ioe) {
 			System.out.println("Something went wrong :(");
 			ioe.printStackTrace();
 		}
@@ -58,8 +58,8 @@ public class MonsterGenerator {
 	//returns the monster by it's line number in a file
 	//monster level will be player.level+-0.1player.level
 	public Monster getMonster(int i, int lvl) { 
-		Random r = new Random();
-		Monster prototype = monsterList.get(i);
+		final Random r = new Random();
+		final Monster prototype = monsterList.get(i);
 		int delta = (int)Math.floor(lvl/10.0);
 		delta = (r.nextInt(delta+1-delta)+delta);
 		for(int j=1;j<lvl + delta;j++) {
@@ -74,7 +74,7 @@ public class MonsterGenerator {
 	 */
 	private Monster parseLine(String line) {
 		line = line.trim();
-		String[] monsterArray = line.split(",");
+		final String[] monsterArray = line.split(",");
 		return new Monster(Integer.valueOf(monsterArray[0]), monsterArray[1], Integer.valueOf(monsterArray[2]), Integer.valueOf(monsterArray[3]), Integer.valueOf(monsterArray[4]));
 		}
 	/**
@@ -84,15 +84,15 @@ public class MonsterGenerator {
 	 * separated by semicolon
 	 */
 	private void addSkills(Monster m, String inputline) {
-		AttackIDList lista = new AttackIDList();
-		SpellIDList grimoire = new SpellIDList();
-		String[] skills = inputline.split(";");
-		String[] attacks = skills[0].split(",");
-		String[] spells = skills[1].split(",");
-		for(String a: attacks) {
+		final AttackIDList lista = new AttackIDList();
+		final SpellIDList grimoire = new SpellIDList();
+		final String[] skills = inputline.split(";");
+		final String[] attacks = skills[0].split(",");
+		final String[] spells = skills[1].split(",");
+		for(final String a: attacks) {
 			m.addAttack(lista.getAttack(Integer.valueOf(a)));
 		}
-		for(String s: spells) {
+		for(final String s: spells) {
 			m.addSpell(grimoire.getSpell(Integer.valueOf(s)));
 		}
 	}

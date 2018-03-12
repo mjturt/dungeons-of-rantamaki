@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.io.Serializable;
 
 /* GameObject interface, all objects extends it
  * Look for Block.java for example

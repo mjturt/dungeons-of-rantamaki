@@ -8,8 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
 import world.World;
 /* 
  * gui packages main clablocksheet Game
@@ -24,32 +22,32 @@ public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	private FontLoader fl;
+	private final FontLoader fl;
 	
 	private boolean isRunning = false;
 	private Thread thread;
 	private Handler handler;
-	private GameCamera cam;
+	private final GameCamera cam;
 
-	private SpriteSheet blocksheet;
-	private BufferedImage blocksheetImg;
-	private SpriteSheet playersheet;
-	private BufferedImage playersheetImg;
+	private final SpriteSheet blocksheet;
+	private final BufferedImage blocksheetImg;
+	private final SpriteSheet playersheet;
+	private final BufferedImage playersheetImg;
 
-	private BufferedImage road;
-	private BufferedImage bus;
+	private final BufferedImage road;
+	private final BufferedImage bus;
 
 	private STATE state;
-	private Menu menu;
-	private PauseMenu pmenu;
-	private AboutMenu amenu;
-	private StartScreen startscreen;
-	private GoalScreen goalscreen;
+	private final Menu menu;
+	private final PauseMenu pmenu;
+	private final AboutMenu amenu;
+	private final StartScreen startscreen;
+	private final GoalScreen goalscreen;
 	Font font1;
 	Font font2;
 
-	private AudioPlayer bgmusic;
-	private KeyInput in;
+	private final AudioPlayer bgmusic;
+	private final KeyInput in;
 	
 	public Game(int x, int y) {
 		System.setProperty("sun.java2d.opengl", "true");
@@ -57,7 +55,7 @@ public class Game extends Canvas implements Runnable {
 		bgmusic = new AudioPlayer("/sounds/detective.wav");
 		try {
 			bgmusic.play();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		menu = new Menu();
@@ -66,7 +64,7 @@ public class Game extends Canvas implements Runnable {
 		startscreen = new StartScreen();
 		goalscreen = new GoalScreen();
 		this.fl = new FontLoader();
-		Window w = new Window(x, y, "Dungeons of Räntämäki", this);
+		final Window w = new Window(x, y, "Dungeons of Räntämäki", this);
 		cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
 		start();
 		handler = new Handler(w.getFrame());
@@ -74,7 +72,7 @@ public class Game extends Canvas implements Runnable {
 		this.addKeyListener(in);
 		this.addMouseListener(new MouseInput(this));
 
-		ImageLoader loader = new ImageLoader();
+		final ImageLoader loader = new ImageLoader();
 		blocksheetImg = loader.loadImage("/images/blocksheet.png");
 		blocksheet = new SpriteSheet(blocksheetImg);
 		playersheetImg = loader.loadImage("/images/playersheet.png");
@@ -98,7 +96,7 @@ public class Game extends Canvas implements Runnable {
 		isRunning = false;
 		try {
 			thread.join();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
@@ -107,17 +105,18 @@ public class Game extends Canvas implements Runnable {
 	 * Main game loop
 	 */
 
+	@Override
 	public void run() {
 		this.requestFocus();
 
 		long lastTime = System.nanoTime();
-		double ticks = 60.0;
-		double ns = 1000000000 / ticks;
+		final double ticks = 60.0;
+		final double ns = 1000000000 / ticks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
 		while (isRunning) {
-			long now = System.nanoTime();
+			final long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			while (delta >= 1) {
@@ -126,7 +125,7 @@ public class Game extends Canvas implements Runnable {
 			}
 			try {
 				render();
-			} catch (NullPointerException e) {
+			} catch (final NullPointerException e) {
 				throw new IllegalStateException("Something went terribly wrong", e);
 			}
 
@@ -156,7 +155,7 @@ public class Game extends Canvas implements Runnable {
 			while (this.state == STATE.PAUSE) {
 				try {
 					Thread.sleep(100);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -167,14 +166,14 @@ public class Game extends Canvas implements Runnable {
 	/* Render method */
 
 	public void render() {
-		BufferStrategy bs = this.getBufferStrategy();
+		final BufferStrategy bs = this.getBufferStrategy();
 		Toolkit.getDefaultToolkit().sync();
 		if (bs == null) {
 			this.createBufferStrategy(3);
 			return;
 		}
-		Graphics g = bs.getDrawGraphics();
-		Graphics2D g2d = (Graphics2D) g;
+		final Graphics g = bs.getDrawGraphics();
+		final Graphics2D g2d = (Graphics2D) g;
 		/*
 		 * //////////////////////////////////// Draw here
 		 *////////////////////////////////////
@@ -189,7 +188,7 @@ public class Game extends Canvas implements Runnable {
 			}
 			try {
 				handler.render(g2d);
-			} catch (NullPointerException npe) {
+			} catch (final NullPointerException npe) {
 				throw new IllegalStateException("Something went wrong, most likely trying to render a null value", npe);
 			}
 			g2d.translate(cam.getX(), cam.getY());
@@ -217,17 +216,17 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void reloadAssets() {
 		for (int i = 0; i < this.handler.objects.size(); i++) {
-			GameObject temp = this.handler.objects.get(i);
+			final GameObject temp = this.handler.objects.get(i);
 			if(temp.id.equals(ID.Block)) {
 				temp.reloadAssets(this.blocksheet);
 			} else if (temp.id.equals(ID.Player)) {
 				temp.reloadAssets(this.playersheet);
-				GuiPlayer p = (GuiPlayer) temp;
+				final GuiPlayer p = (GuiPlayer) temp;
 				this.handler = p.getHandler();
 				this.in.setHandler(this.handler);
 				temp.reloadAssets(this.playersheet);
 			} else if (temp.id.equals(ID.Goal)) {
-				Goal g = (Goal) temp;
+				final Goal g = (Goal) temp;
 				g.setBus(this.bus);
 			}
 		}
@@ -239,11 +238,11 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public void loadLevel() {
 
-		World world = new World(41, 41);
-		int w = world.getHeight();
-		int h = world.getWidth();
-		int[] start = world.getStart();
-		int[] goal = world.getGoal();
+		final World world = new World(41, 41);
+		final int w = world.getHeight();
+		final int h = world.getWidth();
+		final int[] start = world.getStart();
+		final int[] goal = world.getGoal();
 
 		/*
 		 * Creates new objects depending on the state of the Tile object in the World

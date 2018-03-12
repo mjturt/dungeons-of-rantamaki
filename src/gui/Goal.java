@@ -22,19 +22,22 @@ public class Goal extends GameObject {
     }
 
 
-    public void tick() {
+    @Override
+	public void tick() {
     }
 
     /* Drawing bus-image */
 
-    public void render(Graphics2D g) {
+    @Override
+	public void render(Graphics2D g) {
         g.drawImage(bus, x, y, null);
 
     }
 
     /* This is for collision detection */
 
-    public Rectangle getBounds() {
+    @Override
+	public Rectangle getBounds() {
         return new Rectangle(x, y, 64, 64);
     }
     

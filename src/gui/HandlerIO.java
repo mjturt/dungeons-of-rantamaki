@@ -36,8 +36,8 @@ public class HandlerIO {
 			System.out.println(savedir.toString());
 			savedir.mkdir();
 		}
-		FileOutputStream outStream = new FileOutputStream(savedir.toString() + "/game.sav");//this bit of code
-		ObjectOutputStream oos = new ObjectOutputStream(outStream);							//creates the file
+		final FileOutputStream outStream = new FileOutputStream(savedir.toString() + "/game.sav");//this bit of code
+		final ObjectOutputStream oos = new ObjectOutputStream(outStream);							//creates the file
 		oos.writeObject(objects);																	//if it isn't found
 		oos.close();
 		outStream.close();
@@ -54,10 +54,10 @@ public class HandlerIO {
 		if(!Files.isDirectory(savePath)) {
 			throw new FileNotFoundException(); //throw exception if the save folder is not found on the system
 		}
-		FileInputStream inStream = new FileInputStream(savedir.toString() + "/game.sav");
-		ObjectInputStream in = new ObjectInputStream(inStream);
-		ArrayList<GameObject> readHandler = (ArrayList<GameObject>) in.readObject();
-		for (GameObject o : readHandler) {
+		final FileInputStream inStream = new FileInputStream(savedir.toString() + "/game.sav");
+		final ObjectInputStream in = new ObjectInputStream(inStream);
+		final ArrayList<GameObject> readHandler = (ArrayList<GameObject>) in.readObject();
+		for (final GameObject o : readHandler) {
 			System.out.println("read object: " + o.toString());
 		}
 		in.close();

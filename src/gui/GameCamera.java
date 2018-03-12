@@ -1,7 +1,9 @@
 package gui;
 
 public class GameCamera {
-	private double x, y, cx, cy;
+	private double x, y;
+	private final double cx;
+	private final double cy;
 	
 	public GameCamera (double x, double y, double cx, double cy) {
 		this.x = x;

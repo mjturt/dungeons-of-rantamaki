@@ -1,17 +1,18 @@
 package world;
 
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
+
 import combat.Player;
 /**
- * Simple world class containing an array of Tiles making up the world
+ * Simple world class containing an array of Tiles making up the world. Used for representing a game world as an array.
  */
 public class World {
-	private int width;
-	private int height;
-	private Tile[][] world;
+	private final int width;
+	private final int height;
+	private final Tile[][] world;
 	private int goalX;
 	private int goalY;
 	private int startX;
@@ -60,7 +61,7 @@ public class World {
 	 * Creates a world array by calling world.World.recursiveCreateWorld
 	 */
 	private void createWorld() {
-		Random r = new Random();
+		final Random r = new Random();
 		int row = r.nextInt(this.height);
 		while (row % 2 == 0) {
 			row = r.nextInt(this.height);
@@ -83,7 +84,7 @@ public class World {
  * @param c = column Starting column
  */
 	private void recursiveCreateWorld(int r, int c) {
-		Integer[] rand = randDirections();
+		final Integer[] rand = randDirections();
 
 		for (int i = 0; i < rand.length; i++) {
 
@@ -137,7 +138,7 @@ public class World {
 	 * @return list of random directions (1-4), used by recursivePopulateWorld
 	 */
 	private Integer[] randDirections() {
-		ArrayList<Integer> directions = new ArrayList<Integer>();
+		final ArrayList<Integer> directions = new ArrayList<Integer>();
 		for (int i = 0; i < 4; i++) {
 			directions.add(i + 1);
 		}
@@ -218,10 +219,9 @@ public class World {
 	}
 	/**
 	 * Generates a sane starting position, so the player won't spawn inside a wall or outside the array.
-	 * 
 	 */
 	public void generateStart () {
-		Random r = new Random();
+		final Random r = new Random();
 		this.startY = r.nextInt(this.height);
 		this.startX = r.nextInt(this.width);
 		while (!this.getTile(this.startY, this.startX).getPassable()) {
@@ -231,35 +231,34 @@ public class World {
 	}
 	
 	public int[] getStart () {
-		int[] start = new int[2];
+		final int[] start = new int[2];
 		start[0] = this.startY;
 		start[1] = this.startX;
 		return start;
 	}
 	/**
-	 * Generates a goal to a random corner of the map
+	 * Generates a goal to a random corner of {@code world}.
 	 */
 	public void generateGoal () {
-		Random r = new Random();
-		int n = r.nextInt(4);
-		switch (n) {
-		case 0: 
+		final Random r = new Random();
+		final int n = r.nextInt(4);
+		if (n == 0) {
 			this.goalX = 1;
 			this.goalY = 1;
-		case 1:
+		} else if (n == 1) {
 			this.goalX = this.width - 1;
 			this.goalY = this.height - 1;
-		case 2:
+		} else if (n == 2) {
 			this.goalX = 1;
 			this.goalY = this.height -1;
-		case 3:
+		} else {
 			this.goalX = this.width - 1;
 			this.goalY = 1;
 		}
 	}
 	
 	public int[] getGoal () {
-		int[] goal = new int[2];
+		final int[] goal = new int[2];
 		goal[0] = this.goalY;
 		goal[1] = this.goalX;
 		return goal;
@@ -268,7 +267,7 @@ public class World {
 	 * Sets world.Tile.monster to true randomly.
 	 */
 	private void spawnMonsters() {
-		Random r = new Random();
+		final Random r = new Random();
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j++) {
 				if ((r.nextDouble()) > 0.92 && this.world[i][j].getPassable()) {
@@ -281,12 +280,12 @@ public class World {
 	 * A messy way for creating opening to the maze
 	 */
 	private void generateOpenings() {
-		Random r = new Random();
+		final Random r = new Random();
 		for (int i = 1; i < this.height - 1; i++) {
 			for (int j = 1; j < this.width - 1; j++) {
-				double rand = r.nextDouble();
+				final double rand = r.nextDouble();
 				if (rand > 0.96) {
-					int n = r.nextInt(5);
+					final int n = r.nextInt(5);
 					if (n + i < this.height  - 1 && n + j < this.width - 1) {
 						for (int k = i; k < i + n; k++) {
 							for (int l = j; l < j + n; l++) {

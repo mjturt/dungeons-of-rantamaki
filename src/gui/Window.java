@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 /* Basic class for creating windows with Swing + AWT */ 
 
 public class Window {
-	private JFrame frame;
+	private final JFrame frame;
 
     public Window(int width, int height, String title, Game game) {
         frame = new JFrame(title);

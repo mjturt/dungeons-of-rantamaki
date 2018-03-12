@@ -16,7 +16,7 @@ public class ImageLoader {
         try {
         	System.out.println("Loaded image " + path);
             image = ImageIO.read(getClass().getResource(path));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
 

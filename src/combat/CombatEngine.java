@@ -11,8 +11,8 @@ import java.util.Random;
 public class CombatEngine {
 
 	public static void combat(Player p, Monster m) {
-		Random r = new Random();
-		Scanner sc = new Scanner(System.in);
+		final Random r = new Random();
+		final Scanner sc = new Scanner(System.in);
 		int turn = 1;
 		System.out.println("A wild " + m.getName() + " appears!");
 		while (p.getHP() > 0 && m.getHP() > 0) {
@@ -34,7 +34,7 @@ public class CombatEngine {
 			switch (n) {
 			case 1:
 				p.listInventory();
-				int a = sc.nextInt();
+				final int a = sc.nextInt();
 
 				if (a >= p.getInventoryLength()) {
 					continue;
@@ -60,7 +60,7 @@ public class CombatEngine {
 						}
 					case 2:
 						p.listSpellbook();
-						int c = sc.nextInt();
+						final int c = sc.nextInt();
 
 						if (c >= p.getMoveListLength()) {
 							continue;
@@ -72,7 +72,7 @@ public class CombatEngine {
 									p.DealDamage(m, p.getSpell(c));
 									break;
 								}
-							} catch (NotEnoughMana e) {
+							} catch (final NotEnoughMana e) {
 								e.getMessage();
 								continue;
 							}
@@ -92,14 +92,14 @@ public class CombatEngine {
 			System.out.println(p.getName() + " defeated " + m.getName() + "!");
 			p.addExp(m.getMaxHP());
 			p.CheckLevelUp();
-			ArrayList<Consumable> tmp = generateLoot(m);
+			final ArrayList<Consumable> tmp = generateLoot(m);
 			if (tmp.size() > 0) {
 				while (true) {
 					if (tmp.size() <= 0) {
 						break;
 					}
 					printLoot(tmp);
-					int n = sc.nextInt();
+					final int n = sc.nextInt();
 					if (n >= tmp.size()) {
 						break;
 					} else {
@@ -127,9 +127,9 @@ public class CombatEngine {
 	}
 
 	private static ArrayList<Consumable> generateLoot(Monster m) {
-		ArrayList<Consumable> loot = new ArrayList<>();
-		ItemGenerator lst = new ItemGenerator();
-		Random r = new Random();
+		final ArrayList<Consumable> loot = new ArrayList<>();
+		final ItemGenerator lst = new ItemGenerator();
+		final Random r = new Random();
 		int maxLoot = m.getLevel() / 10;
 		if (maxLoot < 1) {
 			maxLoot = r.nextInt(2);
@@ -144,7 +144,7 @@ public class CombatEngine {
 
 	private static void printLoot(ArrayList<Consumable> loot) {
 		int i = 0;
-		for (Consumable c : loot) {
+		for (final Consumable c : loot) {
 			System.out.println(i + ": " + c.getConsumableName());
 			i++;
 		}

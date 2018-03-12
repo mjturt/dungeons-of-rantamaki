@@ -55,7 +55,7 @@ public class Tile {
 	}
 
 	public void setRandomVihollinen() {
-		Random r = new Random();
+		final Random r = new Random();
 		if (this.passable) {
 			this.monster = r.nextBoolean();
 		}
@@ -72,7 +72,7 @@ public class Tile {
 		 */
 		public static Maasto getUnpassable() {
 
-			Random r = new Random();
+			final Random r = new Random();
 			return values()[r.nextInt(2) + 1];
 
 		}

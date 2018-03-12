@@ -16,9 +16,9 @@ public class FontLoader {
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, FontLoader.class.getResourceAsStream(path));
             return font.deriveFont(size);
-        } catch (FontFormatException e) {
+        } catch (final FontFormatException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
         return null;
