@@ -4,14 +4,22 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 
-/*
+/**
  * Class for loading fonts
+ * @author Maks Turtiainen
  */
 
 public class FontLoader {
     
     private Font font;
 
+    /**
+     * Loads font from file
+     *
+     * @param path
+     * @param size
+     * @return font
+     */
     public Font loadFont(String path, float size){
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, FontLoader.class.getResourceAsStream(path));

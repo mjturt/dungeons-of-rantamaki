@@ -5,21 +5,23 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-/* This is example class for all GameObjects */
+/**
+ * Block class that extends GameObject class
+ * @author Maks Turtiainen, Vili Ahava
+ */
+
+/* Block class is used as Example class for all GameObjects */
 
 public class Block extends GameObject {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	transient private BufferedImage bushimg;
-	transient private BufferedImage bushtreeimg;
-	transient private BufferedImage houseimg;
-	transient private BufferedImage house2img;
-	transient private BufferedImage parklotimg;
-	transient private BufferedImage studentsimg;
-	transient private Random rand = new Random(); 
+    private static final long serialVersionUID = 1L;
+    transient private BufferedImage bushimg;
+    transient private BufferedImage bushtreeimg;
+    transient private BufferedImage houseimg;
+    transient private BufferedImage house2img;
+    transient private BufferedImage parklotimg;
+    transient private BufferedImage studentsimg;
+    transient private Random rand = new Random(); 
     private final int r;
     transient private SpriteSheet ss;
     private final Rectangle bounds;
@@ -29,19 +31,19 @@ public class Block extends GameObject {
         this.ss = ss;
         this.bounds = new Rectangle();
         this.bounds.setBounds(x, y, 64, 64);
-		this.bushimg = this.ss.grabImage(1, 1, 64, 64);
-		this.bushtreeimg = this.ss.grabImage(2, 1, 64, 64);
-		this.houseimg = this.ss.grabImage(3, 1, 64, 64);
-		this.house2img = this.ss.grabImage(4, 1, 64, 64);
-		this.parklotimg = this.ss.grabImage(5, 1, 64, 64);
-		this.studentsimg = this.ss.grabImage(4, 2, 64, 64);
+        this.bushimg = this.ss.grabImage(1, 1, 64, 64);
+        this.bushtreeimg = this.ss.grabImage(2, 1, 64, 64);
+        this.houseimg = this.ss.grabImage(3, 1, 64, 64);
+        this.house2img = this.ss.grabImage(4, 1, 64, 64);
+        this.parklotimg = this.ss.grabImage(5, 1, 64, 64);
+        this.studentsimg = this.ss.grabImage(4, 2, 64, 64);
         this.r = rand.nextInt(20); 
     }
 
     /* Tick method, all GameObjects must have their own tick method */
 
     @Override
-	public void tick() {
+    public void tick() {
         x += velX;
         y += velY;
     }
@@ -49,7 +51,7 @@ public class Block extends GameObject {
     /* Render method, all GameObjects must have their own render method */
 
     @Override
-	public void render(Graphics2D g) {
+    public void render(Graphics2D g) {
         if (r <= 4) {
             g.drawImage(this.houseimg, x, y, null);
         } else if (this.r > 4 && r < 10) {
@@ -69,20 +71,20 @@ public class Block extends GameObject {
     /* This is for collision detection */
 
     @Override
-	public Rectangle getBounds() {
-    	this.bounds.setBounds(x, y, 64, 64);
+    public Rectangle getBounds() {
+        this.bounds.setBounds(x, y, 64, 64);
         return this.bounds;
     }
 
-	@Override
-	public void reloadAssets(SpriteSheet sheet) {
-		this.ss = sheet;
-		this.bushimg = this.ss.grabImage(1, 1, 64, 64);
-		this.bushtreeimg = this.ss.grabImage(2, 1, 64, 64);
-		this.houseimg = this.ss.grabImage(3, 1, 64, 64);
-		this.house2img = this.ss.grabImage(4, 1, 64, 64);
-		this.parklotimg = this.ss.grabImage(5, 1, 64, 64);
-		this.studentsimg = this.ss.grabImage(4, 2, 64, 64);
-	}
+    @Override
+    public void reloadAssets(SpriteSheet sheet) {
+        this.ss = sheet;
+        this.bushimg = this.ss.grabImage(1, 1, 64, 64);
+        this.bushtreeimg = this.ss.grabImage(2, 1, 64, 64);
+        this.houseimg = this.ss.grabImage(3, 1, 64, 64);
+        this.house2img = this.ss.grabImage(4, 1, 64, 64);
+        this.parklotimg = this.ss.grabImage(5, 1, 64, 64);
+        this.studentsimg = this.ss.grabImage(4, 2, 64, 64);
+    }
 
 }

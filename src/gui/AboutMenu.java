@@ -5,33 +5,37 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-/* 
- * About menu class
+/**
+ * @author Maks Turtiainen
  */
-
 public class AboutMenu {
-	FontLoader fl;
-	ImageLoader il;
-	BufferedImage menubg;
-	Font font1;
+    FontLoader fl;
+    ImageLoader il;
+    BufferedImage menubg;
+    Font font1;
     Font font2;
     Font font3;
     Font font4;
 
-	public AboutMenu() {
-		this.fl = new FontLoader();
-		this.il = new ImageLoader();
-		this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
-		this.font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
-		this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
-		this.font4 = fl.loadFont("/fonts/droidsansmono.ttf", 15);
-		this.menubg = il.loadImage("/images/menubg.png");
-	}
+    public AboutMenu() {
+        this.fl = new FontLoader();
+        this.il = new ImageLoader();
+        this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
+        this.font2 = fl.loadFont("/fonts/eclipse.ttf", 45);
+        this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
+        this.font4 = fl.loadFont("/fonts/droidsansmono.ttf", 15);
+        this.menubg = il.loadImage("/images/menubg.png");
+    }
 
 
+    /**
+     * Draws about menu to the screen
+     *
+     * @param g
+     */
     public void render(Graphics2D g) {
-    	
-    	
+        
+        
         g.drawImage(this.menubg, 0, 0, null);
 
         /* Title */
@@ -62,33 +66,49 @@ public class AboutMenu {
         
     }
 
+    /**
+     * @return the fl
+     */
+    public FontLoader getFl() {
+        return fl;
+    }
 
-	public FontLoader getFl() {
-		return this.fl;
-	}
-
-
-	public void setFl(FontLoader fl) {
-		this.fl = fl;
-	}
-
-
-	public ImageLoader getIl() {
-		return this.il;
-	}
-
-
-	public void setIl(ImageLoader il) {
-		this.il = il;
-	}
+    /**
+     * @param fl
+     */
+    public void setFl(FontLoader fl) {
+        this.fl = fl;
+    }
 
 
-	public BufferedImage getAboutMenubg() {
-		return this.menubg;
-	}
+    /**
+     * @return ImageLoader
+     */
+    public ImageLoader getIl() {
+        return this.il;
+    }
 
 
-	public void setAboutMenubg(BufferedImage menubg) {
-		this.menubg = menubg;
-	}
+    /**
+     * @param il
+     */
+    public void setIl(ImageLoader il) {
+        this.il = il;
+    }
+
+
+    /**
+     * @return the menubg
+     */
+    public BufferedImage getAboutMenubg() {
+        return this.menubg;
+    }
+
+
+    /**
+     * @param menubg
+     */
+    public void setAboutMenubg(BufferedImage menubg) {
+        this.menubg = menubg;
+    }
 }

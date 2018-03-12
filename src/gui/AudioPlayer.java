@@ -8,10 +8,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
-/* 
- * Audioplayer for game sounds. For now, it's only for background music
- * Because of continuous looping, needs modification to be used for basic game sounds
- * Accepted fileformat: wav
+/** 
+ * Audioplayer for game sounds.
+ * For now, only for background music.
+ * Accepted file format: wav
+ * @author Maks Turtiainen
  */
 
 public class AudioPlayer {
@@ -36,6 +37,10 @@ public class AudioPlayer {
     }
 
 
+    /**
+     * Starts new thread for background music
+     * @throws Exception
+     */
     public void play() throws Exception {
         if (clip == null) {
             return;
