@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * This class requests the home directory of the user from the system, and checks if the save directory
  * userhome/rantamaki exists, and handles the writing and reading of the game's status file.
  *
+ * @author Mikko Malkavaara, Vili Ahava
  */
 
 public class HandlerIO {

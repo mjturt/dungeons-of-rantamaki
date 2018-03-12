@@ -22,6 +22,8 @@ import combat.*;
 /**
  * Monstrously huge class for dynamically creating combat related menus and
  * viewing combat related information.
+ *
+ * @author Vili Ahava
  */
 public class InitCombat implements ActionListener, Runnable {
 	private Monster m;

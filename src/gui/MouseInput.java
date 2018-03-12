@@ -5,34 +5,52 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/*
- * Mouse input, used only in menus
+/**
+ * Class for handling all mouse inputs, used only in menus
+ *
+ * @author Maks Turtiainen
  */
-
 public class MouseInput implements MouseListener {
     private final Game game;
 
+    /**
+     * MouseInput constructor
+     *
+     * @param game
+     */
     public MouseInput(Game game) {
         this.game = game;
     }
 
+    /**
+     * @param arg0
+     */
     @Override
-	public void mouseClicked(MouseEvent arg0) {
+    public void mouseClicked(MouseEvent arg0) {
 
     }
 
+    /**
+     * @param e
+     */
     @Override
-	public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
+    /**
+     * @param e
+     */
     @Override
-	public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
 
     }
 
+    /**
+     * @param e
+     */
     @Override
-	public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         final int mx = e.getX();
         final int my = e.getY();
 
@@ -75,17 +93,17 @@ public class MouseInput implements MouseListener {
             if (mx >= 290 && mx <= 350 ) {
                 if (my >= 220 && my <= 250) {
                     try {
-                    	final ArrayList<GameObject> objects = HandlerIO.readHandler();
-                    	System.out.println("Read the file (or atleast tried)");
-						this.game.getHandler().setObjects(objects);
-						this.game.setState(STATE.START);
-						System.out.println("Game STATE: " + this.game.getState());
-						System.out.println("Game STATE: " + this.game.getState());
-						System.out.println("Handler: " + this.game.getHandler());
-						this.game.reloadAssets();
-					} catch (ClassNotFoundException | IOException e1) {
-						e1.printStackTrace();
-					}
+                        final ArrayList<GameObject> objects = HandlerIO.readHandler();
+                        System.out.println("Read the file (or atleast tried)");
+                        this.game.getHandler().setObjects(objects);
+                        this.game.setState(STATE.START);
+                        System.out.println("Game STATE: " + this.game.getState());
+                        System.out.println("Game STATE: " + this.game.getState());
+                        System.out.println("Handler: " + this.game.getHandler());
+                        this.game.reloadAssets();
+                    } catch (ClassNotFoundException | IOException e1) {
+                        e1.printStackTrace();
+                    }
                     
                 }
             }        
@@ -94,12 +112,12 @@ public class MouseInput implements MouseListener {
 
             if (mx >= 470 && mx <= 530 ) {
                 if (my >= 220 && my <= 250) {
-                	try {
-						HandlerIO.writeHandler(game.getHandler().getObjects());
-					} catch (final IOException e1) {
-						e1.printStackTrace();
-					}
-                	game.setState(STATE.GAME);
+                    try {
+                        HandlerIO.writeHandler(game.getHandler().getObjects());
+                    } catch (final IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    game.setState(STATE.GAME);
                 }
             }
 
@@ -134,9 +152,10 @@ public class MouseInput implements MouseListener {
         
     }
 
+    /**
+     * @param e
+     */
     @Override
-	public void mouseReleased(MouseEvent e) {
-
+    public void mouseReleased(MouseEvent e) {
     }
-
 }

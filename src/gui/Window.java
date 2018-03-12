@@ -3,11 +3,25 @@ package gui;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-/* Basic class for creating windows with Swing + AWT */ 
-
+/**
+ * Class that creates window with swing and where we render everything else with AWT
+ *
+ * @author Maks Turtiainen
+ */
 public class Window {
-	private final JFrame frame;
+    /**
+     *
+     */
+    private final JFrame frame;
 
+    /**
+     * Window Constructor
+     *
+     * @param width
+     * @param height
+     * @param title
+     * @param game
+     */
     public Window(int width, int height, String title, Game game) {
         frame = new JFrame(title);
         frame.setPreferredSize(new Dimension(width, height));
@@ -21,15 +35,24 @@ public class Window {
         frame.setVisible(true);
     }
     
+    /**
+     * @return int frame.getWidth()
+     */
     public int getWidth() {
-    	return frame.getWidth();
+        return frame.getWidth();
     }
     
+    /**
+     * @return int frame.getHeight()
+     */
     public int getHeigth() {
-    	return frame.getHeight();
+        return frame.getHeight();
     }
     
-    public JFrame getFrame () {
-    	return this.frame;
+    /**
+     * @return frame
+     */
+    public JFrame getFrame() {
+        return this.frame;
     }
 }

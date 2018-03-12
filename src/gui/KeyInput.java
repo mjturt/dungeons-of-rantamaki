@@ -3,22 +3,32 @@ package gui;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/*
- * Basic keyinput stuff
+/**
+ * Class for handilng all keyboard inputs
+ *
+ * @author Maks Turtiainen
  */
-
 public class KeyInput extends KeyAdapter {
 
     Handler handler;
     Game game;
 
+    /**
+     * KeyInput contructor
+     *
+     * @param handler
+     * @param game
+     */
     public KeyInput(Handler handler, Game game) {
         this.handler = handler;
         this.game = game;
     }
 
+    /**
+     * @param e
+     */
     @Override
-	public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         final int key = e.getKeyCode();
 
         /*
@@ -27,13 +37,13 @@ public class KeyInput extends KeyAdapter {
          */
 
         if (key == KeyEvent.VK_ESCAPE) {
-        	if (game.getState() == STATE.GAME) {
-        		game.setState(STATE.PAUSE);
-        	} else if (game.getState() == STATE.PAUSE) {
-        		game.setState(STATE.GAME);
-        	} else if (game.getState() == STATE.ABOUT) {
-        		game.setState(STATE.MENU);
-        	}
+            if (game.getState() == STATE.GAME) {
+                game.setState(STATE.PAUSE);
+            } else if (game.getState() == STATE.PAUSE) {
+                game.setState(STATE.GAME);
+            } else if (game.getState() == STATE.ABOUT) {
+                game.setState(STATE.MENU);
+            }
         }
         for (int i = 0; i < handler.objects.size(); i++) {
             final GameObject temp= handler.objects.get(i);
@@ -45,13 +55,13 @@ public class KeyInput extends KeyAdapter {
                     this.handler.setUp(true);
                 }
                 if (key == KeyEvent.VK_DOWN) {
-                	this.handler.setDown(true);
+                    this.handler.setDown(true);
                 }
                 if (key == KeyEvent.VK_LEFT) {
-                	this.handler.setLeft(true);
+                    this.handler.setLeft(true);
                 }
                 if (key == KeyEvent.VK_RIGHT) {
-                	this.handler.setRight(true);
+                    this.handler.setRight(true);
                 }
             }
      
@@ -68,8 +78,11 @@ public class KeyInput extends KeyAdapter {
      * Key release events, only for character movement
      */
 
+    /**
+     * @param e
+     */
     @Override
-	public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         final int key = e.getKeyCode();
 
         for (int i = 0; i < handler.objects.size(); i++) {
@@ -91,11 +104,17 @@ public class KeyInput extends KeyAdapter {
         }
     }
 
-	public Handler getHandler() {
-		return handler;
-	}
+    /**
+     * @return handler
+     */
+    public Handler getHandler() {
+        return handler;
+    }
 
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
+    /**
+     * @param handler
+     */
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
 }

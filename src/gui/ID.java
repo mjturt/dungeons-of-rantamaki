@@ -1,7 +1,10 @@
 package gui;
 
-/* All game objects */
-
+/**
+ * All GameObject types
+ *
+ * @author Maks Turtiainen
+ */
 public enum ID {
     Player(),
     Enemy(),

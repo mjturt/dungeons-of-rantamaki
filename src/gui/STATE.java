@@ -1,9 +1,10 @@
 package gui;
 
-/*
- * Game states for menus
+/**
+ * All possible game states except combat screen
+ *
+ * @author Maks Turtiainen
  */
-
 public enum STATE {
     MENU(),
     PAUSE(),
