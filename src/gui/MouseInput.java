@@ -73,7 +73,11 @@ public class MouseInput implements MouseListener {
                     try {
                     	ArrayList<GameObject> objects = HandlerIO.readHandler();
                     	System.out.println("Read the file (or atleast tried)");
-						Game.loadedGame(objects);
+						this.game.getHandler().setObjects(objects);
+						this.game.setState(STATE.START);
+						System.out.println("Game STATE: " + this.game.getState());
+						System.out.println("Game STATE: " + this.game.getState());
+						System.out.println("Handler: " + this.game.getHandler());
 					} catch (ClassNotFoundException | IOException e1) {
 						e1.printStackTrace();
 					}

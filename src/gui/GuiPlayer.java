@@ -22,12 +22,12 @@ public class GuiPlayer extends GameObject  {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	transient Handler handler;
+	Handler handler;
 	transient private SpriteSheet ss;
-	transient private BufferedImage playerimg = null;
-	transient private BufferedImage playerimgL = null;
-	transient private BufferedImage playerimgR = null;
-	transient private BufferedImage playerimgB = null;
+	transient private BufferedImage playerimg;
+	transient private BufferedImage playerimgL;
+	transient private BufferedImage playerimgR;
+	transient private BufferedImage playerimgB;
 	transient private PrintStream stdout = System.out;
 	transient private Game game;
 	int tempX;
@@ -69,32 +69,32 @@ public class GuiPlayer extends GameObject  {
 		/* Moving coordinates based on velocity */
 
 		/* Moving, using velocity instead of coordinates for smooth movement */
-
-		if (handler.isUp()) {
-			velY = -2;
+		
+		if (this.handler.isUp()) {
+			this.velY = -2;
 		} else if (!handler.isDown()) {
-			velY = 0;
+			this.velY = 0;
 		}
-		if (handler.isDown()) {
-			velY = 2;
-		} else if (!handler.isUp()) {
-			velY = 0;
+		if (this.handler.isDown()) {
+			this.velY = 2;
+		} else if (!this.handler.isUp()) {
+			this.velY = 0;
 		}
-		if (handler.isRight()) {
+		if (this.handler.isRight()) {
 			velX = 2;
-		} else if (!handler.isLeft()) {
-			velX = 0;
+		} else if (!this.handler.isLeft()) {
+			this.velX = 0;
 		}
-		if (handler.isLeft()) {
-			velX = -2;
-		} else if (!handler.isRight()) {
-			velX = 0;
+		if (this.handler.isLeft()) {
+			this.velX = -2;
+		} else if (!this.handler.isRight()) {
+			this.velX = 0;
 		}
-		tempX = x;
-		tempX += velX;
-		tempY = y;
-		tempY += velY;
-		updatePos(tempY, tempX);
+		this.tempX = x;
+		this.tempX += velX;
+		this.tempY = y;
+		this.tempY += velY;
+		updatePos(this.tempY, this.tempX);
 	}
 
 	/*

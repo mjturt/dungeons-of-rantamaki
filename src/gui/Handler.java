@@ -28,13 +28,13 @@ public class Handler implements java.io.Serializable  {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	ArrayList<GameObject> objects = new ArrayList<GameObject>();
+	protected ArrayList<GameObject> objects = new ArrayList<GameObject>();
 
     private boolean up = false;
     private boolean down = false;
     private boolean right = false;
     private boolean left = false;
-    private JFrame frame;
+    transient private JFrame frame;
     
     public Handler(JFrame frame) {
     	this.frame = frame;
@@ -47,8 +47,13 @@ public class Handler implements java.io.Serializable  {
      * Updates game events by calling GameObjects to tick()
      */
     public void tick() {
-        for (int i=0;i<objects.size();i++) {
-            objects.get(i).tick();
+        for (int i=0;i<this.objects.size();i++) {
+        	try {
+        		this.objects.get(i).tick();
+        	} catch (NullPointerException e) {
+        		throw new IllegalStateException(("Sumthins wrong: "), e);
+        	}
+            
         }
     }
     /**
@@ -80,7 +85,7 @@ public class Handler implements java.io.Serializable  {
      * STARTS HERE
      */
     public boolean isUp() {
-        return up;
+        return this.up;
     }
 
     public void setUp(boolean up) {
@@ -88,7 +93,7 @@ public class Handler implements java.io.Serializable  {
     }
 
     public boolean isDown() {
-        return down;
+        return this.down;
     }
 
     public void setDown(boolean down) {
@@ -96,7 +101,7 @@ public class Handler implements java.io.Serializable  {
     }
 
     public boolean isRight() {
-        return right;
+        return this.right;
     }
 
     public void setRight(boolean right) {
@@ -104,7 +109,7 @@ public class Handler implements java.io.Serializable  {
     }
 
     public boolean isLeft() {
-        return left;
+        return this.left;
     }
 
     public void setLeft(boolean left) {
@@ -116,10 +121,10 @@ public class Handler implements java.io.Serializable  {
      */
     
     public void releaseKeys() {
-    	setLeft(false);
-    	setRight(false);
-    	setUp(false);
-    	setDown(false);
+    	this.setLeft(false);
+    	this.setRight(false);
+    	this.setUp(false);
+    	this.setDown(false);
     }
     
     public ArrayList<GameObject> getObjects() {

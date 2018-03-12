@@ -13,12 +13,12 @@ public class Block extends GameObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	transient private BufferedImage bushimg = null;
-	transient private BufferedImage bushtreeimg = null;
-	transient private BufferedImage houseimg = null;
-	transient private BufferedImage house2img = null;
-	transient private BufferedImage parklotimg = null;
-	transient private BufferedImage studentsimg = null;
+	transient private BufferedImage bushimg;
+	transient private BufferedImage bushtreeimg;
+	transient private BufferedImage houseimg;
+	transient private BufferedImage house2img;
+	transient private BufferedImage parklotimg;
+	transient private BufferedImage studentsimg;
 	transient private Random rand = new Random(); 
     private int r;
     transient private SpriteSheet ss;

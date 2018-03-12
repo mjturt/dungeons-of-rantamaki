@@ -31,12 +31,12 @@ public class Game extends Canvas implements Runnable {
 	private GameCamera cam;
 
 	private SpriteSheet blocksheet;
-	transient private BufferedImage blocksheetImg = null;
+	transient private BufferedImage blocksheetImg;
 	transient private SpriteSheet playersheet;
-	transient private BufferedImage playersheetImg = null;
+	transient private BufferedImage playersheetImg;
 
-	transient private BufferedImage road = null;
-	transient private BufferedImage bus = null;
+	transient private BufferedImage road;
+	transient private BufferedImage bus;
 
 	private STATE state;
 	private Menu menu;
@@ -178,7 +178,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		if (state == STATE.GAME) {
-			handler.tick();
+			this.handler.tick();
 			this.requestFocus();
 			for (int i = 0; i < handler.objects.size(); i++) {
 				if (handler.objects.get(i).getId() == ID.Player) {
