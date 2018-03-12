@@ -35,4 +35,9 @@ public class GuiMonster extends GameObject {
 		return this.bounds;
 	}
 
+
+	@Override
+	public void reloadAssets(SpriteSheet sheet) {
+	}
+
 }

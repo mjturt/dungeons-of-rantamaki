@@ -29,16 +29,16 @@ public class KeyInput extends KeyAdapter {
             GameObject temp= handler.objects.get(i);
             if (temp.getId() == ID.Player) {
                 if (key == KeyEvent.VK_UP) {
-                    handler.setUp(true);
+                    this.handler.setUp(true);
                 }
                 if (key == KeyEvent.VK_DOWN) {
-                    handler.setDown(true);
+                	this.handler.setDown(true);
                 }
                 if (key == KeyEvent.VK_LEFT) {
-                    handler.setLeft(true);
+                	this.handler.setLeft(true);
                 }
                 if (key == KeyEvent.VK_RIGHT) {
-                    handler.setRight(true);
+                	this.handler.setRight(true);
                 }
             }
         }
@@ -89,4 +89,12 @@ public class KeyInput extends KeyAdapter {
             }
         }
     }
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
 }

@@ -38,4 +38,15 @@ public class Goal extends GameObject {
         return new Rectangle(x, y, 64, 64);
     }
 
+
+	
+	public void reloadAssets(BufferedImage img) {
+		this.bus = img;
+	}
+
+	@Override
+	public void reloadAssets(SpriteSheet sheet) {
+	}
+	
+
 }

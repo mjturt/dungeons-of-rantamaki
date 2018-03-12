@@ -29,12 +29,12 @@ public class Block extends GameObject {
         this.ss = ss;
         this.bounds = new Rectangle();
         this.bounds.setBounds(x, y, 64, 64);
-		this.bushimg = ss.grabImage(1, 1, 64, 64);
-		this.bushtreeimg = ss.grabImage(2, 1, 64, 64);
-		this.houseimg = ss.grabImage(3, 1, 64, 64);
-		this.house2img = ss.grabImage(4, 1, 64, 64);
-		this.parklotimg = ss.grabImage(5, 1, 64, 64);
-		this.studentsimg = ss.grabImage(4, 2, 64, 64);
+		this.bushimg = this.ss.grabImage(1, 1, 64, 64);
+		this.bushtreeimg = this.ss.grabImage(2, 1, 64, 64);
+		this.houseimg = this.ss.grabImage(3, 1, 64, 64);
+		this.house2img = this.ss.grabImage(4, 1, 64, 64);
+		this.parklotimg = this.ss.grabImage(5, 1, 64, 64);
+		this.studentsimg = this.ss.grabImage(4, 2, 64, 64);
         this.r = rand.nextInt(20); 
     }
 
@@ -70,5 +70,16 @@ public class Block extends GameObject {
     	this.bounds.setBounds(x, y, 64, 64);
         return this.bounds;
     }
+
+	@Override
+	public void reloadAssets(SpriteSheet sheet) {
+		this.ss = sheet;
+		this.bushimg = this.ss.grabImage(1, 1, 64, 64);
+		this.bushtreeimg = this.ss.grabImage(2, 1, 64, 64);
+		this.houseimg = this.ss.grabImage(3, 1, 64, 64);
+		this.house2img = this.ss.grabImage(4, 1, 64, 64);
+		this.parklotimg = this.ss.grabImage(5, 1, 64, 64);
+		this.studentsimg = this.ss.grabImage(4, 2, 64, 64);
+	}
 
 }

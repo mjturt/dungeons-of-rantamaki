@@ -205,4 +205,17 @@ public class GuiPlayer extends GameObject  {
     public int getMaxMana() {
         return this.p.getMaxMana();
     }
+    
+    public Handler getHandler() {
+    	return this.handler;
+    }
+
+	@Override
+	public void reloadAssets(SpriteSheet sheet) {
+		this.ss = sheet;
+		this.playerimg = this.ss.grabImage(1, 1, 16, 16);
+		this.playerimgL = this.ss.grabImage(4, 1, 16, 16);
+		this.playerimgR = this.ss.grabImage(3, 1, 16, 16);
+		this.playerimgB = this.ss.grabImage(2, 1, 16, 16);
+	}
 }

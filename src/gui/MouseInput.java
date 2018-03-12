@@ -78,6 +78,7 @@ public class MouseInput implements MouseListener {
 						System.out.println("Game STATE: " + this.game.getState());
 						System.out.println("Game STATE: " + this.game.getState());
 						System.out.println("Handler: " + this.game.getHandler());
+						this.game.reloadAssets();
 					} catch (ClassNotFoundException | IOException e1) {
 						e1.printStackTrace();
 					}

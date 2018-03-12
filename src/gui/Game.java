@@ -25,18 +25,19 @@ public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	private FontLoader fl;
+	
 	private boolean isRunning = false;
 	private Thread thread;
 	private Handler handler;
 	private GameCamera cam;
 
 	private SpriteSheet blocksheet;
-	transient private BufferedImage blocksheetImg;
-	transient private SpriteSheet playersheet;
-	transient private BufferedImage playersheetImg;
+	private BufferedImage blocksheetImg;
+	private SpriteSheet playersheet;
+	private BufferedImage playersheetImg;
 
-	transient private BufferedImage road;
-	transient private BufferedImage bus;
+	private BufferedImage road;
+	private BufferedImage bus;
 
 	private STATE state;
 	private Menu menu;
@@ -48,7 +49,8 @@ public class Game extends Canvas implements Runnable {
 	Font font2;
 
 	private AudioPlayer bgmusic;
-
+	private KeyInput in;
+	
 	public Game(int x, int y) {
 		System.setProperty("sun.java2d.opengl", "true");
 		state = STATE.MENU;
@@ -68,7 +70,8 @@ public class Game extends Canvas implements Runnable {
 		cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
 		start();
 		handler = new Handler(w.getFrame());
-		this.addKeyListener(new KeyInput(handler, this));
+		this.in = new KeyInput(this.handler, this);
+		this.addKeyListener(in);
 		this.addMouseListener(new MouseInput(this));
 
 		ImageLoader loader = new ImageLoader();
@@ -80,42 +83,6 @@ public class Game extends Canvas implements Runnable {
 
 		road = blocksheet.grabImage(2, 2, 64, 64);
 		loadLevel();
-		this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
-		this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
-		this.requestFocus();
-	}
-
-	public Game(int x, int y, ArrayList<GameObject> objects) {
-		System.setProperty("sun.java2d.opengl", "true");
-		state = STATE.START;
-		bgmusic = new AudioPlayer("/sounds/detective.wav");
-		try {
-			bgmusic.play();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		menu = new Menu();
-		pmenu = new PauseMenu();
-		amenu = new AboutMenu();
-		startscreen = new StartScreen();
-		goalscreen = new GoalScreen();
-		this.fl = new FontLoader();
-		Window w = new Window(x, y, "Dungeons of Räntämäki", this);
-		cam = new GameCamera(x, y, w.getWidth(), w.getHeigth());
-		start();
-		this.handler = new Handler(w.getFrame());
-		this.handler.setObjects(objects);
-		this.addKeyListener(new KeyInput(handler, this));
-		this.addMouseListener(new MouseInput(this));
-
-		ImageLoader loader = new ImageLoader();
-		blocksheetImg = loader.loadImage("/images/blocksheet.png");
-		blocksheet = new SpriteSheet(blocksheetImg);
-		playersheetImg = loader.loadImage("/images/playersheet.png");
-		playersheet = new SpriteSheet(playersheetImg);
-		bus = loader.loadImage("/images/bus.png");
-
-		road = blocksheet.grabImage(2, 2, 64, 64);
 		this.font1 = fl.loadFont("/fonts/spaceranger.ttf", 14);
 		this.font2 = fl.loadFont("/fonts/spaceranger.ttf", 18);
 		this.requestFocus();
@@ -245,12 +212,29 @@ public class Game extends Canvas implements Runnable {
 		g2d.dispose();
 		bs.show();
 	}
-
+	/**
+	 * Reloads all game related asset when loading a new game, and refers certain objects to the ones acquired from deserialization.
+	 */
+	public void reloadAssets() {
+		for (int i = 0; i < this.handler.objects.size(); i++) {
+			GameObject temp = this.handler.objects.get(i);
+			if(temp.id.equals(ID.Block)) {
+				temp.reloadAssets(this.blocksheet);
+			} else if (temp.id.equals(ID.Player)) {
+				temp.reloadAssets(this.playersheet);
+				GuiPlayer p = (GuiPlayer) temp;
+				this.handler = p.getHandler();
+				this.in.setHandler(this.handler);
+				temp.reloadAssets(this.playersheet);
+			} else if (temp.id.equals(ID.Goal)) {
+			}
+		}
+	}
+	
 	/**
 	 * Generates the level based on a recursive back-track maze generator in
 	 * world.World.
 	 */
-
 	public void loadLevel() {
 
 		World world = new World(41, 41);
@@ -281,6 +265,10 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 	}
+	
+	public void reloadResources() {
+		
+	}
 
 	/* Main method */
 
@@ -288,9 +276,7 @@ public class Game extends Canvas implements Runnable {
 		new Game(640, 480);
 	}
 
-	public static void loadedGame(ArrayList<GameObject> objects) {
-		new Game(640, 480, objects);
-	}
+
 	/* Getters and setters for state */
 
 	public STATE getState() {

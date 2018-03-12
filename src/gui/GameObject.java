@@ -37,9 +37,10 @@ public abstract class GameObject implements java.io.Serializable{
      * @return new Rectangle() that corresponds to the object dimensions
      */
     public abstract Rectangle getBounds(); // for collision detection
-
+    
+    public abstract void reloadAssets(SpriteSheet sheet);
     /* Just getters and setters */
-
+    
     public int getX() {
         return x;
     }
