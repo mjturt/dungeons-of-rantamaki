@@ -32,8 +32,7 @@ public class KeyInput extends KeyAdapter {
         final int key = e.getKeyCode();
 
         /*
-         * Player character movement
-         * Loops through Handlers objects list until Player object is found 
+         * Keyboard input for menus
          */
 
         if (key == KeyEvent.VK_ESCAPE) {
@@ -47,24 +46,54 @@ public class KeyInput extends KeyAdapter {
         }
         for (int i = 0; i < handler.objects.size(); i++) {
             final GameObject temp= handler.objects.get(i);
+
             /*
-             * Keyboard input for menus
+             * Player character movement
+             * Loops through Handlers objects list until Player object is found 
              */
+
             if (temp.getId() == ID.Player) {
-                if (key == KeyEvent.VK_UP) {
-                    this.handler.setUp(true);
-                }
-                if (key == KeyEvent.VK_DOWN) {
-                    this.handler.setDown(true);
-                }
-                if (key == KeyEvent.VK_LEFT) {
-                    this.handler.setLeft(true);
-                }
-                if (key == KeyEvent.VK_RIGHT) {
-                    this.handler.setRight(true);
+                if (game.getKeyOption() == OPTION.ARROW) {
+                    if (key == KeyEvent.VK_UP) {
+                        this.handler.setUp(true);
+                    }
+                    if (key == KeyEvent.VK_DOWN) {
+                        this.handler.setDown(true);
+                    }
+                    if (key == KeyEvent.VK_LEFT) {
+                        this.handler.setLeft(true);
+                    }
+                    if (key == KeyEvent.VK_RIGHT) {
+                        this.handler.setRight(true);
+                    }
+                } else if (game.getKeyOption() == OPTION.HJKL) {
+                    if (key == KeyEvent.VK_K) {
+                        this.handler.setUp(true);
+                    }
+                    if (key == KeyEvent.VK_J) {
+                        this.handler.setDown(true);
+                    }
+                    if (key == KeyEvent.VK_H) {
+                        this.handler.setLeft(true);
+                    }
+                    if (key == KeyEvent.VK_L) {
+                        this.handler.setRight(true);
+                    }
+                } else if (game.getKeyOption() == OPTION.WASD) {
+                    if (key == KeyEvent.VK_W) {
+                        this.handler.setUp(true);
+                    }
+                    if (key == KeyEvent.VK_S) {
+                        this.handler.setDown(true);
+                    }
+                    if (key == KeyEvent.VK_A) {
+                        this.handler.setLeft(true);
+                    }
+                    if (key == KeyEvent.VK_D) {
+                        this.handler.setRight(true);
+                    }
                 }
             }
-     
         }
 
         if (key == KeyEvent.VK_ENTER) {

@@ -6,63 +6,74 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
- * Class for main menu
+ * Class for options menu
  *
  * @author Maks Turtiainen
  */
-public class Menu {
+public class OptionsMenu {
     FontLoader fl;
     ImageLoader il;
     BufferedImage menubg;
     Font font1;
     Font font2;
     Font font3;
-
+    Font font4;
+    
     /**
-     * Menu constructor
+     * OptionsMenu constructor
      */
-    public Menu() {
-        this.fl = new FontLoader();
+    public OptionsMenu() {
         this.il = new ImageLoader();
+        this.fl = new FontLoader();
         this.font1 = fl.loadFont("/fonts/viking.ttf", 90); 
         this.font2 = fl.loadFont("/fonts/eclipse.ttf", 95);
         this.font3 = fl.loadFont("/fonts/morris.ttf", 30);
+        this.font4 = fl.loadFont("/fonts/droidsansmono.ttf", 15);
         this.menubg = il.loadImage("/images/menubg.png");
     }
 
 
     /**
-     * Renders menu to the screen
+     * Renders out the options menu
      *
      * @param g
      */
     public void render(Graphics2D g) {
-        
+
         g.drawImage(this.menubg, 0, 0, null);
 
         /* Title */
 
-        g.setFont(this.font1);
+        g.setFont(font1);
         g.setColor(Color.red);
         g.drawString("Dungeons of", 90, 70);
-        g.setFont(this.font2);
+        g.setFont(font2);
         g.drawString("Räntämäki", 150, 160);
+        g.setFont(font3);
+        g.setColor(Color.blue);
+        g.drawString("Options", 270, 200);
+        g.drawString("Movement", 70, 240);
 
         /* Buttons */
 
-        g.setFont(this.font3);
+        g.setFont(this.font4);
         g.setColor(Color.yellow);
+        g.drawString("Arrow keys", 70, 270);
+        g.drawString("HJKL keys", 270, 270);
+        g.drawString("WASD keys", 450, 270);
+        g.setColor(Color.blue);
+        g.setFont(font3);
+        g.drawString("Audio volume", 70, 320);
+        g.setFont(this.font4);
+        g.setColor(Color.yellow);
+        g.drawString("Disabled", 70, 350);
+        g.drawString("Low", 270, 350);
+        g.drawString("High", 450, 350);
 
-        g.drawString("New Game", 70, 250);
-        g.drawString("Load", 290, 250);
-        g.drawString("Save", 470, 250);
-
-        g.drawString("Options", 100, 350);
-        g.drawString("About", 290, 350);
-        g.drawString("Exit", 470, 350);
+        g.setFont(font3);
+        g.drawString("Back", 290, 430);
         
     }
-
 
     /**
      * @return fl

@@ -43,9 +43,13 @@ public class Game extends Canvas implements Runnable {
     private final BufferedImage bus;
 
     private STATE state;
+    private STATE lstate;
     private final Menu menu;
     private final PauseMenu pmenu;
     private final AboutMenu amenu;
+    private final OptionsMenu omenu;
+    private OPTION audioOption;
+    private OPTION keyOption;
     private final StartScreen startscreen;
     private final GoalScreen goalscreen;
     private final Window w;
@@ -63,6 +67,9 @@ public class Game extends Canvas implements Runnable {
     public Game(int x, int y) {
         System.setProperty("sun.java2d.opengl", "true");
         state = STATE.MENU;
+        lstate = STATE.MENU;
+        audioOption = OPTION.VOLMAX;
+        keyOption = OPTION.ARROW;
         bgmusic = new AudioPlayer("/sounds/detective.wav");
         try {
             bgmusic.play();
@@ -72,6 +79,7 @@ public class Game extends Canvas implements Runnable {
         this.menu = new Menu();
         this.pmenu = new PauseMenu();
         this.amenu = new AboutMenu();
+        this.omenu = new OptionsMenu();
         this.startscreen = new StartScreen();
         this.goalscreen = new GoalScreen();
         this.fl = new FontLoader();
@@ -168,7 +176,7 @@ public class Game extends Canvas implements Runnable {
                     cam.tick(handler.objects.get(i));
                 }
             }
-        } else if (state == STATE.MENU || state == STATE.PAUSE || state == STATE.START || state == STATE.ABOUT) {
+        } else if (state == STATE.MENU || state == STATE.PAUSE || state == STATE.START || state == STATE.ABOUT || state == STATE.OPTIONS) {
             while (this.state == STATE.PAUSE) {
                 try {
                     Thread.sleep(100);
@@ -223,6 +231,8 @@ public class Game extends Canvas implements Runnable {
             this.startscreen.render(g2d);
         } else if (state == STATE.GOAL) {
             this.goalscreen.render(g2d);
+        } else if (state == STATE.OPTIONS) {
+            this.omenu.render(g2d);
         }
 
         //////////////////////////////////////
@@ -311,7 +321,50 @@ public class Game extends Canvas implements Runnable {
      * @param state
      */
     public void setState(STATE state) {
+        this.lstate = this.state;
         this.state = state;
+    }
+
+    /**
+     * @return lstate
+     */
+    public STATE getLastState() {
+        return this.lstate;
+    }
+
+    /**
+     * @param lstate
+     */
+    public void setLastState(STATE lstate) {
+        this.lstate = lstate;
+    }
+
+    /**
+     * @return audioOption
+     */
+    public OPTION getAudioOption() {
+        return this.audioOption;
+    }
+
+    /**
+     * @param audioOption
+     */
+    public void setAudioOption(OPTION audioOption) {
+        this.audioOption = audioOption;
+    }
+
+    /**
+     * @return keyOption
+     */
+    public OPTION getKeyOption() {
+        return this.keyOption;
+    }
+
+    /**
+     * @param keyOption
+     */
+    public void setKeyOption(OPTION keyOption) {
+        this.keyOption = keyOption;
     }
 
     /**

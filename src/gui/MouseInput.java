@@ -58,39 +58,59 @@ public class MouseInput implements MouseListener {
 
         if (game.getState() == STATE.MENU || game.getState() == STATE.PAUSE) {
 
-
             if (game.getState() == STATE.MENU) {
 
-                /* "New Game" button, only in main menu */
+                /*
+                 * Main menu
+                 */
+
+                /* "New Game" button */
 
                 if (mx >= 70 && mx <= 200 ) {
                     if (my >= 220 && my <= 250) {
+                        game.setLastState(game.getLastState());
                         game.setState(STATE.START);
-                    }
-                }
-
-                /* "About" button, only in main menu */
-
-                if (mx >= 530 && mx <= 600 ) {
-                    if (my >= 420 && my <= 450) {
-                        game.setState(STATE.ABOUT);
                     }
                 }
 
             } else if (game.getState() == STATE.PAUSE) {
 
-                /* "Continue" button, only in pause menu */
+                /* 
+                 * Pause menu
+                 */
+
+                /* "Continue" button */
 
                 if (mx >= 70 && mx <= 170 ) {
                     if (my >= 220 && my <= 250) {
                         game.setState(STATE.GAME);
                     }
                 }
+
+                /* "Options" button */
+
+                if (mx >= 70 && mx <= 200 ) {
+                    if (my >= 320 && my <= 350) {
+                        game.setState(STATE.OPTIONS);
+                    }
+                }
+
+                /* "About" button */
+
+                if (mx >= 290 && mx <= 350 ) {
+                    if (my >= 320 && my <= 350) {
+                        game.setState(STATE.ABOUT);
+                    }
+                }
             }
+
+            /* 
+             * Main and Pause menu
+             */
 
             /* "Load" button */
 
-            if (mx >= 290 && mx <= 350 ) {
+            if (mx >= 290 && mx <= 330 ) {
                 if (my >= 220 && my <= 250) {
                     try {
                         final ArrayList<GameObject> objects = HandlerIO.readHandler();
@@ -104,7 +124,7 @@ public class MouseInput implements MouseListener {
                     } catch (ClassNotFoundException | IOException e1) {
                         e1.printStackTrace();
                     }
-                    
+
                 }
             }        
 
@@ -121,35 +141,60 @@ public class MouseInput implements MouseListener {
                 }
             }
 
+            /* "Options" button */
+
+            if (mx >= 70 && mx <= 200 ) {
+                if (my >= 320 && my <= 350) {
+                    game.setState(STATE.OPTIONS);
+                }
+            }
+
+            /* "About" button */
+
+            if (mx >= 290 && mx <= 350 ) {
+                if (my >= 320 && my <= 350) {
+                    game.setState(STATE.ABOUT);
+                }
+            }
+
             /* "Exit" button */
 
-            if (mx >= 290 && mx <= 340 ) {
+            if (mx >= 470 && mx <= 530 ) {
                 if (my >= 320 && my <= 350) {
                     System.exit(1);
                 }
             }
 
-        } else if (game.getState() == STATE.ABOUT) {
+        } else if (game.getState() == STATE.ABOUT || game.getState() == STATE.OPTIONS) {
 
-            /* "Back" button in about screen */
+            /*
+             * About and Options menu
+             * "Back" button 
+             **/
 
             if (mx >= 290 && mx <= 340 ) {
                 if (my >= 400 && my <= 430) {
-                    game.setState(STATE.MENU);
+                    System.out.println(game.getLastState() );
+                    if (game.getLastState() == STATE.PAUSE) {
+                        game.setState(STATE.PAUSE);
+                    } else if (game.getLastState() == STATE.MENU) {
+                        game.setState(STATE.MENU);
+                    }
+                }
+            } else if (game.getState() == STATE.GOAL) {
+
+                /*
+                 * Goal screen
+                 * "Exit" button 
+                 **/
+
+                if (mx >= 385 && mx <= 505 ) {
+                    if (my >= 300 && my <= 360) {
+                        System.exit(1);
+                    }
                 }
             }
-        } else if (game.getState() == STATE.GOAL) {
-
-            /* "Exit" button in goal screen */
-
-            if (mx >= 385 && mx <= 505 ) {
-                if (my >= 300 && my <= 360) {
-                    System.exit(1);
-                }
-            }
-        
         }
-        
     }
 
     /**

@@ -11,5 +11,6 @@ public enum STATE {
     GAME(),
     START(),
     ABOUT(),
+    OPTIONS(),
     GOAL(),
 }
