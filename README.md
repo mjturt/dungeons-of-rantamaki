@@ -26,7 +26,7 @@ When saving, game creates game.sav file in .rantamaki directory under home direc
 Controls
 ------------------
 In menus and when combat window appears navigation is done with the mouse.
-In game controlling of the character is done with arrow keys. Esc for pause menu.
+In game, controlling of the character is by default done with the arrow keys. In game options it can be changed between arrow keys, HJKL(vim style) keys and WASD keys. Esc for pause menu.
 
 Authors
 ------------------
@@ -44,8 +44,7 @@ Authors
 
 Known issues
 ------------------
-- When losing battle and player dies, "New Game"-button does not work
-- On UNIX-like systems pause menu does not work correctly
-
+- On UNIX-like systems pause menu does not work correctly (Needs many Esc presses)
+- Sometimes game crashes when entering goal
 ---
 License: BSD 2-Clause
