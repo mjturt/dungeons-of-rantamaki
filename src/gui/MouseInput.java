@@ -225,7 +225,7 @@ public class MouseInput implements MouseListener {
                 /* "HJKL keys" button */
 
                 if (mx >= 268 && mx <= 352 ) {
-                    if (my >= 255 && my <= 275) {
+                    if (my >= 255 && my <= 285) {
                         game.setKeyOption(OPTION.HJKL);
                         if (game.getLastState() == STATE.PAUSE) {
                             game.setState(STATE.PAUSE);
