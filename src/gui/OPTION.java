@@ -6,8 +6,7 @@ package gui;
  * @author Maks Turtiainen
  */
 public enum OPTION {
-    VOLMAX(),
-    VOLMIN(),
+    VOLEN(),
     VOLDIS(),
     ARROW(),
     HJKL(),

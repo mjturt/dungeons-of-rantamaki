@@ -68,7 +68,7 @@ public class Game extends Canvas implements Runnable {
         System.setProperty("sun.java2d.opengl", "true");
         state = STATE.MENU;
         lstate = STATE.MENU;
-        audioOption = OPTION.VOLMAX;
+        audioOption = OPTION.VOLEN;
         keyOption = OPTION.ARROW;
         bgmusic = new AudioPlayer("/sounds/detective.wav");
         try {
@@ -365,6 +365,24 @@ public class Game extends Canvas implements Runnable {
      */
     public void setKeyOption(OPTION keyOption) {
         this.keyOption = keyOption;
+    }
+
+    /**
+     * Disables audio
+     */
+    public void stopAudio() {
+        bgmusic.stop();
+    }
+
+    /**
+     * Enables audio
+     */
+    public void playAudio() {
+        try { 
+            bgmusic.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

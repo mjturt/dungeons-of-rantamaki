@@ -30,7 +30,7 @@ public class AudioPlayer {
             clip = AudioSystem.getClip();
             clip.open(dais);
             final FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-10.0f);
+            gainControl.setValue(-15.0f);
         } catch(final Exception e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class AudioPlayer {
 
 
     /**
-     * Starts new thread for background music
+     * Starts new thread for the background music
      * @throws Exception
      */
     public void play() throws Exception {
@@ -53,14 +53,21 @@ public class AudioPlayer {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         Thread.sleep(10000);
     }
+
+    /**
+     * Stops playing audio
+     */
     public void stop() {
         if (clip.isRunning()) {
             clip.stop();
         }
     }
+
+    /**
+     * Closes clip
+     */
     public void close() {
         stop();
         clip.close();
     }
-
 }

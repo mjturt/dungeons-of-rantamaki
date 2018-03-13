@@ -41,7 +41,17 @@ public class KeyInput extends KeyAdapter {
             } else if (game.getState() == STATE.PAUSE) {
                 game.setState(STATE.GAME);
             } else if (game.getState() == STATE.ABOUT) {
-                game.setState(STATE.MENU);
+                if (game.getLastState() == STATE.PAUSE) {
+                    game.setState(STATE.PAUSE);
+                } else if (game.getLastState() == STATE.MENU) {
+                    game.setState(STATE.MENU);
+                }
+            } else if (game.getState() == STATE.OPTIONS) {
+                if (game.getLastState() == STATE.PAUSE) {
+                    game.setState(STATE.PAUSE);
+                } else if (game.getLastState() == STATE.MENU) {
+                    game.setState(STATE.MENU);
+                }
             }
         }
         for (int i = 0; i < handler.objects.size(); i++) {
@@ -117,33 +127,61 @@ public class KeyInput extends KeyAdapter {
         for (int i = 0; i < handler.objects.size(); i++) {
             final GameObject temp= handler.objects.get(i);
             if (temp.getId() == ID.Player) {
-                if (key == KeyEvent.VK_UP) {
-                    handler.setUp(false);
-                }
-                if (key == KeyEvent.VK_DOWN) {
-                    handler.setDown(false);
-                }
-                if (key == KeyEvent.VK_LEFT) {
-                    handler.setLeft(false);
-                }
-                if (key == KeyEvent.VK_RIGHT) {
-                    handler.setRight(false);
+                if (game.getKeyOption() == OPTION.ARROW) {
+                    if (key == KeyEvent.VK_UP) {
+                        this.handler.setUp(false);
+                    }
+                    if (key == KeyEvent.VK_DOWN) {
+                        this.handler.setDown(false);
+                    }
+                    if (key == KeyEvent.VK_LEFT) {
+                        this.handler.setLeft(false);
+                    }
+                    if (key == KeyEvent.VK_RIGHT) {
+                        this.handler.setRight(false);
+                    }
+                } else if (game.getKeyOption() == OPTION.HJKL) {
+                    if (key == KeyEvent.VK_K) {
+                        this.handler.setUp(false);
+                    }
+                    if (key == KeyEvent.VK_J) {
+                        this.handler.setDown(false);
+                    }
+                    if (key == KeyEvent.VK_H) {
+                        this.handler.setLeft(false);
+                    }
+                    if (key == KeyEvent.VK_L) {
+                        this.handler.setRight(false);
+                    }
+                } else if (game.getKeyOption() == OPTION.WASD) {
+                    if (key == KeyEvent.VK_W) {
+                        this.handler.setUp(false);
+                    }
+                    if (key == KeyEvent.VK_S) {
+                        this.handler.setDown(false);
+                    }
+                    if (key == KeyEvent.VK_A) {
+                        this.handler.setLeft(false);
+                    }
+                    if (key == KeyEvent.VK_D) {
+                        this.handler.setRight(false);
+                    }
                 }
             }
         }
     }
 
-    /**
-     * @return handler
-     */
-    public Handler getHandler() {
-        return handler;
-    }
+        /**
+         * @return handler
+         */
+        public Handler getHandler() {
+            return handler;
+        }
 
-    /**
-     * @param handler
-     */
-    public void setHandler(Handler handler) {
-        this.handler = handler;
+        /**
+         * @param handler
+         */
+        public void setHandler(Handler handler) {
+            this.handler = handler;
+        }
     }
-}

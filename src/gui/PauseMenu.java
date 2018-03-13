@@ -58,7 +58,9 @@ public class PauseMenu {
         g.drawString("Load", 290, 250);
         g.drawString("Save", 470, 250);
 
-        g.drawString("Exit", 290, 350);
+        g.drawString("Options", 100, 350);
+        g.drawString("About", 290, 350);
+        g.drawString("Exit", 470, 350);
         
     }
 

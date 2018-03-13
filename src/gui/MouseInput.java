@@ -47,6 +47,8 @@ public class MouseInput implements MouseListener {
     }
 
     /**
+     * Handling all mouse-events in many different menu screens
+     * Only needed event is when left mouse putton pressed
      * @param e
      */
     @Override
@@ -68,7 +70,6 @@ public class MouseInput implements MouseListener {
 
                 if (mx >= 70 && mx <= 200 ) {
                     if (my >= 220 && my <= 250) {
-                        game.setLastState(game.getLastState());
                         game.setState(STATE.START);
                     }
                 }
@@ -169,8 +170,9 @@ public class MouseInput implements MouseListener {
 
             /*
              * About and Options menu
-             * "Back" button 
-             **/
+             */
+
+             /* "Back" button */
 
             if (mx >= 290 && mx <= 340 ) {
                 if (my >= 400 && my <= 430) {
@@ -179,18 +181,73 @@ public class MouseInput implements MouseListener {
                         game.setState(STATE.PAUSE);
                     } else if (game.getLastState() == STATE.MENU) {
                         game.setState(STATE.MENU);
+                    } else {
+                        game.setState(STATE.PAUSE);
                     }
                 }
+
             } else if (game.getState() == STATE.GOAL) {
 
                 /*
                  * Goal screen
-                 * "Exit" button 
-                 **/
+                 */
+
+                 /* "Exit" button */
 
                 if (mx >= 385 && mx <= 505 ) {
                     if (my >= 300 && my <= 360) {
                         System.exit(1);
+                    }
+                }
+
+            } else if (game.getState() == STATE.OPTIONS) {
+
+                /*
+                 * Options menu
+                 */
+
+                /* Key options */
+
+                /* "Arrow keys" button */
+
+                if (mx >= 65 && mx <= 160 ) {
+                    if (my >= 255 && my <= 275) {
+                        game.setKeyOption(OPTION.ARROW);
+                        game.setState(STATE.MENU);
+                    }
+                }
+                /* "HJKL keys" button */
+
+                if (mx >= 268 && mx <= 352 ) {
+                    if (my >= 255 && my <= 275) {
+                        game.setKeyOption(OPTION.HJKL);
+                        game.setState(STATE.MENU);
+                    }
+                }
+                /* "WASD keys" button */
+
+                if (mx >= 447 && mx <= 531 ) {
+                    if (my >= 255 && my <= 275) {
+                        game.setKeyOption(OPTION.WASD);
+                        game.setState(STATE.MENU);
+                    }
+                }
+
+                /* Audio options */
+
+                /* "Enable/Disable" button */
+
+                if (mx >= 65 && mx <= 200 ) {
+                    if (my >= 335 && my <= 355) {
+                        if (game.getAudioOption() == OPTION.VOLEN) {
+                            game.stopAudio();
+                            game.setState(STATE.MENU);
+                            game.setAudioOption(OPTION.VOLDIS);
+                        } else if (game.getAudioOption() == OPTION.VOLDIS) {
+                            game.playAudio();
+                            game.setState(STATE.MENU);
+                            game.setAudioOption(OPTION.VOLEN);
+                        }
                     }
                 }
             }

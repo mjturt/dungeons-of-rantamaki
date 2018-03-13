@@ -63,12 +63,10 @@ public class OptionsMenu {
         g.drawString("WASD keys", 450, 270);
         g.setColor(Color.blue);
         g.setFont(font3);
-        g.drawString("Audio volume", 70, 320);
+        g.drawString("Audio", 70, 320);
         g.setFont(this.font4);
         g.setColor(Color.yellow);
-        g.drawString("Disabled", 70, 350);
-        g.drawString("Low", 270, 350);
-        g.drawString("High", 450, 350);
+        g.drawString("Enable/Disable", 70, 350);
 
         g.setFont(font3);
         g.drawString("Back", 290, 430);
