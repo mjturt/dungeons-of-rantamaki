@@ -2,10 +2,12 @@
 
 Small cross-platform 2D RPG-game written in pure java, without any game engine. Rendering is made using java AWT and Swing libraries. Originally made as an excercise job for university programming course, OOP 2018.
 
-Dungeons of Räntämäki is game where you have to find your way out of maze like Räntämäki. The player faces many enemies from which an RPG-type battle window appears. Game ends when you find yellow Turku bus.
+Dungeons of Räntämäki is game where you have to find your way out of maze like Räntämäki. The player faces many enemies from which an RPG-type battle window appears. Game ends when you find yellow Turku bus or when player dies.
 
 Räntämäki is a small district of Turku, Finland.
 
+Screenshot
+------------------
 ![Screenshot](/images/screenshots/game1.png?raw=true "Screenshot")
 
 Requirements
@@ -43,7 +45,7 @@ Authors
 Known issues
 ------------------
 - When losing battle and player dies, "New Game"-button does not work
-- On UNIX-like systems pause menu
+- On UNIX-like systems pause menu does not work correctly
 
 ---
 License: BSD 2-Clause
