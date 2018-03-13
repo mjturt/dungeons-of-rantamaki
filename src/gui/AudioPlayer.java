@@ -38,7 +38,7 @@ public class AudioPlayer {
 
 
     /**
-     * Starts new thread for the background music
+     * Starts new thread for the background music and then loops it continuosly
      * @throws Exception
      */
     public void play() throws Exception {
@@ -64,7 +64,7 @@ public class AudioPlayer {
     }
 
     /**
-     * Closes clip
+     * Closes whole clip
      */
     public void close() {
         stop();
