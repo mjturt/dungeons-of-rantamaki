@@ -21,7 +21,6 @@ git clone https://github.com/mjturt/dungeons-of-rantamaki.git
 cd dungeons-of-rantamaki
 java -jar Dungeons-of-Rantamaki.jar
 ```
-Or you can find Windows and Mac native installers from [here](http://dor.turtia.com)
 
 When saving, game creates game.sav file in .rantamaki directory under home directory
 
